@@ -1,0 +1,30 @@
+
+.ion-md-type-top:before {
+  width: 32px;
+  height: 32px;
+  content: url("../assets/icon/favicon.ico");
+}
+
+.ion-md-checked-active::before{
+  //content: url("../assets/imgs/active.png");
+  content: "";
+  background: url("../assets/imgs/active.png");
+  width: 30px;
+  height: 27px;
+  background-size: 97%;
+  /* background-position: 11% 11%; */
+  background-position: 50%;
+  background-repeat: no-repeat;
+}
+.ion-md-checked-unactive::before{
+  //content: url("../assets/imgs/unactive.png");
+  content: "";
+  background: url("../assets/imgs/unactive.png");
+  width: 30px;
+  height: 27px;
+  background-size: 97%;
+  /* background-position: 11% 11%; */
+  background-position: 50%;
+  background-repeat: no-repeat;
+}
+

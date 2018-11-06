@@ -1,0 +1,282 @@
+page-list {
+    .list_a_135{
+        width: 100%;
+        display: flex;
+        flex-wrap: mowrap;
+    }
+    .node_a_131{
+        width: 80%;
+    }
+    .node_a_132{
+        width: 20%;
+        min-width: 75px;
+    }
+    .node_a_133{
+        // width: 100%;
+        //background: yellow;
+    }
+    .font-color333{
+        color: #444;
+    }
+    .flex-wrap{
+        flex-wrap: wrap;
+    }
+    .min-width50{
+       // min-width: 50%;  
+       width: 50%;
+    }
+    .custom1{
+        padding: 5px;
+    }
+    .custom1>div{
+        margin: 5px 0px;
+        display: flex;
+    }
+    .custom1 span{
+        display: inline-block;
+        //min-width: 80px;
+        text-align: left;
+        font-size: 16px;
+    }
+    .custom1 font{
+        padding: 0 5px;
+        /*text-decoration:underline;*/
+        color: #555;
+        font-size: 16px;
+    }
+    .flex{
+        display: flex;
+        align-items: center;
+    }
+    .flex-wrap{
+        flex-wrap: wrap;
+    }
+    .flex_level_center{
+        justify-content: center;
+    }
+    .float_modlu{
+        position:fixed;
+        bottom: 0;
+        left:0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0,0, .1);
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: flex-end;
+    }
+    .float_modlu>div{
+        width:100%;
+        display: flex;
+        height: 50px;
+        box-shadow: 0px 0px 50px 20px rgba(0, 0,0, .5);
+    }
+    .float_modlu>div>div:nth-child(1){
+        width: 40%;
+        //background: red;
+        display: flex;
+        align-items: center;
+        padding-left: 10px;
+        font-weight: 700;
+        background: white;
+    }
+    .float_modlu>div>div:nth-child(2), .float_modlu>div>div:nth-child(3){
+        display:flex;
+        width: 30%;
+        align-items: center;
+        justify-content: center;
+        color:white;
+    }
+    .cumst_button1{
+        background:#f2a349;
+        box-shadow: inset 0 0 25px 5px #f2a349;
+        color: white;
+        font-size: 16px;
+        padding: 5px 15px;
+        margin:5px 20px!important; 
+        border-radius: 2px;
+        flex-shrink: 0;
+    }
+    .cumst_button2{
+        background: #2cb3eb;
+        box-shadow: inset 0 0 25px 5px #2cb3eb;
+        color: white;
+        font-size: 16px;
+        padding: 5px 15px;
+        margin:5px 20px!important;
+        border-radius: 2px;  
+        flex-shrink: 0;
+    }
+    .item-md{
+        padding-left: 0px;
+        border-bottom: 2px solid #eee;
+    }
+    .item-md:last-child{
+       border-bottom: none!important;
+    }
+    .cumst_button{
+       border-radius: 2px;
+       box-shadow: inset 0 0 2px 2px #f2a349;
+       color: white;
+       background: #f2a349;
+       padding: 5px 15px;
+       font-size: 16px;
+    }
+    .fixed_mode1{
+       display: flex;
+       position: fixed;
+       width: 90%;
+       left: 5%;
+       top: 60px;;
+       bottom: 2%;
+       background: #186d93;
+       box-shadow: 0 0 5px 36px #186d93;
+       //border-radius: 5px;
+       flex-wrap: wrap;
+       align-content: flex-start;
+       overflow: hidden;
+       justify-content: center;
+       overflow-y: hidden;
+       //border: 1px solid #eee;
+    }
+    .fixed_mode1 .title{
+        display: flex;
+        justify-content: center;
+        font-size: 18px;
+        width: 100%;
+        background-image: -webkit-linear-gradient(top left, #f2a349, #f2a349 90%);
+        //padding: 2px 0;
+        color: white; 
+       // position: fixed;
+        left:0px;
+        right:0px;
+        //top: 0px;
+        height: 40px;
+        align-items: center;
+        border-radius: 5px;
+    }
+    .fixed_mode1>div:nth-child(2){
+        margin-top: 10px;
+        width: 100%;
+        //background: red;
+        display: flex;
+        flex-wrap: wrap;
+        //border:1px solid #eee;
+        height: 80%;
+        overflow-y: scroll;
+    }
+    .fixed_mode1>div:nth-child(2)>div{
+        width: 100%;
+        display: flex;
+        font-size: 18px;
+    }
+    .fixed_mode1>div:nth-child(2)>div:nth-child(odd){
+       background: white;
+       color: #186d93;
+       padding: 5px 0;
+       margin: 5px 0px;
+       border-radius: 5px;
+    }
+    .fixed_mode1>div:nth-child(2)>div:nth-child(even){
+       background: white;
+       color: #186d93;
+       padding: 5px 0;
+       margin: 5px 0px;
+       border-radius: 5px;
+     }
+    //  .fixed_mode1>div:nth-child(2)>div:last-child{
+    //      margin-bottom: 50px;
+    //  }
+    .fixed_mode1>div:nth-child(2)>div>span:first-child{
+        width: 25%;
+        display: flex;
+        justify-content:center;
+        border-right: 1px solid #999;
+    }
+    .fixed_mode1>div:nth-child(2)>div>span:last-child{
+        width: 75%;
+        display: flex;
+        justify-content: center;
+    }
+    .close_button{
+        position: absolute;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        bottom: 0px;
+        left:0px;
+        right:0px;
+    }
+    .close_button span{
+    background: #f4a43e;
+    border-radius: 5px;
+    padding: 7px 0px;
+    color: white;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    }
+    .button_inline{
+        border-bottom: 2px solid #eee;
+        background: #f2fbff;
+        width: 92%;
+        margin: 5px 4%;
+        border-radius: 5px;
+    
+    }
+    .ios_moven{
+        width: 200%;
+        //background: red;
+        display: flex;
+        flex-shrink: 0;
+        transition: all .5s;
+        margin-left: 100%;
+        height: 100%;
+    }
+    .ios_moven>div{
+        width: 100%;
+       // background: red;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-content: center;
+    }
+    .ios_moven>div:last-child{
+        flex-wrap: wrap;
+    }
+    .ios_moven>div:last-child>span{
+        margin: 5px 0px; 
+    }
+    .fixed_close{
+        margin-left: -100%;
+    }
+    //全局headercss
+    .toolbar-background {
+        background-color: #2cb3eb!important;
+    }
+    .toolbar-title-md ,.bar-button-default-md{
+        color: white;
+    }
+    ion-content {
+       background-color:#186d93!important; 
+    }
+    .nodata-css{
+        width: 96%;
+        background: #f2fbff;
+        padding: 15px 0px;
+        margin: 15px 2%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        color: #4d93c5;
+        flex-wrap: wrap;
+        flex-direction: column;
+     }
+     .nodata-css>img{
+         margin: 5px 0px;
+         width: 50px;
+         height: 50px;
+     }
+}

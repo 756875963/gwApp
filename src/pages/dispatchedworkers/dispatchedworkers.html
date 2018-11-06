@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-navbar>
+    <!-- <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button> -->
+    <ion-title>派工页面</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <div class="dispatched_mian">
+      <div class="dispatched_title">
+        <div>作业编号：{{work_no}}</div>
+        <div>作业人数：<font>{{dataObj.list.length}}</font></div>
+      </div>
+      <div class="dispatched_content">
+           <div class="li" *ngFor="let item of dataObj.list">
+              <div>
+                <!-- <img [src]="item.name3"/> -->
+                <img src="../../assets/imgs/headimg.png"/>
+              </div>
+              <div class="porsion">
+                <span>人员编号：{{item.user_id}}</span> 
+                <span>人员姓名：{{item.name}}</span> 
+              </div>
+              <!-- <div>
+                
+              </div> -->
+              <div class="button">
+                  <span class="delete_span1" (click)="delete($event,item.id)">删除</span>
+                  <!-- <img src="../../assets/imgs/delete.png" [hidden]="item.doFlag" (click)="delete($event,item.id)"/> -->
+                  <!-- <img src="../../assets/imgs/timg1.gif" [hidden]="!item.doFlag"/> -->
+              </div>
+            </div>
+            <div class="li add" (click)="hrefpush($event)">
+                <div>
+                  <img src="../../assets/imgs/add.png"/>
+                </div>
+                <div>
+                 添加/编辑作业人员
+                </div>
+            </div>
+      </div>
+    </div>
+    <div  class="color dl" (click)="submit()">
+      <!-- <div [hidden]= "!submitFlag"><img src="../../assets/imgs/loading-1.gif"/>保存中</div> -->
+      <div [hidden]= "!submitFlag">保存中</div> 
+      <div [hidden]= "submitFlag">提交派工</div>
+    </div>
+    <div></div>
+</ion-content>

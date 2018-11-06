@@ -1,0 +1,93 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>编/卷号选择</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+   <div class="main">
+      <div class="li">
+          <div>车号:{{carNumber}}</div>
+          <div>
+            <div>
+              <span  *ngFor="let item of list1" [ngClass]="{'active':item.flag}" (click)="firstLevelMenu(item)"></span>
+            </div>
+            <div>
+              <span class="lihe" *ngFor="let item of listActive" (click)="twoLevelMenu(item)">{{item.text}}</span>
+              <span (click)="addTwoLevelMenu()" class="addmenu" >+增加一行</span>
+            </div>
+          </div>
+          <div class="total_quantity">
+               <div><span>总件数/支</span><span>100</span></div>
+               <div><span>平均方体积/方</span><span>10011</span></div>
+               <div><span>码单体积/方</span><span>10011</span></div>
+          </div>
+      </div>
+   </div>
+   <div class="color dl" (click)="save()">
+      <div>保存</div>
+   </div>
+
+   <div class="fixed_mode" [hidden]="flex_mode">
+       <div style="height: 100%;">
+         <div class="title">编/卷号选择</div>
+         <div class="content">
+           <div>
+              <label>桩脚：</label>
+              <input type="text" [(ngModel)]="pilefoot"  (focus)="focusInput('pilefoot')"/>
+           </div>
+           <div>
+              <label>件号：</label>
+              <!-- (blur)="blurInput()"   -->
+              <input type="text" [(ngModel)]="partnumber" (focus)="focusInput('partnumber')"/>
+           </div>
+           <div class="custombutton" [hidden]="pilefoot==''||partnumber==''||Length!=''">
+               <a (click)="blurInput()">自动匹配长度，直径</a>
+           </div>
+           <div>
+              <label>长度：</label>
+              <input type="text" [(ngModel)]="Length" readonly class="prohibit_input"/>
+           </div>
+           <div>
+              <label>直径：</label>
+              <input type="text" [(ngModel)]="diameter" readonly class="prohibit_input"/>
+           </div>
+          
+           <div>
+              <label>照片：</label>
+              <div class="zhaop" [hidden]="path!=''" (click)="photoClick()">
+                  <img src="../../assets/imgs/add.png">
+                  <span>拍摄照片</span>
+              </div>
+              <div class="zhaop ujdg2" [hidden]="path==''" (click)="photoClick()">
+                  <img [src]="path" (load)="imgload($event)"/>
+              </div> 
+           </div>
+           <div>
+              <label>打结：</label>
+              <ion-checkbox class="item item-checkbox item-checkbox-right  checkbox-balanced"  [(ngModel)]="Tiechecked" >
+               </ion-checkbox>
+           </div>
+           <div>
+              <label>锯断：</label>
+              <ion-checkbox class="item item-checkbox item-checkbox-right  checkbox-balanced "  [(ngModel)]="Sawingchecked" >
+              </ion-checkbox>
+           </div>
+           <div>
+              <label>码单查询：</label>
+              <span class="href_span" (click)="goto_CodeSheetPage()">点击查看</span>
+           </div>
+         </div>
+       </div>
+       <div class="button_flex">
+          <button ion-button color="secondary" (click)="submit()" class="padding70">保存</button>
+          <button ion-button color="danger" (click)="delete(operation)" class="padding70" [hidden]="deleteFlag"> 删除</button>
+          <button ion-button (click)="close()" class="padding70">关闭</button>
+          <button ion-button color="danger" (click)="empty()" class="padding70">清空</button>
+       </div>
+   </div>
+
+</ion-content>

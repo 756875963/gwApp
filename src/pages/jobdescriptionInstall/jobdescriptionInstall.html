@@ -1,0 +1,272 @@
+<ion-header>
+  <ion-navbar>
+    <!-- <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button> -->
+    <ion-title>正在作业</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <div class="title_model">
+       <div (click)="goto_payment()">
+         <img src="../../assets/imgs/zhu-122.png">
+            缴费查询
+       </div>
+       <div (click)="add_Piling()">
+          <img src="../../assets/imgs/zhu-122.png">
+             翻桩录入
+       </div>
+       <div (click)="query_Piling()">
+          <img src="../../assets/imgs/zhu-122.png">
+            翻桩查看
+       </div>
+       <div (click)="data_Rollback()">
+          <img src="../../assets/imgs/zhu-122.png">
+            数据回退
+       </div>
+       <!-- <div (click)="goto_vehiclelist()">
+          <img src="../../assets/imgs/zhu-122.png">
+             车辆汇总
+       </div> -->
+    </div>
+    <div class="dispatched_mian">
+        <div class="dispatched_title">
+           <!-- <div>pj4547发车总数：<font>100</font>次</div> -->
+           <div>当前操作员：{{userName}}</div>
+        </div>
+        <div class="dispatched_content">
+            <ion-list>
+                <!-- <ion-item>
+                    <ion-label>出入库单号：</ion-label>
+                    <ion-select [(ngModel)]="toppings"  okText="确定" cancelText="取消">
+                      <ion-option *ngFor="let licensePlatei of licensePlate" [value]="licensePlatei.number">
+                        {{licensePlatei.number}}
+                      </ion-option>
+                    </ion-select>
+                  </ion-item> -->
+                  
+                  <div  class="dispatched_li  dispatched_after">
+                    <label>出库单号</label>
+                    <div>
+                        <ion-select [(ngModel)]="toppingsnumber"  okText="确定" cancelText="取消">
+                            <ion-option *ngFor="let item of oddnumbers" [value]="item.yard_no">
+                              {{item.yard_no}}
+                            </ion-option>
+                          </ion-select>
+                    </div>
+                  </div>
+                  <div  class="dispatched_li dispatched_li50 dispatched_lileft1">
+                      <label>船名</label>
+                      <div class="prohibit_input"><input type="text" readonly="true" [(ngModel)]="shipName"></div>
+                  </div>
+                  <div  class="dispatched_li dispatched_li50">
+                    <label>货名</label>
+                    <div class="prohibit_input"><input type="text" readonly="true" [(ngModel)]="goodsName"></div>
+                  </div>
+                  
+                  <div  class="dispatched_li dispatched_li50 dispatched_lileft1">
+                    <label>缴费</label>
+                    <div class="prohibit_input"><input type="text"  readonly="true" [(ngModel)]="ispay"></div>
+                  </div>
+                  <div  class="dispatched_li dispatched_li50">
+                      <label>件数</label>
+                      <div class="prohibit_input"><input type="number" readonly="true" [(ngModel)]="number"></div>
+                    </div>
+                  <div  class="dispatched_li dispatched_li50 dispatched_lileft1">
+                    <label>开单</label>
+                    <div class="prohibit_input"><input type="text"  readonly="true" [(ngModel)]="opennumber"></div>
+                  </div>
+                  <div  class="dispatched_li dispatched_li50">
+                    <label>剩余</label>
+                    <div class="prohibit_input"><input type="text"  readonly="true" [(ngModel)]="Surplus"></div>
+                  </div>
+                  <div  class="dispatched_li">
+                      <label>桩脚号</label>
+                      <div class="prohibit_input"><input type="text" readonly="true" [(ngModel)]="goodsName"></div>
+                    </div>
+                  <div  class="dispatched_li">
+                    <label>编/卷号</label>
+                    <div><input type="text" readonly="true" [(ngModel)]="number1" (click)="vehicleStoragePage()"></div>
+                  </div>
+                 
+                  <div  class="dispatched_li dispatched_after">
+                      <label>驳船</label>
+                      <div class="prohibit_input">
+                          <ion-select [(ngModel)]="licensePlate1Active"  okText="确定" cancelText="取消">
+                              <ion-option *ngFor="let licensePlatei of licensePlate1" [value]="licensePlatei.mac_id">
+                                {{licensePlatei.mac_id_text}}
+                              </ion-option>
+                          </ion-select>
+                      </div>
+                    </div>
+                    <div  class="dispatched_li dispatched_after">
+                        <label>铲车</label>
+                        <div class="prohibit_input">
+                            <ion-select [(ngModel)]="licensePlate1Active"  okText="确定" cancelText="取消">
+                                <ion-option *ngFor="let licensePlatei of licensePlate1" [value]="licensePlatei.mac_id">
+                                  {{licensePlatei.mac_id_text}}
+                                </ion-option>
+                            </ion-select>
+                        </div>
+                      </div>
+                  <div  class="dispatched_li dispatched_after">
+                    <label>车号</label>
+                    <div >
+                      <ion-select [(ngModel)]="toppings"  okText="确定" cancelText="取消">
+                          <ion-option *ngFor="let licensePlatei of licensePlate" [value]="licensePlatei.cid">
+                            {{licensePlatei.carno}}
+                          </ion-option>
+                        </ion-select>
+                    </div>
+                  </div>
+                  <!-- <ion-item>
+                      <ion-label color="primary">出入库单号：</ion-label>
+                      <ion-input readonly="true" [(ngModel)]="outboundorderNum" (click)="Outboundorder(true)"></ion-input>
+                    </ion-item>
+                <ion-item>
+                  <ion-label color="primary">船名：</ion-label>
+                  <ion-input readonly="true" [(ngModel)]="shipName"></ion-input>
+                </ion-item>
+
+                
+
+                <ion-item>
+                  <ion-label color="primary">货名：</ion-label>
+                  <ion-input readonly="true" [(ngModel)]="goodsName"></ion-input>
+                </ion-item> -->
+                <!-- <ion-item class="custom">
+                    <div>缴费：已缴费</div>
+                    <div>件数：1</div>
+                    <div>开单：8</div>
+                    <div>剩余：8</div>
+                  </ion-item> -->
+                <!-- <ion-item>
+                    <ion-label color="primary">铲车：</ion-label>
+                    <ion-input readonly="true" [(ngModel)]="goodsName"></ion-input>
+                  </ion-item>
+                <ion-item> -->
+                    <!-- <ion-label color="primary">编/卷号：</ion-label>
+                    <ion-input readonly="true" [(ngModel)]="number1" (click)="vehicleStoragePage()"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label color="primary">件数：</ion-label>
+                  <ion-input type="number" [(ngModel)]="number"></ion-input>
+                </ion-item> -->
+                <!-- <ion-item>
+                    <ion-label>车号：</ion-label>
+                    <ion-select [(ngModel)]="toppings"  okText="确定" cancelText="取消">
+                      <ion-option *ngFor="let licensePlatei of licensePlate" [value]="licensePlatei.number">
+                        {{licensePlatei.number}}
+                      </ion-option>
+                    </ion-select>
+                  </ion-item> -->
+            </ion-list>  
+        </div>
+      </div>
+      <!-- <div  class="color dl" (click)="backOff()">
+          <div [hidden]= "!submitFlag"><img src="../../assets/imgs/loading-1.gif"/>保存中</div>
+          <div [hidden]= "submitFlag">回退</div>
+      </div> -->
+      <div  class="color" (click)="saveSure()">
+          <div [hidden]= "!submitFlag"><img src="../../assets/imgs/loading-1.gif"/>保存中</div>
+          <div [hidden]= "submitFlag">提交数据</div>
+      </div>
+      <div class="fixed—top" [ngClass]="{'fixed_close':!fixed}">
+           <div>
+             <h1>安全作业管理规定</h1>
+             <span>
+                {{securityBook}}
+              </span>
+           </div>
+           <div class="button_bottom">
+              <button ion-button color="secondary" (click)="sure()">确定阅读</button>
+           </div>
+      </div>
+
+      <div class="library" [ngClass]="{'display_none':fixed2}" >
+        <div>
+          出入库单选择
+          <span (click)="Outboundorder(false)">关闭</span>
+        </div>
+        <div>
+            <table border="1" bordercolor="#eee" style="border-collapse:collapse;">
+                <!-- <tr>
+                  <td colspan="5">出入库单选择</td> 
+                </tr> -->
+                 <tr>
+                    <td>船名</td>
+                    <td>出入库单号</td>
+                    <td>货名</td>
+                    <td>货位</td>
+                    <td>库场</td>
+                  </tr>
+                  <tr class="library-tr"  (click)="Outboundorderchecked(1)">
+                      <td>万嘉（18A）</td>
+                      <td>2018200200-库07</td>
+                      <td>木材1245454</td>
+                      <td>港肠E场-12</td>
+                      <td>B我C01</td>
+                    </tr>
+                    <tr class="library-tr"  (click)="Outboundorderchecked(2)">
+                        <td>万嘉（18A）</td>
+                        <td>2018200200-库07</td>
+                        <td>木材1245454</td>
+                        <td>港肠E场-12</td>
+                        <td>B我C01</td>
+                      </tr>
+                      <tr class="library-tr"  (click)="Outboundorderchecked(3)">
+                          <td>万嘉（18A）</td>
+                          <td>2018200200-库07</td>
+                          <td>木材1245454</td>
+                          <td>港肠E场-12</td>
+                          <td>B我C01</td>
+                        </tr>
+              </table>
+        </div>
+        
+      </div>
+
+       <!-- 残损录入模态框 -->
+       <div class="damaged_main" [hidden]="damagedFlag">
+          <div class="title">
+             <span>翻桩录入</span>
+          </div>
+          <div class="content">
+              <div class="li">
+                 <div><label>外翻根数</label></div>
+                 <div><input type="number"  [(ngModel)]="capsize.out_turn_no"  (blur)="blurInput()" (focus)="focusInput()"/></div>  
+              </div>
+              <div class="li">
+                 <div><label>外翻体积</label></div>
+                 <div class="prohibit_input"><input type="number" readonly="true" [(ngModel)]="capsize.out_turn_vol" /></div>  
+              </div>
+              <div class="li">
+                 <div><label>内翻根数</label></div>
+                 <div><input type="number"  [(ngModel)]="capsize.in_turn_no" (blur)="blurInput()" (focus)="focusInput()" /></div>  
+              </div>
+              <div class="li">
+                  <div><label>内翻体积</label></div>
+                  <div class="prohibit_input"><input type="number" readonly="true" [(ngModel)]="capsize.in_turn_vol" /></div>  
+               </div>
+               <div class="li">
+                  <div><label>归桩根数</label></div>
+                  <div class="prohibit_input"><input type="number" readonly="true" [(ngModel)]="capsize.pile_turn_no" /></div>  
+               </div>
+               <div class="li">
+                  <div><label>归桩体积</label></div>
+                  <div class="prohibit_input"><input type="number" readonly="true" [(ngModel)]="capsize.pile_turn_vol" /></div>  
+               </div>
+               <div class="li">
+                  <div><label>锯刀数</label></div>
+                  <div><input type="number" [(ngModel)]="capsize.saw_amount"/></div>  
+               </div>
+            </div>
+            <div class="operation">
+                <div class="button_class">
+                    <a class="a_submit green" (click)="damaged_state(true)" >确定</a>
+                    <a class="a_close warning" (click)="damaged_state(true)" >关闭</a>
+                </div>
+            </div>
+     </div>
+</ion-content>

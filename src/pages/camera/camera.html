@@ -1,0 +1,22 @@
+<ion-header>
+
+    <ion-navbar>
+      <ion-title>camera</ion-title>
+    </ion-navbar>
+  
+  </ion-header>
+  
+  
+  <ion-content padding>
+  
+    <button ion-button (click)="openCamera()">打开摄像头</button>
+    <button ion-button (click)="upload1()">文件上传</button>
+    <button ion-button (click)="download()">文件下载</button>
+  
+    <div>
+      <img [src]="path" />
+    </div>
+  
+  </ion-content>
+  
+  

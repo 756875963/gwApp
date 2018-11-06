@@ -1,0 +1,118 @@
+<ion-header>
+  <ion-navbar>
+    <!-- <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button> -->
+    <ion-title>正在作业</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <div class="title_model">
+        <div>
+           <img src="../../assets/imgs/zhu-122.png">
+             数据回退
+        </div>
+    </div>
+    <div class="dispatched_mian">
+        <div class="dispatched_title">
+           <!-- <div>pj4547发车总数：<font>100</font>次</div> -->
+           <div>当前操作员：{{stationNumber}}</div>
+        </div>
+        <div class="dispatched_content">
+            <ion-list>
+                <div  class="dispatched_li dispatched_after">
+                    <label>船名：</label>
+                    <div >
+                        <ion-select [(ngModel)]="toppings1"  okText="确定" cancelText="取消"  (ionChange)="getOrderDetailById()"  >
+                            <ion-option *ngFor="let licensePlatei of licensePlate1" [value]="licensePlatei.id" >
+                                {{licensePlatei.barge_cn}}
+                            </ion-option>
+                        </ion-select>
+                    </div>
+                </div>
+                <div  class="dispatched_li">
+                    <label>总重量：</label>
+                    <div ><input type="text" readonly="true" [(ngModel)]="quality" class="prohibit_inputq"></div>
+                </div>
+                <div  class="dispatched_li">
+                    <label>总件数：</label>
+                    <div ><input type="text" readonly="true" [(ngModel)]="totalNumber" class="prohibit_inputq"></div>
+                </div>
+                
+               
+                <!-- <div  class="dispatched_li">
+                    <label>合同号：</label>
+                    <div ><input type="text" readonly="true" [(ngModel)]="shipName" class="prohibit_inputq"></div>
+                </div> -->
+                <div  class="dispatched_li dispatched_after">
+                    <label>合同号：</label>
+                    <div >
+                        <ion-select [(ngModel)]="toppings3"  okText="确定" cancelText="取消"  (ionChange)="getOrderDetailById1()">
+                            <ion-option *ngFor="let licensePlatei of licensePlate3" [value]="licensePlatei.contract_no">
+                                {{licensePlatei.contract_no}}
+                            </ion-option>
+                        </ion-select>
+                    </div>
+                </div>
+                <div  class="dispatched_li">
+                        <label>货名：</label>
+                        <div ><input type="text" readonly="true" [(ngModel)]="goodsName" class="prohibit_inputq"></div>
+                    </div>
+                <div  class="dispatched_li">
+                    <label>件数：</label>
+                    <div><input  type="number" [(ngModel)]="number"></div>
+                </div>
+                <div  class="dispatched_li dispatched_after">
+                    <label>车号：</label>
+                    <div>
+                        <ion-select [(ngModel)]="toppings2"  okText="确定" cancelText="取消">
+                            <ion-option *ngFor="let licensePlatei of licensePlate2" [value]="licensePlatei.mac_id">
+                              {{licensePlatei.mac_id_text}}
+                            </ion-option>
+                          </ion-select>
+                    </div>
+                </div>
+                <!-- <ion-item>
+                  <ion-label color="primary">船名：</ion-label>
+                  <ion-input readonly="true" [(ngModel)]="shipName"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label color="primary">货名：</ion-label>
+                  <ion-input readonly="true" [(ngModel)]="goodsName"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label color="primary">件数：</ion-label>
+                  <ion-input type="number" [(ngModel)]="number"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label>车号：</ion-label>
+                    <ion-select [(ngModel)]="toppings"  okText="确定" cancelText="取消">
+                      <ion-option *ngFor="let licensePlatei of licensePlate" [value]="licensePlatei.number">
+                        {{licensePlatei.number}}
+                      </ion-option>
+                    </ion-select>
+                  </ion-item> -->
+            </ion-list>  
+        </div>
+      </div>
+      <!-- <div  class="color dl">
+       <div [hidden]= "!submitFlag"><img src="../../assets/imgs/loading-1.gif"/>保存中</div>
+       <div [hidden]= "submitFlag">(10车次)回退</div>
+      </div> -->
+      <div  class="color" (click)="submit()">
+          <div [hidden]= "!submitFlag"><img src="../../assets/imgs/loading-1.gif"/>保存中</div>
+          <div [hidden]= "submitFlag">提交数据</div>
+      </div>
+      <div class="fixed—top" [ngClass]="{'fixed_close':!fixed}">
+           <div>
+             <h1>安全作业管理规定</h1>
+             <span>
+              {{securityBook}}
+              </span>
+           </div>
+           <div class="button_bottom">
+              <button ion-button color="secondary" (click)="sure()">确定阅读</button>
+           </div>
+      </div>
+</ion-content>

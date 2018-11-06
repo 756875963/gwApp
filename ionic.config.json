@@ -1,0 +1,13 @@
+{
+  "name": "myApp",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular",
+  "proxies": [
+    {
+      "path": "/mobile/",
+      "proxyUrl": "http://172.29.170.1:10005/mobile/" 
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+page-payment {
+  .payment{
+     display: flex;
+     width: 100%;
+     font-size: 16px;
+     color: #333;
+     flex-wrap: wrap;
+  }
+  .payment table{
+      background: white;
+      margin: 10px 0px;
+      width: 100%;
+      border-color: black;
+      //box-shadow: 0 0 2px 2px black;
+       box-shadow: 0 0 0px 6px white, 2px 2px 10px 3px black;
+  }
+  .payment table tr td{
+      padding: 2px 0px 2px 5px;
+  }
+}

@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>分票录入</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <div class="main">
+       <div class="li">
+           <div (click)="globalcheckFunction()">
+             <img [hidden]="globalCheck" src="../../assets/imgs/juxing.png"/>
+             <img [hidden]="!globalCheck" src="../../assets/imgs/xingzhuang.png"/>
+           </div>
+           <div>连续编号</div>
+           <div>分票号</div>
+           <div>件数</div>
+       </div>
+       <div class="li old" *ngFor="let item of data ">
+          <div (click)="checkFunction(item.id)">
+            <img [hidden]= "item.flag" src="../../assets/imgs/juxing.png"/>
+            <img [hidden]= "!item.flag" src="../../assets/imgs/xingzhuang.png"/>
+           </div>
+          <div>{{item.name1}}</div>
+          <div>
+                  <input type="text" [(ngModel)]="item.name2"/>
+          </div>
+          <div>{{item.name3}}</div>
+      </div>
+      
+    </div>
+       <div class=fixed>
+          录入分票号<input type="text" value="122" [(ngModel)]="inputAll"><span (click)="sureinput()">确定</span>
+       </div>
+       <div  class="color" (click)="submit()">
+           <div [hidden]= "!submitFlag"><img src="../../assets/imgs/loading-1.gif"/>保存中</div>
+           <div [hidden]= "submitFlag" >保存</div>
+       </div>
+</ion-content>

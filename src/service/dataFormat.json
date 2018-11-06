@@ -1,0 +1,25 @@
+
+{
+    "ok":true,
+    "msg":null,
+    "url":null,
+    "data":{
+            "record":{
+                "createtime":1458274320000,
+                "loginid":"admin",
+                "jsessionid":"7F2898A1C8734F88B90B8020C615583F",
+                "city":null,
+                "sex":null,
+                "deptid":"01a6653e-ccad-4bbb-bc6b-35d3be399df4",
+                "sign":null,
+                "avatar":null,
+                "userextendtime":null,
+                "deptname":"系统管理部",
+                "province":null,
+                "userextendid":null,
+                "id":"a54186f2-031e-4378-9a3b-c408290ffa89",
+                "age":null,
+                "username":"沈晓军"
+            }
+    }
+}

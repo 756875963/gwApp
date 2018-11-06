@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-navbar>
+    <!-- <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button> -->
+    <ion-title>码单列表</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content >
+   <div class="codeSheet_title">
+     <div>桩脚号</div>
+     <div>件号</div>
+     <div>长度</div>
+     <div>直径</div>
+     <div>材积</div>
+   </div>
+   <div class="codeSheet_content">
+       <div  *ngFor="let item of array">
+          <div>{{item.pilefoot}}</div>
+          <div>{{item.partnumber}}</div>
+          <div>{{item.length}}</div>
+          <div>{{item.diameter}}</div>
+          <div>{{item.volume}}</div>
+       </div>
+   </div>
+   <div class="footer_fixedx">
+     <span>总计/支：{{array.length}}</span>
+   </div>
+</ion-content>

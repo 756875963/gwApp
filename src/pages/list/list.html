@@ -1,0 +1,82 @@
+<ion-header>
+  <ion-navbar>
+    <!--<button ion-button menuToggle>
+         <ion-icon name="menu"></ion-icon>
+    </button>-->
+    <ion-title>任务列表</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content id="topest">
+  <ion-list>
+    <!-- <div [hidden]="{'datalist.length'>0?'true':'false'}">{{datalist.length}}</div> -->
+    <button class="button_inline" *ngFor="let item of datalist" >
+     <!-- <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)"> -->
+     <!--<ion-icon [name]="item.icon" item-start></ion-icon>-->
+      <!--{{item.title}}
+      <div class="item-note" item-end>
+        {{item.note}}
+      </div>-->
+      <div class="list_a_135">
+        <div class="node_a_131 custom1 flex flex-wrap">
+          <div class="min-width50 font-color333"><span>作业班次:{{item.work_time_text}}</span><font></font></div>
+          <div class="min-width50 font-color333"><span>作业类型:{{item.work_type_text}}</span><font></font></div>
+          <div class="min-width50 font-color333"><span>泊位:{{item.berth_text}}</span><font></font></div>
+          <div class="min-width50 font-color333"><span>船名:{{item.ship_n_text}}</span><font></font></div>
+          <div class="min-width50 font-color333"><span>货名:{{item.cargo_n_text}}</span><font></font></div>
+          <div class="min-width50 font-color333"><span>装卸:{{item.load_unload_text}}</span><font></font></div>
+        </div>
+        <div class="node_a_132 flex flex_level_center" style="overflow:hidden;">
+          <!-- <button ion-button color="secondary" style="padding:2px 10px" (click)="operation($event, item)">操作</button> -->
+          <div class="ios_moven" [ngClass]="{'fixed_close':fixed==item.id}">
+            <div>  
+              <span class="cumst_button" (click)="operation($event, item)">操作</span>
+            </div>
+            <div>
+                <span class="cumst_button1" (click)="details($event,dataActive.id)">详情</span>
+                <span class="cumst_button2" (click)="jobMatching($event,dataActive)">配工</span>
+            </div>
+          </div>
+          <!-- <span class="cumst_button" (click)="operation($event, item)">操作</span> -->
+        </div>
+        <div class="node_a_133"></div>
+      </div>
+    </button>
+
+    <div *ngIf="htmlListLenghtFlag" class="nodata-css"><img src="../../assets/imgs/empty.png"/><span>暂无派工任务</span></div>
+  </ion-list>
+  <!-- <div class="float_modlu" (click)="Modality($event)" [hidden]="modality">
+     <div>
+        <div>作业班次：{{dataActive.name1}}</div>
+        <div (click)="details($event,dataActive.id)">查看详情</div>
+        <div (click)="jobMatching($event,dataActive.id)">开始配工</div>
+     </div>
+  </div> -->
+  <!-- <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="加载更多...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll> -->
+  <!-- 详情 -->
+  <div class="fixed_mode1" [hidden]="detailsFlag" >
+      <div class="title">任务详情</div>
+      <div>
+        <div id="tope"><span>作业班次</span><span>{{detailsData.work_time_text==''?'--':detailsData.work_time_text}}</span></div>
+        <div ><span>作业类型</span><span>{{detailsData.work_type_text==''?'--':detailsData.work_type_text}}</span></div>
+        <div ><span>泊位</span><span>{{detailsData.berth_text==''?'--':detailsData.berth_text}}</span></div>
+        <div ><span>船名</span><span>{{detailsData.ship_n_text==''?'--':detailsData.ship_n_text}}</span></div>
+        <div ><span>货名</span><span>{{detailsData.cargo_n_text==''?'--':detailsData.cargo_n_text}}</span></div>
+        <div ><span>装卸</span><span>{{detailsData.load_unload_text==''?'--':detailsData.load_unload_text}}</span></div>
+        <div><span>作业吨</span><span>{{detailsData.work_ton==''?'--':detailsData.work_ton}}</span></div>
+        <div><span>货类名</span><span>{{detailsData.cargo_t_text==''?'--':detailsData.cargo_t_text}}</span></div>
+        <div><span>操作方法</span><span>{{detailsData.operate_method_text==''?'--':detailsData.operate_method_text}}</span></div>
+        <div><span>袋散</span><span>{{detailsData.package_type_text==''?'--':detailsData.package_type_text}}</span></div>
+        <div><span>备注</span><span>{{detailsData.remark==''?'--':detailsData.remark}}</span></div>
+        <div><span>次数</span><span>{{detailsData.ship_times==''?'--':detailsData.ship_times}}</span></div>
+        <div><span>班次</span><span>{{detailsData.work_cla==''?'--':detailsData.work_cla}}</span></div>
+        <div><span>人数</span><span>{{detailsData.work_peo_numb==''?'--':detailsData.work_peo_numb}}</span></div>
+        <div><span>作业过程</span><span>{{detailsData.work_pro_text==''?'--':detailsData.work_pro_text}}</span></div>
+        <div><span>班次</span><span>{{detailsData.work_cla==''?'--':detailsData.work_cla}}</span></div>
+      </div>
+      <div class="close_button"><span (click)="close_mode()">关闭</span></div>
+  </div>
+</ion-content>

@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>缴费查询</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div class="payment">
+    <table border="1" cellspacing="0" *ngFor="let item of array">
+      <tr>
+        <td colspan="3">委托事项:{{item.agent_item}}</td>
+      </tr>
+      <tr>
+          <td colspan="3">特约事项:{{item.special_contract}}</td>
+        </tr>
+      <tr>
+        <td>结算方式:{{item.calculate_type}}</td>
+        <td colspan="2">实预收金额:{{item.balance}}</td>
+      </tr>
+      <tr>
+          <td>数量单位:{{item.num_unit}}</td>
+          <td>数量:{{item.counts}}</td>
+          <td>桩脚号:{{item.pile_foot_no}}</td>
+        </tr>
+        <tr>
+            <td colspan="2">退款金额:{{item.refund_amount}}</td>
+            <td>费率:{{item.charging_rate}}</td>
+          </tr>
+          <tr>
+              <td>计费单位:{{item.agent_item}}</td>
+              <td>体积:{{item.vol}}</td>
+              <td>结余:{{item.rel_advance}}</td>
+          </tr>
+          <tr>
+              <td colspan="3">缴费日期:{{item.create_time}}</td>
+          </tr>
+    </table>
+  </div>
+</ion-content>

@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-navbar>
+   <!--<button ion-button menuToggle>
+         <ion-icon name="menu"></ion-icon>
+    </button>-->
+    <ion-title>外理货</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list radio-group [(ngModel)]="autoManufacturers">
+    <div ion-item *ngFor="let  item of items ,let i = index" style="display:flex;align-items: center;" class="main_for">
+      <ion-icon  (click)="operation($event, item)" [ngClass]="{'ion-md-checked-active':!item.active,'ion-md-checked-unactive':item.active}" item-start></ion-icon>
+      <!--{{item.title}}
+      <div class="item-note" item-end>
+        {{item.note}}
+      </div>-->
+      <!-- <input type="checkbox" checked *ngIf="active" (click)="operation($event, item)"/>
+      <input type="checkbox"  *ngIf="!active" (click)="operation($event, item)" /> -->
+      <!-- <div   [style.display] = "item.active=='true'? 'block' : 'none'" (click)="operation($event, item)">{{item.active}}</div>
+      <div  [style.display] = "item.active=='false'? 'none' : 'block'"  (click)="operation($event, item)">{{item.active}}</div> -->
+      <div class="list_a_135">
+        <div class="node_a_131 custom1 flex flex-wrap">
+          <div class="min-width33 font-color333"><span>作业班次:</span><font>jd7892</font></div>
+          <div class="min-width33 font-color333"><span>作业类型:</span><font>船</font></div>
+          <div class="min-width33 font-color333"><span>泊位:</span><font>02</font></div>
+          <div class="min-width33 font-color333"><span>船名:</span><font>和谐</font></div>
+          <div class="min-width33 font-color333"><span>货名:</span><font>木材</font></div>
+          <div class="min-width33 font-color333"><span>装卸:</span><font>装</font></div>
+        </div>
+        
+        <div class="node_a_133"></div>
+      </div>
+    </div>
+  </ion-list>
+  <!-- <div *ngIf="selectedItem" padding>
+    You navigated here from <b>{{selectedItem.title}}</b>
+  </div> -->
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="加载更多...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

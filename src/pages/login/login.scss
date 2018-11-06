@@ -1,0 +1,155 @@
+page-list {
+    body{
+        display: flex;
+        justify-content: center;
+    }
+    .bg-ps{
+        position: absolute;
+        width: 100%;
+    }
+    .main-content{
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: black;
+    }
+    .head_1{
+        position: relative;
+        z-index: 2;
+       // display:flex;
+       // justify-content: center;
+        flex-wrap: wrap;
+    }
+    .bg-pssml{
+        width: 30%;
+        //height: 200px;
+        //margin-top: 10%;
+        margin: 10% auto;
+        display: flex;
+    }
+    .bg-pssml2{
+        width: 30px;
+        height: 30px;
+        
+    }
+    .form_content{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 15%;
+    }
+    .form_content input{
+        background: rgba(0,0,0,0);
+        border:none;
+        //height: 50px;
+        font-size: 20px;
+        color: #999;
+        //text-indent: 20px;
+        padding-left: 20px;
+    }
+    input::-webkit-input-placeholder {
+        color: white;
+    }
+    .bgco333t{
+        background: white;
+        padding: 5px 20px 5px 0px;
+        border-radius: 5px;
+        width: 51%;
+        margin: 10px 0;
+        display: flex;
+        align-items: center;
+        min-width: 280px;
+    }
+    .width50{
+        width: 51%;
+        margin: 10px 0;
+        display: flex;
+        align-items: center;
+        min-width: 280px;
+    }
+    .thiueerawei{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 0px;
+    }
+    .width50{
+        width:50%;
+    }
+    .item-ios {
+        padding-left: 16px;
+        padding-left: 16px;
+        border-radius: 0;
+        position: relative;
+        font-size: 1.7rem;
+        color: white;
+        background-color:rgba(0,0,0,0);
+        -webkit-transition: background-color 200ms linear;
+        transition: background-color 200ms linear;
+    }
+    .item-ios.item-block .item-inner {
+        padding-right: 8px;
+        padding-right: 8px;
+        border-bottom: none;
+    }
+    .carshow{
+       //background: rgba(0,0,0,.7);
+       background: white;
+    }
+    $toast-width:50%;
+    .ion-toast{
+        margin:25%;
+    }
+    .item-md{
+        background: rgba(0,0,0,0)!important;
+        color:white;
+    }
+    .item-md.item-block .item-inner{
+        border-bottom: none!important;
+    }
+    .head_1 .text-input-md{
+      // border-left: 1px solid #cac0c0;
+      margin: 8px 8px;
+    }
+    .img-div{
+        padding: 0px 10px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        border-right: 1px solid #cac0c0;
+    }
+    .thiueerawei .button-md {
+        background: #f2a349;
+        font-size: 18px;
+        height: 4.2rem;
+    }
+    .thiueerawei  .button-round-md{
+        border-radius: 5px;
+    }
+    .thiueerawei .width50:hover{
+         background: #e6ae6d;
+    }
+    .button-md{
+       
+    }
+    .loginrotate{
+        // background: red;
+    }
+    .loginrotate .head_1>img{
+       width: 15%;
+       margin: 0px auto;
+    }
+    .loginrotate  .form_content {
+       margin-top: 0px;
+    }
+    .loginrotate  .width50{
+        margin: 2px 0px;
+    }
+}

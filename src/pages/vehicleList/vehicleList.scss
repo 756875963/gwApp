@@ -1,0 +1,60 @@
+
+page-vehicleList {
+    //$black:black;
+    .vehicleList_title{
+        display: flex;
+        background-image: -webkit-linear-gradient(top left, #FF8800, #FFBB66 90%); 
+        color:white;
+        position: fixed;
+        width: 100%;
+        left: 0;
+        top: 56px;
+        font-size: 16px;
+        padding: 0px;
+        align-items: center;
+        height: 40px;
+    }
+    .vehicleList_title>div{
+        width: 25%;
+        display: flex;
+        justify-content: center;
+        padding:5px 0px;
+    }
+    .vehicleList_content{
+        margin-top: 40px;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        font-size: 16px;
+    }
+    .vehicleList_content>div{
+        width: 100%;
+        display: flex;
+    }
+    .vehicleList_content>div>div{
+        width: 25%;
+        display: flex;
+        justify-content: center;
+        padding:5px 0px;
+    }
+    .vehicleList_content>div:nth-child(odd){
+        background: #e0e3e4;
+        padding: 2px 0px;
+    }
+    .vehicleList_content>div:nth-child(even){
+        background:#ececec;
+        padding: 2px 0px;
+    }
+    .footer_fixedx{
+        position: fixed;
+        bottom: 0px;
+        width: 100%;
+        display: flex;
+        background: #e8e8e8;;
+        justify-items: center;
+        justify-content: center;
+        padding:5px 0px;
+        font-size: 18px;
+    
+    }
+}

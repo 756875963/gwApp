@@ -1,0 +1,99 @@
+
+
+<!-- <ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+         <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>首页</ion-title>
+  </ion-navbar>
+</ion-header> -->
+
+<!-- <ion-content>
+  <div class="index-head">
+    <img src="../../assets/imgs/indexheadf.png" />
+    <div>
+      <h1 class="class">{{user.name}}</h1>
+      <img [hidden]="!sex" src="../../assets/imgs/headimg.png"/>
+      <img [hidden]="sex" src="../../assets/imgs/heading1.jpeg"/>
+    </div>
+  </div>
+  <div class="index-content">
+    <a *ngFor="let item of menu" (click)="hrefClick(item.href,item.title)">
+      <span [hidden]="item.infonum==0">{{item.infonum}}</span>
+      <img [src]="item.icon"/> -->
+      <!-- <img src="../../assets/imgs/heading1.jpeg"/> -->
+      <!-- heading1.jpeg -->
+      <!-- <h6>{{item.title}}</h6>
+    </a>
+  </div> -->
+  <!-- <button ion-button full icon-left (click)="changeTheme()">
+    <ion-icon  color="danger">切换主题</ion-icon>
+  </button> -->
+  <!-- <button class="ion-button full icon-left" (click)="addLocalNotification()">启动推送服务</button> -->
+<!-- </ion-content> -->
+
+<!-- 第二版 -->
+<ion-content>
+   <div class="index_main">
+     <div class="title">
+         <div>
+            <img [hidden]="!sex" src="../../assets/imgs/4308984.png"/>
+            <img [hidden]="sex" src="../../assets/imgs/10816367.png"/>
+         </div>
+         <div>
+            <span>姓名：{{user.name}}</span>
+            <span>编号：{{user.userId}}</span>
+         </div>
+         <div >
+            <img [hidden]="!sex" src="../../assets/imgs/yun-2.png" class="weather"/>
+            <span>{{weather.city}}-{{weather.weather}}</span>
+            <span>{{weather.temp1}}-{{weather.temp2}}</span>
+         </div>
+     </div>
+     <div class="content1">
+           <div [ngClass]="landscape">
+             <div  [ngClass]="css">
+                <div class="colorZ color1"  (click)="hrefClick(href.ListPage,'外理配工')">
+                  <div></div>
+                  <div>外理配工</div>
+                </div>
+             </div>
+             <div>
+                <div class="colorZ color2"  (click)="hrefClick(href.JobListPage,'开始作业')">
+                  <div></div>
+                  <div>开始作业</div>
+                </div>
+              </div>
+           </div>
+           <div [ngClass]="landscape">
+              <div>
+                  <div class="colorZ color3"  (click)="hrefClick(href.StatisticslistPage,'工班统计')">
+                      <div></div>
+                      <div>工班统计</div>
+                  </div>
+              </div>
+              <div>
+                  <div class="colorZ color4"  (click)="hrefClick(href.StatisticslistPage1,'整船统计')">
+                      <div></div>
+                      <div>整船统计</div>
+                  </div>
+                </div>
+            </div>
+            <div [ngClass]="landscape">
+                <div>
+                    <div class="colorZ color5"  (click)="hrefClick(href.UpdatepasswordPage,'修改密码')">
+                        <div></div>
+                        <div>修改密码</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="colorZ color6"  (click)="hrefClick(href.ListPage,'退出登录')">
+                        <div></div>
+                        <div>退出登录</div>
+                    </div>
+                  </div>
+              </div>     
+            </div>
+      </div>
+</ion-content>

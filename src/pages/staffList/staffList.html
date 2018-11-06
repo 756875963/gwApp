@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-navbar>
+    <!-- <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button> -->
+    <ion-title>人员列表</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+   <div class="dispatched_mian">
+     <div class="dispatched_title">
+        <div>已选择人员</div>
+        <div>
+          <!-- font-size: 16px; -->
+            <div *ngFor="let item of activeData" >
+                <!-- <img class="toxs" src="../../assets/imgs/delete2.png" /> -->
+                <!-- <img [src]="item.name3"/> -->
+                <img src="../../assets/imgs/headimg.png"/>
+                <span>{{item.name}}</span>
+            </div>
+        </div>
+     </div>
+     <div class="dispatched_content">
+           <div class="li" *ngFor="let item of data ">
+             <div>
+               <!-- <img [src]="item.name3"/> -->
+               <img src="../../assets/imgs/headimg.png"/>
+             </div>
+             <div class="porsion">
+                <span>人员编号：{{item.user_id}}</span> 
+                <span>人员姓名：{{item.name}}</span> 
+             </div>
+             <div class="doing_checked" (click)="checkFct(item)">
+                <img src="../../assets/imgs/xingzhuang.png" [hidden]="!item.doFlag"/>
+                <img src="../../assets/imgs/juxing.png" [hidden]="item.doFlag"/>
+              </div>
+           </div>    
+     </div>
+   </div>
+   <div  class="color dl" (click)="submit()">
+     <div [hidden]= "!submitFlag">保存中</div>
+     <div [hidden]= "submitFlag">确定</div>
+   </div>
+  
+</ion-content>

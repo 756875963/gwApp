@@ -1,0 +1,34 @@
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
+ <div class="main-content" [hidden]="loginState" [ngClass]="landscape">
+  <img src="../../assets/imgs/bacground.png" class="bg-ps" />
+  <div class="head_1">
+    <img src="../../assets/imgs/WechatIMG16.png"  class="bg-pssml"/>
+    <div class="form_content">
+      <div class="bgco333t" [ngClass]="car.user">
+          <div class="img-div">
+                <img src="../../assets/imgs/WechatIMG27.png"  class="bg-pssml2"/>
+          </div>
+          <!--<input id='username' type="text" [(ngModel)]="username"  class="mui-input-clear mui-input" placeholder="输入用户名"/>-->
+          <ion-input placeholder="请输入用户名"  type="text" [(ngModel)]="username"  (ionBlur)="blurInput()" (ionFocus)="focusInput('user')"></ion-input>
+      </div>
+      <div class="bgco333t" [ngClass]="car.password">
+          <div class="img-div">
+                <img src="../../assets/imgs/WechatIMG25.png"  class="bg-pssml2"/>
+          </div>
+          <!--<input id='password'  type="password"  [(ngModel)]="password" class="mui-input-clear mui-input" placeholder="输入密码"/>-->
+          <ion-input placeholder="请输入密码"  type="password" [(ngModel)]="password"  (ionBlur)="blurInput()" (ionFocus)="focusInput('password')"></ion-input>
+      </div>
+      <div class="width50">
+        <ion-item>
+            <ion-label>记住账号</ion-label>
+            <ion-toggle [(ngModel)]="flag"></ion-toggle>
+          </ion-item>
+      </div>
+      <div class="thiueerawei" ng-hide="isShow">
+          <button ion-button round class="width50" (click)="onLogin(flag)">登录</button>
+      </div>
+    </div>
+  </div>
+ </div>
+  
+
