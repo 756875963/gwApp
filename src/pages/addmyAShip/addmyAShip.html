@@ -1,0 +1,38 @@
+<ion-header>
+    <div (click)="goback()" class="prediction-header"><img src="../../assets/imgs/back1.png"></div>
+    <ion-title>新增船舶</ion-title>
+  
+</ion-header>
+
+<ion-content>
+    <ion-list>
+        <ion-item>
+            <ion-label color="primary">船名</ion-label>
+            <ion-input placeholder="请输入船队名"  [(ngModel)]="prediction.ship_name"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label color="primary">呼号</ion-label>
+            <ion-input placeholder="请输入呼号"  [(ngModel)]="prediction.call_no"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label color="primary">联系人</ion-label>
+            <ion-input placeholder="请输入联系人"  [(ngModel)]="prediction.contacts_person"></ion-input>
+          </ion-item>
+          <ion-item>
+              <ion-label color="primary">联系电话</ion-label>
+              <ion-input placeholder="请输入联系电话"  type="number" [(ngModel)]="prediction.phone"></ion-input>
+            </ion-item>
+          <ion-item >
+              <ion-label color="primary">排序号</ion-label>
+              <ion-input placeholder="请输入排序号"  type="number"  [(ngModel)]="prediction.order_no"></ion-input>
+            </ion-item>
+          <ion-item>
+            <ion-label color="primary">船长</ion-label>
+            <ion-input placeholder="请输入船长" type="number"  [(ngModel)]="prediction.ship_length"></ion-input>
+          </ion-item>
+          
+    </ion-list>
+</ion-content>
+<div class="submit_ioc" (click)="submit()">
+    <span><img src="../../assets/imgs/submit.png">提交保存</span>
+ </div>

@@ -7,16 +7,14 @@ page-codeSheet {
         background-image: -webkit-linear-gradient(top left, #f4a43e, #f4a43e 90%); 
         color:white;
         position: fixed;
-        width: 94%;
+        width: 100%;
         left: 0;
-        top: 60px;
+        // top: 60px;
         font-size: 16px;
-        margin: 0 3%;
         /* padding: 7px 0; */
         height: 40px;
         justify-content: center;
         align-items: center;
-        border-radius: 5px;
     }
     .codeSheet_title>div{
         width: 20%;
@@ -51,11 +49,14 @@ page-codeSheet {
         color: #0f6c95;
     }
     .codeSheet_content>div:nth-child(even){
-        background: white;
+        background: #f4f2f2;
         padding: 5px 0px;
         border-radius: 5px;
         margin-bottom: 5px;
         color: #0f6c95;
+    }
+    .codeSheet_content>div:last-child{
+        margin-bottom: 50px;
     }
     .footer_fixedx{
         position: fixed;

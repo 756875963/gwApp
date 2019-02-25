@@ -1,0 +1,35 @@
+page-searchcom {
+  .date_search{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 15px 0px;
+      .button-md{
+        font-size: 1.8rem;
+        width: 90%;
+      }
+  }
+  
+  .item-md{
+      border-bottom: none;
+      width: 90%;
+      margin: 5px 0px;
+      border: 1px solid #b1b1b1;
+      border-radius: 3px;
+  }
+  .datetime-text{
+      color: #666;
+  }
+  .label-md {
+    margin: 13px 8px 13px 10px;
+  }
+  .item-block{
+    min-height: 35px;
+  }
+  .label-md {
+    margin: 8px 8px 8px 10px;
+  }
+  .datetime-md {
+    padding: 8px 8px 8px 16px;
+  }
+}

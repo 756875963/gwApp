@@ -7,7 +7,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="bg-content" >
     <div class="dispatched_mian">
       <div class="dispatched_title">
         <div>作业编号：{{work_no}}</div>
@@ -20,7 +20,7 @@
                 <img src="../../assets/imgs/headimg.png"/>
               </div>
               <div class="porsion">
-                <span>人员编号：{{item.user_id}}</span> 
+                <!-- <span>人员编号：{{item.user_id}}</span>  -->
                 <span>人员姓名：{{item.name}}</span> 
               </div>
               <!-- <div>
@@ -34,7 +34,7 @@
             </div>
             <div class="li add" (click)="hrefpush($event)">
                 <div>
-                  <img src="../../assets/imgs/add.png"/>
+                  <img src="../../assets/imgs/addpicture.png"/>
                 </div>
                 <div>
                  添加/编辑作业人员
@@ -42,10 +42,13 @@
             </div>
       </div>
     </div>
-    <div  class="color dl" (click)="submit()">
-      <!-- <div [hidden]= "!submitFlag"><img src="../../assets/imgs/loading-1.gif"/>保存中</div> -->
-      <div [hidden]= "!submitFlag">保存中</div> 
-      <div [hidden]= "submitFlag">提交派工</div>
-    </div>
+    
     <div></div>
 </ion-content>
+<ion-footer>
+  <div  class="color dl" (click)="submit()">
+    <!-- <div [hidden]= "!submitFlag"><img src="../../assets/imgs/loading-1.gif"/>保存中</div> -->
+    <div [hidden]= "!submitFlag">保存中</div> 
+    <div [hidden]= "submitFlag">提交派工</div>
+  </div>
+</ion-footer>

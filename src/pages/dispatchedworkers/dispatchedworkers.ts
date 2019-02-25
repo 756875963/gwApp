@@ -5,26 +5,34 @@ import { LoginPage } from '../login/login';
 import { StaffListPage } from '../staffList/staffList';
 import { lSe } from '../../public/localstorage';
 import { ServiceProvider } from '../../service/http';
+import { registerBack } from "../../service/registerBack";
+
 @Component({
   selector: 'page-dispatchedworkers',
   templateUrl: 'dispatchedworkers.html'
 })
-export class DispatchedworkersPage {
+export class DispatchedworkersPage extends registerBack{
   @ViewChild(Navbar) navBar: Navbar;
   submitFlag :Boolean = false; 
   callback;
   work_no:String;//作业编号
   book_id:String;//作业书编号
+  ticket_id:String;//作业id
   dataObj:any ={
      list:[],
      total:4,
      daState:true
   }
-  constructor(public navCtrl: NavController,public navParams: NavParams,public toastCtrl:ToastController,public service:ServiceProvider) {
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    public toastCtrl:ToastController,
+    public service:ServiceProvider){
+      super("/dispatchedworkers");
      this.callback = this.navParams.get("callback");
      this.work_no = this.navParams.get("item").work_no;//任务列表跳转过来带的参数
      let id = this.navParams.get("item").id;
-     this.book_id = id;
+     this.book_id = this.navParams.get("item").book_id;
+     this.ticket_id = id
      this.http({id:id}).then(
        (obj)=>{
          let _array = [];
@@ -107,15 +115,13 @@ export class DispatchedworkersPage {
      }    
     });
   }
-  ionViewDidEnter(){
-    //console.log("index");
-  }
+  
   submit(){
     var _that = this;
     if(this.dataObj.list.length>0){
       if(!this.submitFlag){
         this.submitFlag =true;
-        this.service.submitDispatchedworkers({loginid:lSe.getItem("userData").record.loginid,book_id:this.book_id,r:JSON.stringify({data:this.dataObj.list})}).then(
+        this.service.submitDispatchedworkers({ticket_id:this.ticket_id,loginid:lSe.getItem("userData").record.loginid,book_id:this.book_id,r:JSON.stringify({data:this.dataObj.list})}).then(
           (obj:any) =>{
                let _obj ={}; 
                if(obj.ok==true){
@@ -192,5 +198,12 @@ export class DispatchedworkersPage {
          }
        );
      })
+  }
+  ionViewDidEnter(){
+    super.BackButtonCustomHandler();
+  }
+  ionViewWillLeave() {
+    // Unregister the custom back button action for this page
+    super.ionViewWillLeave && super.ionViewWillLeave();
   }
 }

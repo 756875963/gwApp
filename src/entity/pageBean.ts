@@ -3,7 +3,7 @@ export class pageBean{
     pageSize : number;//每页最大条数
     total : number;//总页数
     records : number;//总记录数
-    List? : Array<any>;//分页数据
+    rows? : Array<any>;//分页数据
 }
 //分页实体类
 

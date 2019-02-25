@@ -9,7 +9,10 @@ import {ListPage} from '../list/list';
 export class WorkclassPage {
   myDate:String="1900-01-09";
   constructor(public navCtrl: NavController) {
-
+     console.log("初始化");
+  }
+  ionViewDidEnter(){
+     console.log("进入");
   }
   openPage(){
     console.log("11");

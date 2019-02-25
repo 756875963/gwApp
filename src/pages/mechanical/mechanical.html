@@ -7,7 +7,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding class="display_flex">
+<ion-content padding class="display_flex pgcolor">
     <!-- <div class="title_model">
         <div>
            <img src="../../assets/imgs/zhu-122.png">
@@ -16,11 +16,11 @@
     </div> -->
     <div class="meun_one">
         <div>
-            <div>----</div>
-            <div *ngFor="let item of stairlist" [ngClass]="{'stairlistcss': item.flag}" (click)="stairclick(item)">{{item.id}}</div>
+            <div>占位占位</div>
+            <div class="removeionc" *ngFor="let item of stairlist" [ngClass]="{'stairlistcss': item.flag}" (click)="stairclick(item)">{{item.id}}</div>
         </div>
         <div>
-           <div>----</div>
+           <div>占位</div>
            <div  *ngFor="let item of secondlevellist" [ngClass]="{'stairlistcss': item.flag}" (click)="secondclick(item)">{{item.id}}</div>
         </div>
     </div>
@@ -30,20 +30,26 @@
            <div>当前操作员：{{stationNumber}}</div>
         </div> -->
         <div class="dispatched_content">
+                <!-- <div class="title_model">
+                        <div>
+                           <img src="../../assets/imgs/zhu-122.png">
+                             数据回退
+                        </div>
+                    </div>  -->
             <ion-list>
                 <div  class="dispatched_li">
-                        <label>运输车号</label>
+                        <label>船名</label>
                         <div ><input type="text" readonly="true" [(ngModel)]="shipName" class="prohibit_inputq"></div>
                     </div>
                 <div  class="dispatched_li">
-                        <label>件号</label>
+                        <label>货名</label>
                         <div ><input type="text" readonly="true" [(ngModel)]="goodsName" class="prohibit_inputq"></div>
                     </div>
                 <!-- <div  class="dispatched_li">
                     <label>合同号：</label>
                     <div ><input type="text" readonly="true" [(ngModel)]="shipName" class="prohibit_inputq"></div>
                 </div> -->
-                <div  class="dispatched_li dispatched_after">
+                <!-- <div  class="dispatched_li dispatched_after">
                     <label>装载机</label>
                     <div >
                         <ion-select [(ngModel)]="toppings3"  okText="确定" cancelText="取消"  >
@@ -56,7 +62,7 @@
                 <div  class="dispatched_li">
                         <label>姓名</label>
                         <div ><input type="text" readonly="true" [(ngModel)]="toppings3" class="prohibit_inputq"></div>
-                    </div>
+                    </div> -->
                 <!-- <div  class="dispatched_li">
                     <label>件数：</label>
                     <div><input  type="number" [(ngModel)]="number"></div>
@@ -96,19 +102,19 @@
       </div>
       <div class="meun_three">
             <div class="title_model">
-                    <div>
+                    <div (click)="submit()">
                        <img src="../../assets/imgs/zhu-122.png">
                             提交数据
                     </div>
-                    <div>
+                    <div (click)="accept()">
                         <img src="../../assets/imgs/zhu-122.png">
                             接受数据
                     </div>
-                    <div>
+                    <!-- <div>
                         <img src="../../assets/imgs/zhu-122.png">
                             堆放明细
-                        </div>
-                    <div>
+                    </div> -->
+                    <div (click)="rollback()">
                         <img src="../../assets/imgs/zhu-122.png">
                             数据回退
                     </div>

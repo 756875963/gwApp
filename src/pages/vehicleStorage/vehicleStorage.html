@@ -7,7 +7,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding class="pgcolor">
    <div class="main">
       <div class="li">
           <div>车号:{{carNumber}}</div>
@@ -20,16 +20,14 @@
               <span (click)="addTwoLevelMenu()" class="addmenu" >+增加一行</span>
             </div>
           </div>
-          <div class="total_quantity">
+          <!-- <div class="total_quantity">
                <div><span>总件数/支</span><span>100</span></div>
                <div><span>平均方体积/方</span><span>10011</span></div>
                <div><span>码单体积/方</span><span>10011</span></div>
-          </div>
+          </div> -->
       </div>
    </div>
-   <div class="color dl" (click)="save()">
-      <div>保存</div>
-   </div>
+   
 
    <div class="fixed_mode" [hidden]="flex_mode">
        <div style="height: 100%;">
@@ -44,7 +42,7 @@
               <!-- (blur)="blurInput()"   -->
               <input type="text" [(ngModel)]="partnumber" (focus)="focusInput('partnumber')"/>
            </div>
-           <div class="custombutton" [hidden]="pilefoot==''||partnumber==''||Length!=''">
+           <div class="custombutton" [hidden]="pilefoot==''||partnumber==''||Length!=''"> 
                <a (click)="blurInput()">自动匹配长度，直径</a>
            </div>
            <div>
@@ -76,10 +74,10 @@
               <ion-checkbox class="item item-checkbox item-checkbox-right  checkbox-balanced "  [(ngModel)]="Sawingchecked" >
               </ion-checkbox>
            </div>
-           <div>
+           <!-- <div>
               <label>码单查询：</label>
               <span class="href_span" (click)="goto_CodeSheetPage()">点击查看</span>
-           </div>
+           </div> -->
          </div>
        </div>
        <div class="button_flex">
@@ -91,3 +89,6 @@
    </div>
 
 </ion-content>
+<div class="color dl" (click)="save()">
+  <div>保存</div>
+</div>

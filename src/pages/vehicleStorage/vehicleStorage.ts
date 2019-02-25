@@ -11,17 +11,19 @@ import { photo } from '../../entity/photo';
 import { lSe } from '../../public/localstorage';
 import { CodeSheetPage } from '../codeSheet/codeSheet';
 import { pageBean } from '../../entity/pageBean';
+import { registerBack } from "../../service/registerBack";
 
 @Component({
   selector: 'page-vehicleStorage',
   templateUrl: 'vehicleStorage.html'
 })
-export class vehicleStoragePage {
+export class vehicleStoragePage extends registerBack {
   totalNumber :number;//总件数
   carNumber :string;//车辆
+  cid:string;//车辆id
   measure_average :number;//平均方值
   agoindex :number =null;//修改时记录上个数据的坐标位置
-  firstLevelMenuFlag :number=null;//一级当前标记
+  firstLevelMenuFlag :number=0;//一级当前标记
   deleteFlag :boolean = true;//删除按钮显示标记
   index :number =null;//失去焦点下标
   operation :object =null;//操作数据
@@ -35,6 +37,12 @@ export class vehicleStoragePage {
   diameter :string ="";//直径
   path :string ="";//图片预览
   picture :string ="name.jpg";//上传图片返回的图片名称
+  id:string="";//form表主键
+  saveflag:boolean = true;//保存为true，删除为false
+  rational_id :string="";//理货表ID
+  goods_detail_id:string="";//库存详情id
+  clickflag:boolean=false;//自动匹配是否成功
+  updateflag:boolean=false;//单根木头，是否是修改提交
   //access_token: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiYXBpLXJlc291cmNlIl0sInVzZXJfbmFtZSI6ImFkbWluIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIiwidHJ1c3QiXSwiZXhwIjoxNTA5MTk2OTcyLCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwianRpIjoiOWFmYmIyYWItMzdiYi00MTIyLTg2NDAtY2FmMDc1OTRmOGZkIiwiY2xpZW50X2lkIjoiY2xpZW50MiJ9.bJOpK0UjCI1ym32uerR_jKp4pv8aLaOxnTeK_DBjYZU';
   fileTransfer: FileTransferObject = this.transfer.create();
   list1 :Array<any> =[
@@ -45,7 +53,7 @@ export class vehicleStoragePage {
     {id:5,flag:false},
     {id:6,flag:false},
     {id:7,flag:false},
-    {id:8,flag:false},
+    {id:8,flag:false},                                                                         
     {id:9,flag:false},
     {id:10,flag:false}
     
@@ -80,49 +88,25 @@ export class vehicleStoragePage {
     public service:ServiceProvider,
     public toastController :ToastController,
     public events :Events) {
+      super("/vehicleStorage");
     console.log("yard_id",this.navParams.get("item"));//任务列表跳转过来带的参数
-    if(lSe.getItem("vehicleStorage")!=""&&lSe.getItem("vehicleStorage")!=null) this.list2 = lSe.getItem("vehicleStorage");//判断本地是否有存储；
-    //查询码单mock数据 这里应该查询后台 存入本地存储
-    let array =[
-      {pilefoot:11,partnumber:11,length:12,diameter:100,volume:200,flag:false},
-      {pilefoot:12,partnumber:12,length:13,diameter:101,volume:210,flag:false},
-      {pilefoot:13,partnumber:13,length:14,diameter:102,volume:220,flag:false},
-      {pilefoot:14,partnumber:14,length:15,diameter:103,volume:230,flag:false},
-      {pilefoot:15,partnumber:15,length:12,diameter:100,volume:200,flag:false},
-      {pilefoot:16,partnumber:16,length:13,diameter:101,volume:210,flag:false},
-      {pilefoot:17,partnumber:17,length:14,diameter:102,volume:220,flag:false},
-      {pilefoot:18,partnumber:18,length:15,diameter:103,volume:230,flag:false},
-      {pilefoot:19,partnumber:19,length:12,diameter:100,volume:200,flag:false},
-      {pilefoot:20,partnumber:20,length:13,diameter:171,volume:210,flag:false},
-      {pilefoot:21,partnumber:21,length:14,diameter:142,volume:220,flag:false},
-      {pilefoot:22,partnumber:22,length:15,diameter:113,volume:230,flag:false}
-    ];
+    //if(lSe.getItem("vehicleStorage")!=""&&lSe.getItem("vehicleStorage")!=null) this.list2 = lSe.getItem("vehicleStorage");//判断本地是否有存储；
      //车号赋值
-     this.carNumber = this.navParams.get("item").toppings;
+     this.carNumber = this.navParams.get("item").carno;
+     //车id
+     this.cid= this.navParams.get("item").cid;
+     //理货表ID,如果是回退就有值
+     this.rational_id= this.navParams.get("item").rational_id;
+     console.log('ra'+this.rational_id)
      //平均方赋值
      this.measure_average = this.navParams.get("item").measure_average
-     //请求码单数据
-     this.http3({yard_no:this.navParams.get("item").toppingsnumber}).then(data=>{
-      console.log(data);
-      if(data["msg"]=="并单记录不存在"){
-           this.presentToast(data["msg"]);
-      }else{
-        //处理数据
-        
-        for(let i=0;i<data["data"].bill_list.length;i++){
-          data["data"].bill_list[i] = Object.assign(data["data"].bill_list[i],{flag:false});
-        }
-        lSe.setItem("Codesheet",data["data"].bill_list);//存入本地存储
-      }
-      
-     }).catch(data=>{
-     });
-    
-    console.log(lSe.getItem("Codesheet"));
+    //进入页面，获取一层数据
+    this.getFloorData(true);
+    //console.log(lSe.getItem("Codesheet"));
     //设置数据回调不可读
-    lSe.setItem("vehicledata",{read:false});
+    //lSe.setItem("vehicledata",{read:false});
     //二维数组装入本地存储中
-    lSe.setItem("vehicleStorage",this.list2);//存入本地存储
+    //lSe.setItem("vehicleStorage",this.list2);//存入本地存储
 
     //初始化当前选中状态和数据显示
     let Active_index=0;
@@ -133,7 +117,7 @@ export class vehicleStoragePage {
         break;
       }
     }
-    this.listActive = lSe.getItem("vehicleStorage")[Active_index];
+    //this.listActive = lSe.getItem("vehicleStorage")[Active_index];
 
    
 
@@ -143,24 +127,22 @@ export class vehicleStoragePage {
     this.navCtrl.push(ListPage, { item12: "丁伟" });
   }
   firstLevelMenu(item){
-    let array = lSe.getItem("vehicleStorage")
-    array[this.firstLevelMenuFlag]=this.listActive;
-    lSe.setItem("vehicleStorage",array);
+    console.log(item);
     for(let i=0;i<this.list1.length;i++){
       if(item.id==this.list1[i].id){
         this.list1[i].flag = true;
         this.firstLevelMenuFlag = i;
-        this.listActive = lSe.getItem("vehicleStorage")[i];
+        //console.log(this.firstLevelMenuFlag=this.firstLevelMenuFlag+1);
       }else{
         if(this.list1[i].flag){
           this.list1[i].flag = false;
         }
       }
     }
+    this.getFloorData(false);
   }
   twoLevelMenu(item){
     console.log(item);
-
     if(item["text"]!=""){
       this.partnumber =item["partnumber"];
       this.Sawingchecked=item["Sawingchecked"]==0?false:true;
@@ -169,15 +151,22 @@ export class vehicleStoragePage {
       this.Length=item["Length"];
       this.diameter=item["diameter"];
       this.picture=item["picture"];
-      this.path = ActionType.IMGURL+item["picture"];
+      this.path = item["picture"];
       this.deleteFlag =false;
-      this.blurInput("delete");
+      this.updateflag=true;
+      this.clickflag=true;
+      this.goods_detail_id=item["goods_detail_id"];
+      //
+      //this.blurInput("delete");
       this.updateOperation={
         partnumber:item["partnumber"],
         pilefoot:item["pilefoot"],
         index:item["index"]
       };
+    }else{
+      this.updateflag=false;
     }
+    console.log(this.updateflag)
     this.flex_mode = false;
     this.operation = item;
   }
@@ -190,8 +179,10 @@ export class vehicleStoragePage {
   submit(){//表单提交
     console.log(this.Sawingchecked);
     console.log(this.Tiechecked);
-    if(this.picture!=""&&this.diameter!=""){
+    //长度直径通过匹配
+    if(this.clickflag){
       let obj = {};
+      obj["id"] ="";
       obj["partnumber"] =this.partnumber;
       obj["Sawingchecked"] =this.Sawingchecked?1:0;
       obj["Tiechecked"] =this.Tiechecked?1:0;
@@ -200,41 +191,54 @@ export class vehicleStoragePage {
       obj["diameter"] =this.diameter;
       obj["picture"] =this.picture;
       obj["text"] =this.pilefoot+"#"+this.partnumber;//#拼接
-      //obj["index"] =
-      let array = lSe.getItem("Codesheet");
-      if(this.updateOperation!=null&&this.updateOperation["partnumber"]!=this.partnumber&&this.updateOperation["pilefoot"]!=this.pilefoot){
-        console.log("进入1",this.updateOperation["index"]);
-        array[this.updateOperation["index"]].flag =false;
-      }else if(this.updateOperation!=null){
-        console.log("进入2",this.agoindex);
-       // array[this.agoindex].flag =false;
-      }else{
-         console.log("进入3",this.agoindex,this.updateOperation);
-         array[this.index].flag =false;
-      }
-      for(let i=0;i<this.listActive.length;i++){
+      obj["rational_id"]=this.rational_id;
+      obj["cid"]=this.cid;
+      obj["carno"]=this.carNumber;
+      obj["floor"]=this.firstLevelMenuFlag;//层
+      obj["goods_detail_id"]=this.goods_detail_id;
+      obj["yard_no"]=this.navParams.get("item").toppingsnumber;//出库单号
+      obj["updateflag"]=this.updateflag;
+      let i=0;
+      for(i=0;i<this.listActive.length;i++){
         if(this.listActive[i].id==this.operation["id"]){
           console.log(this.listActive[i],this.operation);
           obj["id"] = this.listActive[i].id;
           obj["index"] = this.index;
           this.listActive[i] = obj;
+          console.log(i);
         }
         this.sort();
-      }
+      
+      } 
+      console.log(this.listActive)
+      obj["position_no"]=i+1;   //本层的位置  
+      obj["jsonstr"]=JSON.stringify(this.listActive);//本层的json数据
+      console.log(obj["jsonstr"]);
+      obj["saveflag"]=this.saveflag;
       console.log(obj);
-     
+      this.http4({formdata:JSON.stringify(obj)}).then(data=>{
+        console.log(data);
+
+        // if(data["msg"]=="该数据不能重复添加"){
+        //      this.presentToast(data["msg"]);
+        // }else{
+          
+        // }
+        
+       }).catch(data=>{
+       });
       
       this.flex_mode = true;
-      array[this.index].flag =true;
-      lSe.setItem("Codesheet",array);
       this.empty();
+      this.updateOperation=null;
     }else{
-      this.presentToast("表单未填写完整！");
+      this.presentToast("请先匹配长度、直径");
     }
-    this.updateOperation=null;
+      
   }
   photoClick(){//照片拍照
     console.log("拍照");
+    alert("拍照");
     this.openCamera();
   }
   /**
@@ -248,8 +252,8 @@ export class vehicleStoragePage {
       mediaType: this.camera.MediaType.PICTURE,
       saveToPhotoAlbum: true,   
       //allowEdit :true,    
-      targetWidth:200,
-      targetHeight:150,
+      targetWidth:800,
+      targetHeight:800,
       sourceType : this.camera.PictureSourceType.CAMERA                                 //是否保存到相册
       // sourceType: this.camera.PictureSourceType.CAMERA ,         //是打开相机拍照还是打开相册选择  PHOTOLIBRARY : 相册选择, CAMERA : 拍照,
     }
@@ -289,16 +293,19 @@ export class vehicleStoragePage {
         allowType: 'jpg;png;pdf;doc;xls;xlsx;docx',
       }
     };
-    alert(1);
+   // alert(1);
     this.fileTransfer.upload(this.path, apiPath, options)
       .then((data)=> {
-        alert(2);
+        this.picture = ActionType.IMGURL + JSON.parse(data.response).data.data.relativefilepath +"/"+ JSON.parse(data.response).data.data.newfilename;
+       
+        //this.operation["picture"] //alert(2);
        // console.log(obj.lf);
        //this.presentToast(obj["data"].data);
-       this.Length = "1";
-       alert(JSON.stringify(data));
-        alert(JSON.parse(data.response.replace("\\","")).data.data);
+       //this.Length = "1";
+        //alert(JSON.stringify(data));
+        //alert(JSON.parse(data.response.replace("\\","")).data.data);
         //this.presentToast(JSON.parse(obj.response).data);
+     
       }, (err) => {
         console.log(err);
         this.presentToast(err);
@@ -324,61 +331,41 @@ export class vehicleStoragePage {
     toast.present();
   }
   blurInput(str){//失去焦点事件
-    if(str=="delete"){
-      if(this.pilefoot!=""&&this.partnumber!=""){
-        let array = lSe.getItem("Codesheet");
-        console.log(array);
-         for(let i = 0;i<array.length;i++){
-           if(array[i].pilefoot==this.pilefoot&&array[i].partnumber==this.partnumber){
-             console.log("sds",array[i].pilefoot,i);
-            this.index= i; 
-           }
+    // pilefoot :string = "";//桩脚
+    //partnumber :string = "";//件号
+    console.log(this.operation)
+        this.service.mapping({
+          pilefoot:this.pilefoot,
+          partnumber:this.partnumber,
+          yard_no:this.navParams.get("item").toppingsnumber,
+          carno:this.carNumber,
+          rational_id:this.rational_id,
+          updateflag:this.updateflag,
+          id:this.operation["id"],
+          floor:this.firstLevelMenuFlag
+        }).then(data=>{
+          this.clickflag=data["data"].clickflag;
+          //如果返回数据重复  false
+          console.log(data["data"].clickflag);
+          if(!data["data"].clickflag){ 
+            //console.log(data["msg"])       
+            this.presentToast(data["msg"]);
+            this.pilefoot="";
+            this.partnumber="";
+          }else{
+            this.goods_detail_id=data["data"].pGoodsDetailExtend.id;
+            if(data["data"].is_has){//如果有匹配的数据
+              this.Length=data["data"].pGoodsDetailExtend.length;
+              this.diameter=data["data"].pGoodsDetailExtend.diameter;
+            } 
           }
-      }
-    }else{
-      this.Length = "";
-      this.diameter = "";
-      if(this.pilefoot!=""&&this.partnumber!=""){
-        let array = lSe.getItem("Codesheet");
-        console.log(array);
-         for(let i = 0;i<array.length;i++){
-           if(array[i].pilefoot==this.pilefoot&&array[i].partnumber==this.partnumber){
-             console.log("开",this.updateOperation);
-             console.log(this.pilefoot);
-             //||((this.updateOperation!={})&&(this.updateOperation["pilefoot"]==this.pilefoot&&this.updateOperation["partnumber"]==this.partnumber))
-            if(this.updateOperation!=null&&(this.updateOperation["pilefoot"]==this.pilefoot&&this.updateOperation["partnumber"]==this.partnumber)){
-               this.diameter = array[i].diameter;
-               this.Length = array[i].length;
-               this.index= i; 
-            }else if(this.updateOperation!=null){
-              console.log("修改",this.index);
-              if(!array[i].flag){
-                this.diameter = array[i].diameter;
-                this.Length = array[i].length;
-                this.index= i; 
-                this.agoindex =i;//发生修改时 记录修改时的前个数据下标；
-              }else{
-                this.presentToast("已重复录入！");
-              }
-            }else{
-              if(!array[i].flag){
-                this.diameter = array[i].diameter;
-                this.Length = array[i].length;
-                this.index= i; 
-              }else{
-                this.presentToast("已重复录入！");
-              }
-            }
-            //this.updateOperation=null;
-             break;
-           }else if(i==array.length-1){
-             console.log(1212);
-             this.presentToast("未匹配到数据！");
-           }
-         }
-      }
-    }
-    
+            
+            //data["data"].pGoodsDetailExtend.text=data["data"].pGoodsDetailExtend.Pilefoot+"#"+data["data"].pGoodsDetailExtend.Partnumber;
+            //this.listActive.push(data["data"].pGoodsDetailExtend);
+        }).catch(data=>{
+
+        })
+   
   }
   manual_Testing(){
     
@@ -406,6 +393,7 @@ export class vehicleStoragePage {
     this.deleteFlag=true;
     this.updateOperation =null;
   }
+
   sort(){//排序
     let array = this.listActive;
     let array1 =[];
@@ -418,38 +406,57 @@ export class vehicleStoragePage {
        }
     }
     this.listActive =array1.concat(array2);
+
   }
+
   delete(obj){//删除数据
     if(obj==undefined) return;
      let array = this.listActive;
-     let array1 = lSe.getItem("Codesheet");
+     console.log(obj);
      for(let i=0;i<array.length;i++){
-        if(obj.partnumber==array[i].partnumber){
-          console.log(array[i]["index"]);
-          array1[array[i]["index"]].flag =false;
-          lSe.setItem("Codesheet",array1);
-          array[i] ={text:"",id:array[i]["id"]};
-          break;
-        }
-     }
-      this.sort();
-      this.close();
+      if(obj.partnumber==array[i].partnumber){
+        console.log(array[i]["index"]);
+        array[i] ={text:"",id:array[i]["id"]};
+        break;
+      }
+     }    
+     this.sort();
+     this.close();
+     obj["saveflag"]=false;
+     obj["jsonstr"]=JSON.stringify(this.listActive);//本层的json数据
+     obj["rational_id"]=this.rational_id;
+     //let array1 = lSe.getItem("Codesheet");
+     this.http6({formdata:JSON.stringify(obj)}).then(data=>{
+      console.log(data);
+      // if(data["msg"]=="该数据不能重复添加"){
+      //      this.presentToast(data["msg"]);
+      // }else{
+        
+      // }
+     }).catch(data=>{
+     });
+     
   }
   imgload(event){
      console.log(event);//计算图片自适应高度 
   }
   save(){//页面数据保存 跳转页面
-    let array = lSe.getItem("vehicleStorage");
-    array[this.firstLevelMenuFlag]=this.listActive;
-    lSe.setItem("vehicleStorage",array);
-    lSe.setItem("vehicledata",{read:true});
+    console.log(111);
+    this.http7({rational_id:this.rational_id,carno:this.carNumber,cid:this.cid,yard_no:this.navParams.get("item").toppingsnumber}).then(data=>{
+      console.log(data);
+      this.navCtrl.pop().then(() => {
+        // 发布 bevents事件
+        this.events.publish('_TOTALCALCULATE', JSON.stringify({numL:data["data"].num,texts:data["data"].text}));
+        });
+      //this.navCtrl.pop();
+      // if(data["msg"]=="该数据不能重复添加"){
+      //      this.presentToast(data["msg"]);
+      // }else{
+        
+      // }
+     }).catch(data=>{
+     });
     
-    console.log(array);
-    this.navCtrl.pop().then(() => {
-      // 发布 bevents事件
-      this.events.publish('_TOTALCALCULATE', JSON.stringify({numL:this.totalCalculate()}));
-      });
-    //this.navCtrl.pop();
   }
   goto_CodeSheetPage(){
     //接受出库单编号
@@ -469,6 +476,58 @@ export class vehicleStoragePage {
     }
     return _num ;
   }
+  //
+  getFloorData(obj){
+     //请求数据库查询当前层级数据
+     this.http5({firstflag:obj,yard_no:this.navParams.get("item").toppingsnumber,rational_id:this.rational_id,
+     floor:this.firstLevelMenuFlag,carno:this.carNumber}).then(data=>{
+      console.log(data); 
+      if(data["data"].pWoodCarStarts==null){
+        this.listActive =[
+          {id:1,text:"",index:""},
+          {id:2,text:"",index:""},
+          {id:3,text:"",index:""},
+          {id:4,text:"",index:""},
+          {id:5,text:"",index:""},
+          {id:6,text:"",index:""},
+          {id:7,text:"",index:""},
+          {id:8,text:"",index:""},
+          {id:9,text:"",index:""},
+          {id:10,text:"",index:""}
+        ]
+      }else{
+         if(JSON.parse(data["data"].pWoodCarStarts).length<10){
+          this.listActive = JSON.parse(data["data"].pWoodCarStarts).concat([
+              {id:1,text:"",index:""},
+              {id:2,text:"",index:""},
+              {id:3,text:"",index:""},
+              {id:4,text:"",index:""},
+              {id:5,text:"",index:""},
+              {id:6,text:"",index:""},
+              {id:7,text:"",index:""},
+              {id:8,text:"",index:""},
+              {id:9,text:"",index:""},
+              {id:10,text:"",index:""}
+            ].slice(JSON.parse(data["data"].pWoodCarStarts).length+1,10))
+         }else{
+            this.listActive=JSON.parse(data["data"].pWoodCarStarts);
+         }
+      }
+      
+      //根据返回的json数据回显当前层数据
+      // if(data["msg"]=="并单记录不存在"){
+      //      this.presentToast(data["msg"]);
+      // }else{
+      //   //处理数据
+      //   for(let i=0;i<data["data"].bill_list.length;i++){
+      //     data["data"].bill_list[i] = Object.assign(data["data"].bill_list[i],{flag:false});
+      //   }
+      //   lSe.setItem("Codesheet",data["data"].bill_list);//存入本地存储
+      // }
+      
+     }).catch(data=>{
+     });
+  }
   async http3(obj){//获取码单数据
     return  await new Promise((resolve, reject) => {
        this.service.getWeightSheet(obj).then(
@@ -481,5 +540,63 @@ export class vehicleStoragePage {
          }
        );
      })
+  }
+  async http4(obj){//装车 保存，单根木头
+    return  await new Promise((resolve, reject) => {
+       this.service.saveVehicleStorage(obj).then(
+         (obj:pageBean) =>{
+           resolve(obj);
+         }
+       ).catch(
+         obj=>{
+           console.log(obj);
+         }
+       );
+     })
+  }
+  async http5(obj){//获取每一层的数据
+    return  await new Promise((resolve, reject) => {
+       this.service.getWoodCar(obj).then(
+         (obj:pageBean) =>{
+           resolve(obj);
+         }
+       ).catch(
+         obj=>{
+           console.log(obj);
+         }
+       );
+     })
+  }
+  async http6(obj){//删除单根木头数据
+    return  await new Promise((resolve, reject) => {
+       this.service.deleteWoodCar(obj).then(
+         (obj:pageBean) =>{
+           resolve(obj);
+         }
+       ).catch(
+         obj=>{
+           console.log(obj);
+         }
+       );
+     })
+  }
+  async http7(obj){//中间层级保存，获取整个装车的数量和text整合
+    return  await new Promise((resolve, reject) => {
+       this.service.modelSaveWoodCar(obj).then(
+         (obj:pageBean) =>{
+           resolve(obj);
+         }
+       ).catch(
+         obj=>{
+           console.log(obj);
+         }
+       );
+     })
+  }
+  ionViewDidEnter(){
+    super.BackButtonCustomHandler();
+  }
+  ionViewWillLeave(){
+    super.ionViewWillLeave && super.ionViewWillLeave();
   }
 }

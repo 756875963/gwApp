@@ -7,7 +7,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding class="bg-content">
     <div class="title_model">
         <!-- <div>
           <img src="../../assets/imgs/title1.png">
@@ -90,10 +90,7 @@
        <div [hidden]= "!submitFlag"><img src="../../assets/imgs/loading-1.gif"/>保存中</div>
        <div [hidden]= "submitFlag">(10车次)回退</div>
       </div> -->
-      <div  class="color" [hidden]="InputflagButton" (click)="submit()">
-          <div [hidden]= "!submitFlag"><img src="../../assets/imgs/loading-1.gif"/>保存中</div>
-          <div [hidden]= "submitFlag">发车</div>
-      </div>
+      
       <div class="fixed—top" [ngClass]="{'fixed_close':!fixed}">
            <div>
              <h1>安全作业管理规定</h1>
@@ -152,3 +149,7 @@
              </div>
       </div>
 </ion-content>
+<div  class="color" [hidden]="InputflagButton" (click)="submit()" [ngClass]="{'fixed_close':fixed}">
+    <div [hidden]= "!submitFlag"><img src="../../assets/imgs/loading-1.gif"/>保存中</div>
+    <div [hidden]= "submitFlag">提交数据</div>
+</div>

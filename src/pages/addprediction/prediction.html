@@ -1,0 +1,111 @@
+<ion-header>
+    <div (click)="goback()" class="prediction-header"><img src="../../assets/imgs/back1.png"></div>
+    <ion-title>新增预报</ion-title>
+</ion-header>
+
+<ion-content>
+    <ion-list>
+        <ion-item>
+          <ion-label color="primary">预报编号</ion-label>
+          <ion-input placeholder="自动获取"  readonly="true" [(ngModel)]="prediction.barge_no"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>预计到港时间</ion-label>
+          <ion-datetime  displayFormat="YYYY-MM-DD HH:mm"  cancelText="取消" doneText="确定" [(ngModel)]="prediction.rep_ti1"></ion-datetime>
+        </ion-item>
+        <ion-item hidden>
+            <ion-label>货名</ion-label>
+            <ion-select [(ngModel)]="prediction.rep_ti1"  placeholder="请选择" okText="确定" cancelText="取消" (ionChange)="cargoNameChange1()" interface="popover">
+                <ion-option *ngFor=" let item of cargoNameList" [value]="'0'">0</ion-option>
+            </ion-select>
+          </ion-item>
+         <!-- <ion-item>
+            <ion-label color="primary">船队名</ion-label>
+            <ion-input placeholder="请输入船队名"  [(ngModel)]="prediction.barge_cn"></ion-input>
+          </ion-item> -->
+          <ion-item>
+            <ion-label color="primary">联系人</ion-label>
+            <ion-input placeholder="自动获取" readonly="true" [(ngModel)]="prediction.link_man"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label color="primary">联系人电话</ion-label>
+            <ion-input placeholder="自动获取" readonly="true" [(ngModel)]="prediction.link_phone"></ion-input>
+          </ion-item>
+          <div class="col"> 
+            <label class="">船舶</label>
+            <input placeholder="请选择船舶" (click)="myAShip()" readonly="true" [(ngModel)]="prediction.ship_ids"/>
+          </div>
+          <ion-item> 
+            <ion-label color="primary">艘次</ion-label>
+            <ion-input placeholder="根据船舶数量自动计算" readonly="true" [(ngModel)]="prediction.s_times"></ion-input>
+          </ion-item>
+          <div class="col"> 
+            <label class="">货主</label>
+            <input (click)="shipperhref()"  placeholder="请选择" readonly="true" [(ngModel)]="prediction.owener"/>
+            <!-- <ion-input placeholder="请选择" readonly="true" [(ngModel)]="prediction.shipper" ></ion-input> -->
+          </div>
+          <ion-item>
+            <ion-label color="primary">货主电话</ion-label>
+            <ion-input placeholder="根据货主联动" readonly="true" [(ngModel)]="prediction.shippernumber"></ion-input>
+          </ion-item>
+          <ion-item >
+            <ion-label>货类</ion-label>
+            <ion-select [(ngModel)]="prediction.cargo_t_key"  placeholder="请选择" okText="确定" cancelText="取消" (ionChange)="cargoClassChange()"  interface="popover">
+              <ion-option *ngFor=" let item of cargoClasslist" [value]="item.id">{{item.dict_name}}</ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item >
+            <ion-label>货名</ion-label>
+            <ion-select [(ngModel)]="prediction.cargo_n_key"  placeholder="请选择" okText="确定" cancelText="取消" (ionChange)="cargoNameChange()" interface="popover">
+                <ion-option *ngFor=" let item of cargoNameList" [value]="item.id">{{item.cargo_name}}</ion-option>
+            </ion-select>
+          </ion-item>
+          <div class="col"> 
+              <label class="">附件</label>
+              <div class="col-picture">
+                 <div *ngFor="let item of prediction.pictureList;let i = index" [attr.data-index]="i">
+                   <div (click)="removePicture(i)" ><img src="../../assets/imgs/delete2.png" /></div>
+                   <div (click)="showPicture(item.path)"><img [src]="item.path" /></div>
+                 </div>
+                <div>
+                    <div></div>
+                    <div class="addpicture" (click)="photoClick()"><img src="../../assets/imgs/addpicture.png" />上传附件</div>
+                  </div>
+              </div>
+          </div>
+          <ion-item>
+            <ion-label color="primary">货物重量</ion-label>
+            <ion-input placeholder="根据船舶货重自动计算" readonly="true" [(ngModel)]="prediction.cargo_wei"></ion-input>
+          </ion-item>
+          <ion-list radio-group [(ngModel)]="prediction.work_type">
+          <ion-item>
+            <ion-label>直取</ion-label>
+            <ion-radio value="1" checked></ion-radio>
+          </ion-item>
+          <ion-item>
+            <ion-label>入库</ion-label>
+            <ion-radio value="2"></ion-radio>
+          </ion-item>
+          </ion-list>
+          <div class="col"> 
+            <label class="">收货人</label>
+            <input placeholder="请选择" (click)="addresshref()" readonly="true" [(ngModel)]="prediction.consignee"/>
+          </div>
+          <ion-item>
+            <ion-label color="primary">收货人电话</ion-label>
+            <ion-input placeholder="根据收货人联动" readonly="true" [(ngModel)]="prediction.consigneeNumber"></ion-input>
+          </ion-item>
+          <div class="col"> 
+            <label class="">收货地址</label>
+            <textarea placeholder="根据收货认联动" readonly="true" [(ngModel)]="prediction.consignee_address" rows="3" maxlength="200" cols="20" name="description1"></textarea>
+          </div>
+          <div class="col"> 
+            <label class="">卸货要求</label>
+            <textarea placeholder="录入不的超过（200字）" [(ngModel)]="prediction.bz" rows="3" maxlength="200" cols="20" name="description"></textarea>
+          </div>
+          
+    </ion-list>
+</ion-content>
+<div class="submit_ioc" (click)="submit()">
+    <span><img src="../../assets/imgs/submit.png">提交预报</span>
+</div>

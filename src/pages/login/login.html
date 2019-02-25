@@ -1,8 +1,10 @@
 <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
- <div class="main-content" [hidden]="loginState" [ngClass]="landscape">
+<ion-content [hidden]="loginState">
+ <div class="main-content"  [ngClass]="landscape">
   <img src="../../assets/imgs/bacground.png" class="bg-ps" />
   <div class="head_1">
-    <img src="../../assets/imgs/WechatIMG16.png"  class="bg-pssml"/>
+    <img src="../../assets/imgs/icon.png"  class="bg-pssml"/>
+    <!-- <span>码头生产要素操作系统</span> -->
     <div class="form_content">
       <div class="bgco333t" [ngClass]="car.user">
           <div class="img-div">
@@ -30,5 +32,5 @@
     </div>
   </div>
  </div>
-  
+</ion-content>
 

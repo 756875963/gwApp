@@ -7,6 +7,7 @@ import { pageBean } from '../../entity/pageBean';
 import { Task } from '../../entity/task';
 import { ServiceProvider } from '../../service/http';
 import { WorkclassPage } from '../../pages/workclass/workclass';
+import { registerBack } from "../../service/registerBack";
 
 declare var screen :any;     //定义全局变量
 @Component({
@@ -14,7 +15,7 @@ declare var screen :any;     //定义全局变量
   templateUrl: 'statisticslist.html'
 })
 
-export class StatisticslistPage {
+export class StatisticslistPage extends registerBack{
   
   @ViewChild(Navbar) navBar: Navbar;
   @ViewChild(Content) content : Content;
@@ -62,11 +63,12 @@ export class StatisticslistPage {
                public events :Events,
                public loadingC :LoadingController,
                public platform :Platform) {
+                 super("/statisticslist");
                 platform.ready().then(() => {
                   // Okay, so the platform is ready and our plugins are available.
                   // Here you can do any higher level native things you might need.
                  
-                 alert(screen.availWidth);
+                
                   //screen.orientation.lock('landscape-primary');
                  
                 });
@@ -131,20 +133,7 @@ export class StatisticslistPage {
     });
   }
   
-  //界面加载完成 
-  ionViewDidEnter(){ 
-    console.log("进入");
-    // if(this.httpFlag){
-    //   console.log("dddd");
-    //   this.content.scrollToTop();
-    //    this.http({}).then((data)=>{
-    //      console.log(data);
-    //      this.datalist = data["data"]["list"];
-    //      this.page = data["data"];
-       
-    //    });;
-    // }
-  }
+ 
    // 用于pop 回调的 block
    myCallbackFunction  =(params) => {
      console.log(params);
@@ -208,10 +197,7 @@ export class StatisticslistPage {
     });
     toast.present();
   }
-  //离开页面初始化参数
-  ionViewWillLeave(){
-    this.httpFlag = true;
-  }
+  
   //提示数据
   showAlert(){ 
     let alert = this.alertC.create({
@@ -293,4 +279,18 @@ export class StatisticslistPage {
        );
      })
  }
+
+
+ //离开页面初始化参数
+ ionViewWillLeave() {
+  this.httpFlag = true;
+  super.ionViewWillLeave && super.ionViewWillLeave();
+}
+
+ //界面加载完成 
+ ionViewDidEnter(){ 
+  console.log("进入");
+  super.BackButtonCustomHandler();
+}
+
 }

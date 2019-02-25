@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-navbar>
+    <div *ngIf="title!='通讯录'" (click)="goback()" class="prediction-header"><img src="../../assets/imgs/back1.png"></div>
+    <ion-title>{{title}}</ion-title>
+    <div class="personSearch_header" (click)="hrefaddshipper()"><img src="../../assets/imgs/add.png"></div>
+  </ion-navbar>
+  <div class="headSearch1">
+        <!-- <img src="../../assets/imgs/search.png"> -->
+        <ion-searchbar debounce="500" placeholder="姓名/手机号" [(ngModel)]="myInput" [showCancelButton]="shouldShowCancel"
+        (ionInput)="onInput($event)" (ionCancel)="onCancel($event)">
+       </ion-searchbar>
+        <!-- <input type="search" placeholder="输入搜索条件"  (onsearch)="loadData($event)">    -->
+        <!-- <ion-input placeholder="输入搜索条件"  type="search" [ngModelOptions]="{standalone:true}" (keyup)="onSearchKeyUp($event)"></ion-input>  -->
+  </div>
+</ion-header>
+<ion-content>
+    <div class="lately—list">
+        <div *ngFor="let item of dataList" >
+           <div>
+               <img src="../../assets/imgs/shipper.png" />
+           </div>
+           <div (click)="hrefshipperaddress(item)">
+                <div><span>{{item.com_legal_person}}</span><span>{{item.phone}}</span></div>
+                <div>{{item.name}}</div>
+           </div>
+           <div class="edit" (click)="editor(item)">编辑</div>
+        </div>
+    </div>
+    <div  [hidden]="htmlShowFlag!=0"  class="nodata-css personSearch">
+        <img src="../../assets/imgs/empty.png"/>
+        <span>暂无货主信息记录</span>
+    </div> 
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="加载更多...">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+</ion-content>
+<!-- <div class="add_ioc" (click)="addAddressHref()">
+    <span><img src="../../assets/imgs/add.png">新增收货人</span>
+</div> -->

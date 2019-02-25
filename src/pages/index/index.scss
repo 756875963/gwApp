@@ -123,9 +123,11 @@ page-index {
         width: 20%;
         //background: red;
         margin: 0 5%;
-        background: white;
+        // background: white;
         border-radius: 100px;
         max-width: 70px;
+        display: inherit;
+        align-items: inherit;
       }
       .index_main .title>div:nth-child(2){
         width: 50%;
@@ -133,7 +135,7 @@ page-index {
       .index_main .title>div:nth-child(2)>span{
         width: 100%;
         //display: flex; 
-        font-size: 18px;
+        font-size: 1.5rem;
         color: white;
         font-weight: 600;
         text-overflow: ellipsis;
@@ -142,17 +144,20 @@ page-index {
         display: inline-block;
       }
       .index_main .title>div:nth-child(3){
-        width: 30%;
+        width: 20%;
         display: flex;
         flex-wrap: wrap;
         flex-direction: column;
         align-items: center;
         color: white;
+        :nth-child(2){
+            margin: 0.3rem 0;
+        }
       }
       .index_main .title img:not(.weather){
           width: 100%;
           border-radius: 100px;
-
+          background: white;
       }
       .index_main .content1{
          //background: yellow;
@@ -174,7 +179,7 @@ page-index {
          //background: black;
          flex-wrap: wrap;
          //@each $var in list {
-             
+         height: 33.33%;   
          }
       
       .content1>div>div{
@@ -183,6 +188,7 @@ page-index {
           //background: red;
           padding: 5px;
           position: relative;
+          display: flex;
       }
       .content1>div>div>div{
           background: black;
@@ -193,6 +199,9 @@ page-index {
       }
       .content1 .color1{
           background: #eba864;
+      }
+      .content2>div{
+          height: 50%!important;
       }
       .content1 .color1>div:nth-child(2){
         background: #1cadeb;
@@ -232,6 +241,7 @@ page-index {
           flex-wrap: wrap;
           color: white;
           font-weight: 600;
+          
       }
       .colorZ>div{
           width: 100%;
@@ -276,18 +286,36 @@ page-index {
             background:url(../../assets/imgs/6.png);
             background-size: cover;
         }
-        .jurisdiction:after{
-             content: '无权限';
-             display: flex;
-             position: absolute;
-             top: 50%;
-             left: 50%;
-             margin-left: -33px;
-             font-size: 22px;
-             color: #333;
-             margin-top: -15px;
+        // .jurisdiction:after{
+        //      content: '无权限';
+        //      display: flex;
+        //      position: absolute;
+        //      top: 50%;
+        //      left: 50%;
+        //      margin-left: -33px;
+        //      font-size: 22px;
+        //      color: #333;
+        //      margin-top: -15px;
+        // }
+        .landscape>div.landscape_li{
+            width: 33.33%!important;
         }
-        .landscape{
-            width: 50%!important;
+        .landscape .colorZ > div:nth-child(1){
+            background-size: 70%;
+            background-repeat: no-repeat;
+            background-position: 50% 0%;
         }
+        .landscape .title > div:nth-child(1){
+            width: 9%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .change1 .title>div:nth-child(1){
+            width: 9%!important;
+          
+        }
+        // .change2{
+        //     width: 9%!important;
+        // }
 }

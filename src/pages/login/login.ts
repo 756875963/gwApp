@@ -8,12 +8,14 @@ import { Http } from '../../entity/httpdata';
 import { JPush } from '@jiguang-ionic/jpush';
 import { Device } from '@ionic-native/device';
 import { Vibration } from '@ionic-native/vibration';
+import { registerBack } from "../../service/registerBack";
+import { ConsumerIndexPage } from '../consumerIndex/consumerIndex';
 @Component({
     selector: 'page-list',
     templateUrl: 'login.html',
     providers: [ServiceProvider]
 })
-export class LoginPage {
+export class LoginPage extends registerBack{
     repeatFlag : boolean =true;//提交按钮重复控制标记
     lastUserName : string;//上一次输入的用户名
     lastPassWord : string;//上一次输入的密码
@@ -41,8 +43,9 @@ export class LoginPage {
                 private alertC: AlertController,
                 private vibration: Vibration,
                 public jpush: JPush,
-                public device: Device){
-
+                public device: Device,
+                public platform: Platform){
+                super("/login");
                   let _that = this;
               if(screen.availWidth<screen.availHeight){
                    //竖屏 
@@ -51,26 +54,22 @@ export class LoginPage {
                   this.landscape = "loginrotate";//div50%css布局
               }
               window.addEventListener("orientationchange",function(){
-                 if(window.orientation=='0'){
+                 if(window.orientation== 0 || window.orientation == 180){
                    console.log("竖屏");
                      //竖屏
                      _that.landscape = "";//div100%css布局
-                 }else if(window.orientation=='90'){
+                 }else if(window.orientation== 90|| window.orientation == -90){
                     //横屏"
                     _that.landscape = "loginrotate";//div50%css布局
                  }
               });
-
-      if(lSe.getItem("user")&&lSe.getItem("user").state){
-        this.loginState = true;
-        this.rootPage = IndexPage;
-      }else{
-        this.loginState = false;
-        if(lSe.getItem("memory")&&lSe.getItem("memory").username){
-            this.username = lSe.getItem("memory").username;
-            this.password = lSe.getItem("memory").password;
-        }
-      }
+              //let _this = this;
+          //   setTimeout((data)=>{
+          //     console.log("ddd");
+          //     _this.rootPage = IndexPage;
+          //     _this.loginState = false;
+          //  },10000);
+      
       
     }
     itemTapped(event, item) {
@@ -121,11 +120,20 @@ export class LoginPage {
                           password:"",  
                         });
                         lSe.setItem("userData",obj.data);
+                        
                     }else{
                       lSe.setItem("memory",{});
                     }
                     this.loginState = true;
-                    _that.nav.setRoot(IndexPage);
+                    //临时更改页面路径为了调试页面 ConsumerIndexPage/外部车船    IndexPage/内部理货11
+                    //  console.log(lSe.getItem("userData").permissions.permkey)
+                    // _that.nav.setRoot(ConsumerIndexPage);
+                    if(String(lSe.getItem("userData").permissions.permkey).split(":")[0]=="shipDriver"){
+                      _that.nav.setRoot(ConsumerIndexPage);
+                    }else{
+                      _that.nav.setRoot(IndexPage);
+                    }
+                    //_that.nav.setRoot(ConsumerIndexPage);
                   }else{
                    // this.presentToast("用户名或密码不正确！");
                     this.showAlert1("用户名或密码不正确！");
@@ -189,7 +197,49 @@ export class LoginPage {
     alert.present();
   }
   canLeave:boolean = false;
+  exit:boolean = false;
   ionViewCanLeave() {
-    return this.canLeave;//阻止离开；
+      alert("login-ionViewCanLeave");
+    // let _that = this;
+    // if(_that.exit){
+    //    _that.canLeave = true;
+    // }else{
+    //   alert("lo再次点击返回退出！");
+    //    _that.exit = true;
+    //   setTimeout(function(){
+    //     _that.exit = false;
+    //   },2000)
+    // }
+    // return _that.canLeave;//阻止离开；
   }
+  public unregisterBackButtonAction: any;
+
+   
+
+  ionViewWillEnter() {
+        super.BackButtonCustomHandler();
+        if(lSe.getItem("user")&&lSe.getItem("user").state){
+          this.loginState = true;
+          //临时更改页面路径为了调试页面 ConsumerIndexPage/外部车船 lll   IndexPage/内部理货
+          if(String(lSe.getItem("userData").permissions.permkey).split(":")[0]=="shipDriver"){
+            this.nav.setRoot(ConsumerIndexPage);
+          }else{
+            this.nav.setRoot(IndexPage);
+          }
+        }else{
+          this.loginState = false;
+          if(lSe.getItem("memory")&&lSe.getItem("memory").username){
+              this.username = lSe.getItem("memory").username;
+              this.password = lSe.getItem("memory").password;
+          }
+        }
+    }
+
+    ionViewWillLeave() {
+      super.ionViewWillLeave && super.ionViewWillLeave();
+      // alert('login离开');
+        // Unregister the custom back button action for this page
+        //this.unregisterBackButtonAction && this.unregisterBackButtonAction();
+    }
+ 
 }

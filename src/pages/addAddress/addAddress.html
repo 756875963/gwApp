@@ -1,0 +1,31 @@
+<ion-header>
+    <div (click)="goback()" class="prediction-header"><img src="../../assets/imgs/back1.png"></div>
+    <ion-title>{{addressType}}</ion-title>
+</ion-header>
+<ion-content>
+  <ion-list>
+     <ion-item>
+        <ion-label color="primary">收货人</ion-label>
+        <ion-input placeholder="请输入收货人"  [(ngModel)]="obj.name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary">联系电话</ion-label>
+        <ion-input placeholder="请输入联系电话" [(ngModel)]="obj.phone"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary">收货人地址</ion-label>
+        <ion-multi-picker item-content [multiPickerColumns]="cityColumns" [(ngModel)]="obj.address_id"  [cancelText]="'取消'" [doneText]="'完成'"></ion-multi-picker>
+      </ion-item>
+      <div class="col"> 
+        <label class="">详细地址</label>
+        <textarea placeholder="如道路 小区 门牌号等" [(ngModel)]="obj.detail_address" rows="3" maxlength="200" cols="20" name="description"></textarea>
+      </div>
+      <ion-item>
+        <ion-label>设为默认地址</ion-label>
+        <ion-toggle [(ngModel)]="obj.is_default"></ion-toggle>
+      </ion-item>
+  </ion-list>
+</ion-content> 
+<div class="submit_ioc" (click)="submit()">
+    <span><img src="../../assets/imgs/submit.png">{{addressId==""?"提交":"编辑"}}保存</span>
+</div>

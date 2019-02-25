@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-navbar>
+    <!--<button ion-button menuToggle>
+         <ion-icon name="menu"></ion-icon>
+    </button>-->
+    <ion-title>预报列表({{amount}})</ion-title>
+    <div class="consumer_header" (click)="href()"><img src="../../assets/imgs/add.png"></div>
+  </ion-navbar>
+
+  <div class="headSearch" (click)="searchClick()">
+      <span [hidden]="search.start_time!=''||search.end_time!=''"><img src="../../assets/imgs/search.png">搜索</span>
+      <span [hidden]="search.start_time==''&&search.end_time==''">{{search.start_time|date:"yyyy-MM-dd HH:mm"}}<p>至</p>{{search.end_time|date:"yyyy-MM-dd HH:mm"}}</span>
+  </div>
+</ion-header>
+
+<ion-content id="topest">
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="下拉刷新"></ion-refresher-content>
+
+    </ion-refresher>
+  <ion-list>
+     
+      <div class="consumer_main" *ngFor="let item of datalist;let i = index" [attr.data-index]="i">
+         <div class="consumer_title" >
+            <span>预报编号:{{item.barge_no}}</span>
+            <img src="../../assets/imgs/back.png"/>
+          </div>
+         <div class="consumer_test">
+           <span>预计到港时间:{{item.rep_ti | date:"yyyy-MM-dd HH:mm"}}</span>
+           <span>艘次:{{item.s_times}}</span>
+           <span>预报时间:{{item.create_time | date:"yyyy-MM-dd HH:mm"}}</span>
+           <span>货物重量:{{item.cargo_wei}}吨</span>
+           <span>状态:{{item.in_status | sxypie}}</span>
+           <span *ngIf="item.in_status==5">未通过理由:{{item.result}}</span>
+          </div>
+         <div class="consumer_button" *ngIf="item.in_status==1" >
+           <div class="edit" (click)="edit(item,false)" >编辑预报</div>
+           <div class="release"  (click)="releaseFunc(item,i)">发布预报</div>
+           <div class="error" (click)="detele(item,i)">删除预报</div>
+           <!-- <div class="error">申请编辑</div> -->
+         </div>
+         <div class="consumer_button" *ngIf="item.in_status==3" >
+            <div class="edit" (click)="edit(item,true)">编辑预报</div>
+            <div class="error" (click)="detele(item,i)">删除预报</div>
+            <!-- <div class="release" (click)="submitConfirmation(item,i)">提交确认</div>
+            <div class="error" (click)="finish1(item,i)">作废预报</div> -->
+          </div>
+          <div class="consumer_button" *ngIf="item.in_status==4" >
+            <div class="release" (click)="submitConfirmation(item,i)">提交确认</div>
+            <div class="edit" (click)="edit(item,true)">编辑预报</div>
+            <div class="error" (click)="finish1(item,i)">作废预报</div>
+          </div>
+          <div class="consumer_button" *ngIf="item.in_status==5" >
+            <div class="edit" (click)="edit(item,true)">编辑预报</div>
+            <div class="error" (click)="detele(item,i)">删除预报</div>
+          </div>
+      </div>
+    <div *ngIf="htmlListLenghtFlag" class="nodata-css">
+      <img src="../../assets/imgs/empty.png"/>
+      <span>暂无预报记录</span>
+    </div> 
+  </ion-list>
+  
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="加载更多...">
+      </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
+<div class="add_ioc" (click)="href()">
+   <span><img src="../../assets/imgs/add.png">新增预报</span>
+</div>

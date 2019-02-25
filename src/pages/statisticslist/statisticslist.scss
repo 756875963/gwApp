@@ -264,6 +264,7 @@ page-statisticslist {
     .workclass_fixed>ion-item{
         width: 37%;
         color: #333;
+        background: #f4a43e;
     }
     .vehicleList_content>div:last-child{
        margin-bottom: 60px;
@@ -273,6 +274,10 @@ page-statisticslist {
     }
     .workclass_fixed>div:nth-child(2){
        width: 37%;
+       background: #f4a43e;
+    }
+    .workclass_fixed>div:nth-child(2) .item-md{
+        background: #f4a43e;
     }
     .workclass_fixed>div:nth-child(3){
        width: 26%;
@@ -280,6 +285,9 @@ page-statisticslist {
        justify-content: center;
        justify-items: center;
        align-items: center;
+    }
+    .workclass_fixed .item-md {
+       border-bottom: none!important;
     }
     .workclass_fixed .label-md {
         margin: 13px 0px 13px 10px!important;

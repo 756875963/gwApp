@@ -1,0 +1,136 @@
+page-addAddress {
+    .list-md .item-block .item-inner {
+        border-bottom: none;
+    }
+    .prediction-header{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0px 10px;
+        height: 100%;
+        >img{
+          width: 20px;
+        }
+      }
+      .toolbar-title-md {
+        color: white;
+        padding: 7px 12px;
+        font-size: 2rem;
+        font-weight: 500;
+        /* color: #424242; */
+        text-align: center;
+        min-height: 45px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    ion-header{
+        background: #2cb3eb;
+    }
+    // .scroll-content{
+    //     background: #eee;
+    // }
+    .item-multi-picker .label-md-primary{
+        color: #333;
+    }
+    .multi-picker-text, .multi-picker-placeholder{
+        color: #666;
+    }
+    .input-wrapper{
+        color: #333;
+    }
+    .submit_ioc{
+        position: fixed;
+        width: 100%;
+        bottom: 5px;
+        z-index: 9;
+        >span{
+            width: calc(100% - 10px);
+            margin: 0px 5px;
+            border-radius: 5px;
+            background: #f6a52f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.8rem;
+            padding: 10px 0px;
+            color: white;
+            >img{
+               width: 25px;
+               margin-right: 10px;
+            }
+        }
+    }
+    .item-md.item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner, .item-md.item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner {
+        border-bottom-color: none;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+        .col{
+            display: flex;
+            background: white;
+            border-bottom: 1px solid #eee;
+            >label{
+                flex-shrink: 0;
+                font-size: 1.6rem;
+                padding: 6px;
+                color: #333;
+            }
+            >textarea{
+                width: 100%;
+                line-height: 2.3rem;
+                color: #666;
+                font-size: 1.6rem;
+            }
+        }
+        .list{
+            margin-bottom: 55px;
+        }
+        .ng-pristine ,.ng-valid{
+            margin: 0px!important;
+        }
+        .item-md {
+            border-bottom: 1px solid #eee!important;
+        }
+        .label-md-primary, .item-input .label-md-primary, .item-select .label-md-primary, .item-datetime .label-md-primary {
+            color: #333;
+        }
+        .item-md{
+            padding: 0px 10px!important;
+        }
+        .item-input ion-input{
+            color: #666;
+        }
+         .item-datetime .label-md ,.item-select .label-md ,.item-radio.item-md ion-label{
+            color: #333;
+        }
+        .datetime-text ,.select-text {
+            color: #666;
+        }
+        .submit_ioc{
+            position: fixed;
+            width: 100%;
+            bottom: 5px;
+            z-index: 9;
+            >span{
+                width: calc(100% - 10px);
+                margin: 0px 5px;
+                border-radius: 5px;
+                background: #f6a52f;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 1.8rem;
+                padding: 10px 0px;
+                color: white;
+                >img{
+                   width: 25px;
+                   margin-right: 10px;
+                }
+            }
+        }
+}

@@ -1,0 +1,22 @@
+<ion-header class="line-up">
+  <ion-navbar>
+    <ion-title>排队</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+   <div class="line-up-main" *ngFor="let item of dataList">
+       <div>{{item.num}}</div>
+       <div>
+           <span>{{item.creater_name|starObject:0:1}}</span>
+           <span>
+             <!-- <span>{{item.creater_name}} </span>-->
+             <span>申请时间：{{item.fre_ti | date:"yyyy-MM-dd HH:mm"}}</span> 
+           </span>
+       </div>
+       <div *ngIf="item.status==1">
+          正在卸货
+       </div>
+   </div>
+   
+</ion-content>

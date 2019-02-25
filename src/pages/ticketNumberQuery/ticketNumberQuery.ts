@@ -2,11 +2,13 @@ import { Component } from '@angular/core';
 import { NavController ,NavParams} from 'ionic-angular';
 import { ListPage } from '../list/list';
 import { lSe } from '../../public/localstorage';
+import { registerBack } from "../../service/registerBack";
+
 @Component({
   selector: 'page-ticketNumberQuery',
   templateUrl: 'ticketNumberQuery.html'
 })
-export class TicketNumberQueryPage {
+export class TicketNumberQueryPage extends registerBack{
   globalCheck :Boolean ;//全局选中状态
   inputAll :string ;//确定总的分票数
   //active_index :Array<number> = [];//选择数据的下标
@@ -18,7 +20,9 @@ export class TicketNumberQueryPage {
     {id:4,name1:"104",name2:"",name3:"4",flag:false},
     {id:5,name1:"105",name2:"",name3:"5",flag:false}
   ];
-  constructor(public navCtrl: NavController ,public navParams:NavParams) {
+  constructor(public navCtrl: NavController ,
+    public navParams:NavParams) {
+      super("/ticketNumberQuery");
     this.callback = this.navParams.get("callback");
     //此处调用 http数据请求
   }
@@ -56,5 +60,10 @@ export class TicketNumberQueryPage {
        console.log(e);
      });
   }
- 
+  ionViewDidEnter(){
+    super.BackButtonCustomHandler();
+  }
+  ionViewWillLeave(){
+    super.ionViewWillLeave && super.ionViewWillLeave();
+  }
 }

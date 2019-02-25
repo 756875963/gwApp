@@ -8,12 +8,15 @@ import { pageBean } from '../../entity/pageBean';
 import { Exception } from '../../service/exception';
 import { ERROR } from '../../entity/error';
 import { lSe } from '../../public/localstorage';
+import { registerBack } from "../../service/registerBack";
+
+
 @Component({
   selector: 'page-jobdescription',
   templateUrl: 'jobdescription.html'
 })
 
-export class JobdescriptionPage {
+export class JobdescriptionPage extends registerBack{
   PAGE:string="jobdescription.ts";//当前页面
   _machine_id :String;
   _ext_id :String;
@@ -37,13 +40,14 @@ export class JobdescriptionPage {
               public loadingController: LoadingController,
               public toastController: ToastController,
               public exception :Exception){
+                super("/jobdescription");
                 this.item = this.navParams.get("item");
                 console.log(this.item);
                 this.securityBook = this.navParams.get("item").text;
                 this.fixed = this.securityBook==""? false: true;
-                try{//结构json数据 异常处理  
                 if(this.securityBook==""){
                     this.http().then(data=>{
+                      try{//结构json数据 异常处理  
                       this.shipName = data["data"].ship_n_text;
                       this.goodsName = data["data"].cargo_n_text;
                       this.licensePlate = data["data"].tractor_list;
@@ -51,15 +55,16 @@ export class JobdescriptionPage {
                       this.savetopping = data["data"].tractor_list[0].mac_id;  
                       this.work_no = data["data"].work_no;
                       console.log( this.toppings);
+                    }catch(e){
+                      //返回 App json处理时发生出错时 处理逻辑；
+                      this.presentToast("app处理数据错误，已提交后台！");
+                      let obj:ERROR;
+                      obj ={err_reason:e.toString(),err_page:this.PAGE,err_data:JSON.stringify({"constructor":"jobdescription.ts--constructor数据初始化出错！"}),loginid:lSe.getItem("userData").record.loginid};//错误
+                      this.exception.errorhttp(obj);
+                      }   
                     })
                 }   
-              }catch(e){
-                //返回 App json处理时发生出错时 处理逻辑；
-                this.presentToast("app处理数据错误，已提交后台！");
-                let obj:ERROR;
-                obj ={err_reason:e.toString(),err_page:this.PAGE,err_data:JSON.stringify({"constructor":"jobdescription.ts--constructor数据初始化出错！"}),loginid:lSe.getItem("userData").record.loginid};//错误
-                this.exception.errorhttp(obj);
-                }           
+                     
   }
   openPage(){
     console.log("11");
@@ -80,28 +85,33 @@ export class JobdescriptionPage {
     
     this.service.safetyjop({loginid:this.item["loginid"],m_id:this.item["m_id"],update_read:1}).then(
       (obj:pageBean) =>{
-        try{//结构json数据 异常处理
+        
           // console.log("listjs",obj["data"].data.page);
           //this.page2={page:obj["data"].data.page,rows:10}
           console.log(obj);
           if(obj["data"].is_read=="1"){
+           
               this.http().then((data)=>{
+                try{//结构json数据 异常处理
                   this.shipName = data["data"].ship_n_text;
                   this.goodsName = data["data"].cargo_n_text;
                   this.licensePlate = data["data"].tractor_list;
                   this.toppings = data["data"].tractor_list[0].mac_id;
+                  this.savetopping = data["data"].tractor_list[0].mac_id;  
                   this.work_no = data["data"].work_no;
+                }catch(e){
+                  //返回 App json处理时发生出错时 处理逻辑；
+                  this.presentToast("app处理数据错误，已提交后台！");
+                  let obj:ERROR;
+                  obj ={err_reason:e.toString(),err_page:this.PAGE,err_data:JSON.stringify(obj),loginid:lSe.getItem("userData").record.loginid};//错误
+                  this.exception.errorhttp(obj);
+                }   
               },(data)=>{
 
               });
+
           }
-        }catch(e){
-          //返回 App json处理时发生出错时 处理逻辑；
-          this.presentToast("app处理数据错误，已提交后台！");
-          let obj:ERROR;
-          obj ={err_reason:e.toString(),err_page:this.PAGE,err_data:JSON.stringify(obj),loginid:lSe.getItem("userData").record.loginid};//错误
-          this.exception.errorhttp(obj);
-        }    
+         
       }
     ).catch(
       obj=>{
@@ -132,13 +142,15 @@ export class JobdescriptionPage {
     let ext_id = this._ext_id;
     if(cargo_num!=""){
       let dsloading = this.presentLoadingDefault("发车中...");
-      this.http2({loginid:loginid,book_id:book_id,cargo_num,machine_id,ext_id:ext_id}).then((obj)=>{
+      this.http2({loginid:loginid,book_id:book_id,cargo_num:cargo_num,machine_id:machine_id,rat_id:ext_id,ticket_id:this.item["m_id"]}).then((obj)=>{
           try{//结构json数据 异常处理
               if(obj["ok"]){
                 dsloading.dismiss();
                 this.presentToast("发车成功");
+                this._ext_id ="";
                 this.number="";
                 this.toppings =this.savetopping;
+                console.log(this.savetopping,this.toppings);
               }else{
                 //错误信息提示
               }
@@ -162,7 +174,7 @@ export class JobdescriptionPage {
     let book_id  = this.item["m_id"];
     let cargo_num  = this.number;
     let machine_id = this.toppings;
-    this.http3({loginid:loginid,book_id:book_id,cargo_num:cargo_num}).then((obj)=>{
+    this.http3({loginid:loginid,book_id:book_id,cargo_num:cargo_num,ticket_id:this.item["m_id"]}).then((obj)=>{
       dsloading.dismiss();
       try{//结构json数据 异常处理
          //let dsloading1 = this.presentLoadingDefault("回退成功");
@@ -251,5 +263,10 @@ export class JobdescriptionPage {
        );
      })
   }
-  
+  ionViewDidEnter(){
+    super.BackButtonCustomHandler();
+  }
+  ionViewWillLeave(){
+    super.ionViewWillLeave && super.ionViewWillLeave();
+  }
 }

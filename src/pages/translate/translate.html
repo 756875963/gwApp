@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>翻桩录入</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="pgcolor">
+   <div class="damaged_main">
+    <div class="content">
+        <div class="li">
+           <div><label>外翻根数</label></div>
+           <div><input type="number"  [(ngModel)]="capsize.out_turn_no"  (blur)="blurInput()" (focus)="focusInput()"/></div>  
+        </div>
+        <div class="li">
+           <div><label>外翻体积</label></div>
+           <div class="prohibit_input"><input type="number" readonly="true" [(ngModel)]="capsize.out_turn_vol" /></div>  
+        </div>
+        <div class="li">
+           <div><label>内翻根数</label></div>
+           <div><input type="number"  [(ngModel)]="capsize.in_turn_no" (blur)="blurInput()" (focus)="focusInput()" /></div>  
+        </div>
+        <div class="li">
+            <div><label>内翻体积</label></div>
+            <div class="prohibit_input"><input type="number" readonly="true" [(ngModel)]="capsize.in_turn_vol" /></div>  
+         </div>
+         <div class="li">
+            <div><label>归桩根数</label></div>
+            <div class="prohibit_input"><input type="number" readonly="true" [(ngModel)]="capsize.pile_turn_no" /></div>  
+         </div>
+         <div class="li">
+            <div><label>归桩体积</label></div>
+            <div class="prohibit_input"><input type="number" readonly="true" [(ngModel)]="capsize.pile_turn_vol" /></div>  
+         </div>
+         <div class="li">
+            <div><label>锯刀数</label></div>
+            <div><input type="number" [(ngModel)]="capsize.saw_amount"/></div>  
+         </div>
+      </div>
+      <div class="operation">
+          <div class="button_class">
+              <a class="a_submit green" (click)="damaged_state(true)" >确定</a>
+              <a class="a_close warning" (click)="damaged_state(false)" >关闭</a>
+          </div>
+      </div>
+</div>
+</ion-content>

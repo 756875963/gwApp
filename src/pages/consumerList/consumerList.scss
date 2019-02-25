@@ -1,0 +1,151 @@
+page-consumerList {
+    .toolbar-title-md{
+        text-align: center;
+    }
+    .consumer_header{
+        display: flex;
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 1;
+        align-items: center;
+        height: 100%;
+        padding-right: 5px;
+        font-size: 1.6rem;
+        color:white;
+        >img{
+            width: 20px;
+            margin-right: 5px;
+        }
+    }
+    ion-header{
+        background: #eee;
+    }
+    .nodata-css{
+        background: white!important;
+    }
+    .scroll-content{
+        background: #eee;
+    }
+   ion-content{
+        background-color: white!important;
+   }
+   .headSearch{
+        margin: 5px;
+        background: white;
+        border-radius: 6px;
+        padding: 5px;
+        font-size: 1.5rem;
+        display: flex;
+        justify-content: center;
+        >span{
+            display: flex;
+            align-items: center;
+            color: #666;
+            >img{
+                width: 20px;
+                margin-right: 5px;
+            }
+            >p{
+                margin: 0px 5px;
+                color: #333;
+            }
+        }
+   }
+   .add_ioc{
+       position: fixed;
+       width: 100%;
+       bottom: 5px;
+       z-index: 9;
+       >span{
+           width: calc(100% - 10px);
+           margin: 0px 5px;
+           border-radius: 5px;
+           background: #f6a52f;
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           font-size: 1.8rem;
+           padding: 10px 0px;
+           color: white;
+           >img{
+              width: 15px;
+              margin-right: 10px;
+           }
+       }
+   }
+   .consumer_main{
+       display: flex;
+       width: calc(100% - 10px);
+       flex-wrap: wrap;
+       align-content: flex-start;
+       background: #fff;
+       border-radius: 5px;
+       margin: 10px 5px 0px 5px;
+       overflow: hidden;
+       >div.consumer_title{
+          width: 100%;
+          display: flex;
+          align-items: center;
+          padding: 5px 5px;
+          background: #f7fbfd;
+          >img{
+              width: 30px;
+          }
+          >img:last-child{
+              width: 15px;
+              margin-right: 5px;
+          }
+          >span{
+              flex-grow: 1;
+              color: #333;
+          }
+       }
+       >div.consumer_test{
+          color: #333;
+          display: flex;
+          flex-wrap: wrap;
+          width: 100%;
+          padding: 5px;
+          >span{
+              min-width: 50%;
+              padding: 2px 0px;
+          }
+       }
+       
+       >div.consumer_button{
+            display: flex;
+            width: 100%;
+            justify-content: flex-end;
+            padding: 5px;
+            >div{
+                margin: 0px 5px;
+            }
+            >.edit{
+              border-radius: 5px;
+              border: 1px solid #ef9006;
+              color: #ef9006;
+              padding: 2px 9px;
+              font-size: 1.5rem;
+            }
+            >.release{
+                border-radius: 5px;
+                border: 1px solid #2cb3eb;
+                color: #2cb3eb;
+                padding: 2px 9px;
+                font-size: 1.5rem;
+            }
+            >.error{
+                border-radius: 5px;
+                border: 1px solid #fb6464;
+                color: #fb6464;
+                padding: 2px 9px;
+                font-size: 1.5rem;
+            }
+       }
+   }
+   .consumer_main:last-child{
+     //margin-bottom: 55px;
+   }
+   
+}

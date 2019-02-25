@@ -1,0 +1,75 @@
+page-myMenu {
+    
+    .toolbar-title-md{
+        text-align: center;
+    }
+    .myMenu-title{
+        display: flex;
+        background: white;
+        margin: 8px 0px;
+        >div{
+           display: inherit;
+        }
+        >div:nth-child(1){
+           width: 20%;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           padding: 11px;
+           max-width: 100px;
+           >img{
+               border-radius: 10px;
+               overflow: hidden;
+               width: 100%;
+               background: #1eb2ee;
+               overflow: hidden;
+           }
+        }
+        >div:nth-child(2){
+           width: 67%;
+           flex-wrap: wrap;
+           align-content: center;
+           >span{
+               width: 100%;
+               color: #4d4d4d;
+           }
+           >span:nth-child(1){
+               font-size: 1.6rem;
+           }
+           >span:nth-child(2){
+
+           }
+        }
+        >div:nth-child(3){
+           width: 15%;
+           align-items: center;
+           justify-content: center;
+           >img{
+            border-radius: 10px;
+            overflow: hidden;
+            width: 30%;
+        }
+        }
+    }
+    .myMenu-col{
+        display: flex;
+        padding: 10px;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+        .outLogin{
+            background: #31c1ef;
+            padding: 10px 10px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            color: white;
+            font-size: 1.6rem;
+            border-radius: 5px;
+        }
+        .outLogin:active{
+            background: #269ec4;
+        }
+    }
+    
+}

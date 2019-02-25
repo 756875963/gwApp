@@ -47,4 +47,5 @@ export class Task{
     work_ton: String;//作业吨
     work_type: String;
     work_type_text: String;//作业类型
+    
 }

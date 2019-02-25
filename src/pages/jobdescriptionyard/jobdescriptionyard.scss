@@ -112,6 +112,7 @@ page-jobdescriptionyard {
         border-radius: 5px;
         box-shadow: inset 0 0 25px 5px #f4a43e;
         bottom: 5px;
+        z-index: 1;
     }
     .color img{
         width: 25px;
@@ -262,6 +263,7 @@ page-jobdescriptionyard {
         color: white;
         border-radius: 5px;
         margin-right: 12px;
+        font-size: 1.6rem;
     }
     .title_model div:first-child{
         //border-left:3px solid #ffa634;
@@ -272,7 +274,7 @@ page-jobdescriptionyard {
         color: white;
     }
     .title_model>div>img{
-        width: 25%;
+        width: 25px;
     }
      .scroll-content {
         padding: 0px!important;
@@ -302,7 +304,7 @@ page-jobdescriptionyard {
     .dispatched_li>div{
         //border:1px solid #999;
         padding: 2px 0px;
-        width: 50%;
+        width: 75%;
         overflow: hidden;
         position: relative;
         border-radius: 4px;
@@ -332,5 +334,8 @@ page-jobdescriptionyard {
         /* white-space: nowrap; */
         word-wrap: break-word;
         overflow: hidden;
+    }
+    .pgcolor{
+        background: #186d93;
     }
 }

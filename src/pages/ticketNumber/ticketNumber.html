@@ -7,7 +7,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="bg-content">
     <div class="main">
        <div class="li">
            <div (click)="globalcheckFunction()">
@@ -31,11 +31,12 @@
       </div>
       
     </div>
-       <div class=fixed>
-          录入分票号<input type="text" value="122" [(ngModel)]="inputAll"><span (click)="sureinput()">确定</span>
-       </div>
-       <div  class="color" (click)="submit()">
-           <div [hidden]= "!submitFlag"><img src="../../assets/imgs/loading-1.gif"/>保存中</div>
-           <div [hidden]= "submitFlag" >保存</div>
-       </div>
+       
 </ion-content>
+<div class=fixed>
+    录入分票号<input type="text" value="122" [(ngModel)]="inputAll"><span (click)="sureinput()">确定</span>
+ </div>
+ <div  class="color" (click)="submit()">
+     <div [hidden]= "!submitFlag"><img src="../../assets/imgs/loading-1.gif"/>保存中</div>
+     <div [hidden]= "submitFlag" >保存</div>
+ </div>

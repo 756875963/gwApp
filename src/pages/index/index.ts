@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, Events, Nav, ToastController } from 'ionic-angular';
+import { NavController, Events, Nav, ToastController ,Platform} from 'ionic-angular';
 import { ListPage } from '../list/list';
 import { LoginPage } from '../login/login';
 import { postUrl, getUrl, imgUrl, defaultHeadPorait } from '../../public/api';
@@ -17,14 +17,17 @@ import { Device } from '@ionic-native/device';
 import { ServiceProvider } from '../../service/http';
 import { Exception } from '../../service/exception';
 import { ERROR } from '../../entity/error';
-
+import { TemplateParseError } from '@angular/compiler';
+import { direction } from '../../service/screen';
+import { registerBack } from "../../service/registerBack";
+import { DomSanitizer } from '@angular/platform-browser';//引入
 //import { IMqttMessage, MqttModule, MqttService } from 'ngx-mqtt';
 @Component({
   selector: 'page-index',
   templateUrl: 'index.html'
 })
 
-export class IndexPage {
+export class IndexPage  extends registerBack{
   PAGE:"index.ts";
   weather:object={
     city:"",
@@ -32,9 +35,9 @@ export class IndexPage {
     temp2:"",
     weather:""
   };
-
+  _height:string ="";//div 动态高度
   public registrationId: string;
-  landscape:String = "";//横屏css
+  landscape:boolean = false;//横屏flag
   devicePlatform: string;
   css:any;//权限显示
   href :object = {
@@ -56,6 +59,8 @@ export class IndexPage {
     img: ""
   };//:{name:string,img:string,userId:number};//用户对象
   sensor1: String;
+  map :any;
+  ddd=``;
   @ViewChild(Nav) nav: Nav;
   rootPage1: any = LoginPage;
   constructor( //private _mqttService: MqttService,
@@ -67,22 +72,31 @@ export class IndexPage {
         private vibration: Vibration,
         public jpush: JPush,
         public device: Device,
-        public exception :Exception) {
+        public exception :Exception,
+        public DomSanitizer :DomSanitizer,
+        private platform: Platform) {
+         super("/index");
+          this.events
+          
+          // direction.getWnindirection({fcn:this.screen});
+          console.log(document.getElementsByClassName("title"));
           //判断设备方向
           let _that = this;
               if(screen.availWidth<screen.availHeight){
                    //竖屏 
+                   this.landscape = false;
               }else{
                    //横屏
-                  this.landscape = "landscape";//div50%css布局
+                  this.landscape = true;//div50%css布局
               }
               window.addEventListener("orientationchange",function(){
-                 if(window.orientation=='0'){
+                 if(window.orientation == 0 || window.orientation == 180){
                      //竖屏
-                     _that.landscape = "";//div100%css布局
-                 }else if(window.orientation=='90'){
+                     console.log('竖屏');
+                     _that.landscape = false;//div100%css布局
+                 }else if(window.orientation == 90 || window.orientation == -90){
                     //横屏"
-                    _that.landscape = "landscape";//div50%css布局
+                    _that.landscape = true;//div50%css布局
                  }
               });
 
@@ -185,15 +199,54 @@ export class IndexPage {
     //   false
     // );
   }
+  screen(obj){
+  
+      console.log("index窗口",obj);
+      alert(screen.availWidth);
+       let _that = this;
+      //计算宽度和高度
+      //let window = direction.getWnindirection({fcn:this.screen});
+      if(obj.screenDirection == "竖屏"){
+        _that.landscape = false;//div100%css布局
+        setTimeout(function(){
+         console.log(document.getElementsByClassName("content1")[0].clientHeight)
+         console.log(document.getElementsByClassName("content1"),document.getElementsByClassName("content1")[0].clientHeight);
+         //menu的高度  四个10px 3个button高度
+         let total:number = document.getElementsByClassName("content1")[0].clientHeight;
+         console.log(total);
+         total = Math.floor((total-4*10)/3);
+         _that._height  = total+"px";
+         console.log(total);
+        
+        },100);
+        
+      }else{
+        _that.landscape = true;//div100%css布局
+        console.log(document.getElementsByClassName("content1")[1].clientHeight);
+        //menu的高度  三个10px 2个button高度
+        setTimeout(function(){
+            let total:number = document.getElementsByClassName("content1")[1].clientHeight;
+            //document.getElementsByClassName("content1")[1].clientHeight:document.getElementsByClassName("content1")[0].clientHeight;
+            console.log(total);
+            total =  Math.floor((total-3*10)/2);
+            console.log(total);
+            _that._height  = total+"px";
+        },100);
+      }
 
+  }
   openPage() {
     console.log("11");
-
+   
     //this.navCtrl.push(ListPage);
     this.navCtrl.push(ListPage);
   }
-
+  ionViewDidLoad(){
+     //console.log(document.getElementsByClassName("content1")[0].clientHeight);
+      //this.screen(direction.getWnindirection({fcn:this}))
+  }
   hrefClick(page, title) {
+    // this.platform.exitApp();
     console.log(title);
     if (title == "退出登录") {
       this.service.logout({loginid:lSe.getItem("userData").record.loginid}).then(data=>{
@@ -264,6 +317,7 @@ export class IndexPage {
     }).catch(data=>{
       console.log(data);
     });
+    super.BackButtonCustomHandler();
   }
 
   changeTheme() {
@@ -319,5 +373,16 @@ export class IndexPage {
       this.jpush.addLocalNotificationForIOS(5, "Hello JPush", 1, "localNoti1");
     }
   }
+  // ionViewCanLeave() {
+  //   this.platform.exitApp();
+  // }
 
+  
+assembleHTML(strHTML: any) {
+  return this.DomSanitizer.bypassSecurityTrustHtml("<div style=\'background:red;\'>4545</div>");
+}
+
+ionViewWillLeave(){
+  super.ionViewWillLeave && super.ionViewWillLeave();
+}
 }

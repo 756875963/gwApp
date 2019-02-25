@@ -1,5 +1,5 @@
 import { Component ,ViewChild } from '@angular/core';
-import { NavController ,NavParams ,Navbar ,Events ,LoadingController ,ToastController} from 'ionic-angular';
+import { NavController ,NavParams ,Navbar ,Events ,LoadingController ,ToastController ,Platform} from 'ionic-angular';
 import { TallyingPage } from '../tallying/tallying';
 import { DispatchedworkersPage } from '../dispatchedworkers/dispatchedworkers';
 import { lSe } from '../../public/localstorage';
@@ -15,12 +15,14 @@ import { Exception } from '../../service/exception';
 import { ERROR } from '../../entity/error';
 import { HeightDriverPage } from '../heightDriver/heightDriver';//水平司机
 import { MechanicalPage } from '../mechanical/mechanical';//装载机司机
-
+import { registerBack } from "../../service/registerBack";
+import { KheightDriverPage } from '../k_heightDriver/k_heightDriver';//库场水平司机
+import { WoodMentionPage } from '../woodMention/woodMention';
 @Component({
   selector: 'page-jobList',
   templateUrl: 'jobList.html'
 })
-export class JobListPage {
+export class JobListPage extends registerBack{
   @ViewChild(Navbar) navBar: Navbar;
   loading:any;//loadingobject
   PAGE:string="jobList.ts";//当前页面
@@ -50,14 +52,16 @@ export class JobListPage {
     id : ""
   };//选中数据
   htmlmenuType:number;//页面页面类型
-  constructor(public navCtrl:NavController,
-              public navParams:NavParams,
-              public events:Events,
-              public service:ServiceProvider,
-              public session:Session,
-              public toastController:ToastController,
-              public loadingController:LoadingController,
-              public exception:Exception){
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public events: Events,
+              public service: ServiceProvider,
+              public session: Session,
+              public toastController: ToastController,
+              public loadingController: LoadingController,
+              public exception: Exception,
+              public platform: Platform){
+                super("jopList");
             // let promise = new Promise(function(resolve,reject){
             //     if(true){
             //       resolve("ok");
@@ -77,10 +81,12 @@ export class JobListPage {
                    this.htmlmenuType = 10;
                 }else if(this.session.getRole()=="外理员"){
             
-                }else if(this.session.getRole()=="水平司机"){
+                }else if(this.session.getRole().indexOf("水平")>-1){//水平司机
                    console.log("水平司机");
                    this.menu_type = 3;
                    this.htmlmenuType = 8;
+                }else if(this.session.getRole().indexOf("装载")>-1){//装载司机
+                   this.htmlmenuType = 7;
                 }else{
                   this.menu_type = 10;
                 }
@@ -171,7 +177,7 @@ export class JobListPage {
       this.events.unsubscribe('bevents'); 
      })
 
-    if(this.htmlmenuType == 9){
+    if(this.htmlmenuType == 9){//外理理货员
         this.http2({loginid:lSe.getItem("userData").record.loginid,m_id:item.id}).then((data)=>{
           console.log(data);
           this.lockhtml = true;//解锁
@@ -186,7 +192,7 @@ export class JobListPage {
           console.log(data);
           this.lockhtml = true;//解锁
           this.navCtrl.push(JobdescriptionOutPage,{
-            item: {m_id:item.id,loginid:lSe.getItem("userData").record.loginid,text:data["text"]} 
+            item: {m_id:item.id,book_id:item.book_id,loginid:lSe.getItem("userData").record.loginid,text:data["text"]} 
           });
         });
        
@@ -202,15 +208,24 @@ export class JobListPage {
           });
         }else if(item.load_unload_text=="装"){//落驳
            if(item.cargo_nt_text=="木材"){
-               console.log("落驳");
+               console.log("木材落驳");
                this.http2({loginid:lSe.getItem("userData").record.loginid,m_id:item.id}).then((data)=>{
                   this.navCtrl.push(JobdescriptionInstallPage,{
                     item: {m_id:item.id,loginid:lSe.getItem("userData").record.loginid,text:data["text"]} 
                   });
                });
            }else{
-               this.presentToast(item.cargo_nt_text+"无法落驳操作！");
+               //2018-12-10 修改需求 可以放开 件杂货可以落驳
+               //this.presentToast(item.cargo_nt_text+"无法落驳操作！");
+               console.log("件杂货落驳");
+               this.http2({loginid:lSe.getItem("userData").record.loginid,m_id:item.id}).then((data)=>{
+                  this.navCtrl.push(WoodMentionPage,{
+                    item: {m_id:item.id,loginid:lSe.getItem("userData").record.loginid,text:data["text"]} 
+                  });
+               });
            }
+        }else{
+          this.presentToast("数据结构不完整，无法解析，请检查作业类型数据是否完整！");
         }
         
         this.lockhtml = true;//解锁
@@ -226,12 +241,33 @@ export class JobListPage {
       
     }else if(this.htmlmenuType == 8){
       console.log("水平司机");
+      if(item.work_type_text=="内河作业"&&item.load_unload_text=="卸"){
+           console.log("库场员起驳");
+           this.http2({loginid:lSe.getItem("userData").record.loginid,m_id:item.id}).then((data)=>{
+           this.lockhtml = true;//解锁
+          this.navCtrl.push(KheightDriverPage,{
+            item: {m_id:item.id,loginid:lSe.getItem("userData").record.loginid,text:data["text"]}
+          });
+        });
+      }else{
+        this.http2({loginid:lSe.getItem("userData").record.loginid,m_id:item.id}).then((data)=>{
+          console.log(data);
+          this.lockhtml = true;//解锁
+          //11.5 零时修改的 MechanicalPage  装载机   HeightDriverPage 水平司机
+          this.navCtrl.push(HeightDriverPage,{
+            item: {m_id:item.id,loginid:lSe.getItem("userData").record.loginid,text:data["text"]}
+          });
+        });
+      }
+      
+    }else if(this.htmlmenuType == 7){
       this.http2({loginid:lSe.getItem("userData").record.loginid,m_id:item.id}).then((data)=>{
         console.log(data);
         this.lockhtml = true;//解锁
         //11.5 零时修改的 MechanicalPage  装载机   HeightDriverPage 水平司机
         this.navCtrl.push(MechanicalPage,{
-          item: {m_id:item.id,loginid:lSe.getItem("userData").record.loginid,text:data["text"]}
+          item: {m_id:item.id,loginid:lSe.getItem("userData").record.loginid,text:data["text"]
+          ,ship_n_text:item.ship_n_text,cargo_n_text:item.cargo_n_text}
         });
       });
     }else if(item.type == 3){
@@ -242,7 +278,10 @@ export class JobListPage {
        this.navCtrl.push(RefutationPage,{
          item: item
        });
+    }else{
+      this.presentToast("数据结构不完整，无法解析，请检查作业类型数据是否完整！");
     }
+
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad PagePushedPage');
@@ -276,6 +315,7 @@ export class JobListPage {
         console.log(e);
       });
     } 
+    super.BackButtonCustomHandler();
   }
    // 用于pop 回调的 block
    myCallbackFunction  =(params) => {
@@ -329,5 +369,25 @@ export class JobListPage {
       );
       })
   }
- 
+//   ionViewDidEnter() {
+//     this.initializeBackButtonCustomHandler();
+// }
+
+//public unregisterBackButtonAction: any;
+ionViewWillLeave() {
+    // Unregister the custom back button action for this page
+    super.ionViewWillLeave && super.ionViewWillLeave();
+}
+
+// public initializeBackButtonCustomHandler(): void {
+//     this.unregisterBackButtonAction = this.platform.registerBackButtonAction(() => {
+//         this.customHandleBackButton();
+//     }, 10);
+// }
+
+// private customHandleBackButton(): void {
+//     // do what you need to do here ...
+//     alert("list后退");
+//     this.navCtrl.pop();
+// }
 }

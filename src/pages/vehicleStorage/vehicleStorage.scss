@@ -47,6 +47,9 @@ page-vehicleStorage {
         margin: 5%;
         background: white;
     } 
+    .lihe{
+        justify-content: flex-start!important;
+    }
     .main .li>div:first-child+div>div:first-child>span:not(.active){
         color: #0f6c95;
         border-radius: 5px;
@@ -93,8 +96,8 @@ page-vehicleStorage {
         width: 15px;
     } 
     .main .li>div:first-child+div>div:nth-child(2)>span::before{
-        position: absolute;
-        left: 0px;
+        // position: absolute;
+        // left: 0px;
         
     } 
     $list:(
@@ -214,14 +217,16 @@ page-vehicleStorage {
         margin: 5px 100px;
     }
     .fixed_mode .zhaop{
-        width: 60%;
+        width: 45%;
         display: flex;
         flex-wrap: wrap;
         align-items: flex-start;
-        border: 2px dotted #999;
+        border: 1px dotted #999;
         border-radius: 10px;
         justify-content: center;
         padding: 10px 0px;
+        color: white;
+        background: #eee;
         
     }
     .ujdg2{
@@ -278,12 +283,13 @@ page-vehicleStorage {
         bottom: 0;
         color: white;
         font-size: 18px;
-        width: 90%;
+        width: 96%;
         margin: 0 auto;
-        left: 5%;
+        left: 2%;
         border-radius: 5px;
         box-shadow: inset 0 0 25px 5px #f6a52f;
         bottom: 5px;
+        z-index: 1;
     }
     .color img{
         width: 25px;
@@ -337,5 +343,8 @@ page-vehicleStorage {
     .href_span{
         border-bottom: 1px solid #999;
         color:#999;
+    }
+    .pgcolor{
+        background: #186d93;
     }
 }

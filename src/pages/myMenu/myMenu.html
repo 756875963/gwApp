@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-navbar>
+      <ion-title>我的</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+     <div class="myMenu-title">
+          <div>
+              <img src="../../assets/imgs/4308984.png">
+          </div>
+          <div>
+              <span>{{user.name}}</span>
+              <span>人员编号：{{user.number}}</span>
+          </div>
+          <div>
+            <img src="../../assets/imgs/back.png"/>
+          </div>
+     </div>
+     
+     <!-- <div class="myMenu-col">
+       <div>
+          <div>
+              <img src="../../assets/imgs/mymenu1.png">
+          </div>
+          <div>
+              <span>个人信息</span>
+          </div>
+          <div>
+            <img src="../../assets/imgs/back.png"/>
+          </div>
+       </div>
+       <div>
+          <div>
+              <img src="../../assets/imgs/mymenu2.png">
+          </div>
+          <div>
+              <span>我的积分</span>
+          </div>
+          <div>
+            <img src="../../assets/imgs/back.png"/>
+          </div>
+       </div>
+   </div> -->
+   <div class="myMenu-col">
+       <a class="outLogin" (click)="outLogin()">退出登录</a>
+   </div>
+</ion-content>

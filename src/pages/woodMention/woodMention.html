@@ -1,0 +1,105 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>正在作业</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <div class="title_model">
+       <div (click)="acceptData()">
+          <img src="../../assets/imgs/zhu-122.png">
+             刷新数据
+       </div>
+       <div (click)="rollback()">
+          <img src="../../assets/imgs/zhu-122.png">
+             数据回退
+       </div>
+    </div>
+    <div class="dispatched_mian">
+        <div class="dispatched_title">
+           <div>当前操作员：{{userName}}</div>
+        </div>
+        <div class="dispatched_content">
+            <ion-list>
+                <div  class="dispatched_li dispatched_after">
+                    <label>出库单号</label>
+                    <div>
+                        <ion-select [(ngModel)]="toppingsnumber"  interface="popover" placeholder="请选择" okText="确定" cancelText="取消" (ionChange)="getOrderDetailById1()">
+                            <ion-option *ngFor="let item of oddnumbers" [value]="item.id">
+                                {{item.yard_no}}
+                            </ion-option>
+                            </ion-select>
+                    </div>
+                </div>
+                <div  class="dispatched_li dispatched_after">
+                    <label>库场</label>
+                    <div >
+                        <ion-select [(ngModel)]="yardSiteMgmtsname" interface="popover" placeholder="请选择" okText="确定" cancelText="取消" (ionChange)="getOrderDetailById2()">
+                            <ion-option *ngFor="let licensePlatei of yardSiteMgmts" [value]="licensePlatei.id">
+                            {{licensePlatei.yard_name}}
+                            </ion-option>
+                        </ion-select>
+                    </div>
+                </div>
+                <div  class="dispatched_li dispatched_after">
+                    <label>货位</label>
+                    <div >
+                        <ion-select [(ngModel)]="yardsitelistname" interface="popover" placeholder="请选择" okText="确定" cancelText="取消" (ionChange)="getOrderDetailById3()">
+                            <ion-option *ngFor="let licensePlatei of yardsitelist" [value]="licensePlatei.id">
+                            <!-- {{licensePlatei.site+",总件数("+licensePlatei.tem_num+")"}} -->
+                            {{licensePlatei.site}}
+                            </ion-option>
+                        </ion-select>
+                    </div>
+                </div>
+                <div  class="dispatched_li">
+                      <label>驳名</label>
+                      <div class="prohibit_input"><input type="text" readonly="true" [(ngModel)]="shipName"></div>
+                </div>
+                <div  class="dispatched_li">
+                    <label>货名</label>
+                    <div class="prohibit_input"><input type="text" readonly="true" [(ngModel)]="goodsName"></div>
+                </div>
+                  
+                <div  class="dispatched_li">
+                    <label>总件数</label>
+                    <div class="prohibit_input"><input type="text"  readonly="true" [(ngModel)]="Surplus"></div>
+                </div>
+                <div  class="dispatched_li">
+                    <label>出库件数</label>
+                    <div class="prohibit_input"><input type="text" readonly="true" [(ngModel)]="number1" ></div>
+                </div>
+                <div  class="dispatched_li">
+                    <label>件数</label>
+                    <div ><input type="number"  [(ngModel)]="number"></div>
+                </div>
+                 
+                <div  class="dispatched_li dispatched_after">
+                    <label>车号</label>
+                    <div >
+                      <ion-select [(ngModel)]="licensePlatename" interface="popover" placeholder="请选择" okText="确定" cancelText="取消" (ionChange)="getOrderDetailById4()">
+                          <ion-option *ngFor="let licensePlatei of licensePlate" [value]="licensePlatei.id">
+                            {{licensePlatei.mac_id_text}}
+                          </ion-option>
+                      </ion-select>
+                    </div>
+                </div> 
+            </ion-list>  
+        </div>
+      </div>
+      <div class="fixed—top" [ngClass]="{'fixed_close':!fixed}">
+           <div>
+             <h1>安全作业管理规定</h1>
+             <span>
+                {{securityBook}}
+              </span>
+           </div>
+           <div class="button_bottom">
+              <button ion-button color="secondary" (click)="sure()">确定阅读</button>
+           </div>
+          </div>  
+</ion-content>
+<div  class="color" (click)="saveSure()" [ngClass]="{'fixed_close':fixed}">
+  <div [hidden]= "istrue">提交数据</div>
+</div>
+

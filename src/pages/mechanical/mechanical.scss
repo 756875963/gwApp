@@ -344,7 +344,7 @@ page-mechanical {
         display: flex!important;
     }
     .display_flex .scroll-content .meun_one{
-       width: 30%;
+       width: 40%;
        height: 100%;
        background: white;
        overflow: hidden;
@@ -372,11 +372,12 @@ page-mechanical {
         width: 50%;
         left: 50%;
         text-align: center;
-        height: 30px;
         display: flex;
         align-items: center;
         justify-content: center;
         color:white;
+        font-size: 1.6rem;
+        padding: 5px 0px;
     }
     .meun_one>div:first-child::before{
         content: "运输车号";
@@ -387,30 +388,34 @@ page-mechanical {
         width: 50%;
         left: 0%;
         text-align: center;
-        height: 30px;
+        // height: 30px;
         display: flex;
         align-items: center;
         justify-content: center;
         color:white;
+        font-size: 1.6rem;
+        padding: 5px 0px;
     }
     .meun_one>div:first-child{
         border-right: 1px solid #eee;
     }
     .meun_one>div>div:nth-child(odd):not(:first-child){
-       
-        height: 25px;
+        padding-right: 5px;
+        //height: 25px;
         display: flex;
         justify-content: center;
         align-items: center;
         background: url(../../assets//imgs/juxing.png) no-repeat 3% 50%/20% white;
+        padding: 10px 5px;
     }
     .meun_one>div>div:nth-child(even):not(:first-child){
-       
-        height: 25px;
+        padding-right: 5px;
+        // height: 25px;
         display: flex;
         justify-content: center;
         align-items: center;
         background: url(../../assets//imgs/juxing.png) no-repeat 3% 50%/20% white;
+        padding: 10px 5px;
     }
     .meun_one>div>div{
         width: 100%;
@@ -422,7 +427,11 @@ page-mechanical {
         width: 100%;
         text-align: center;
         padding: 5px 0px;
-        height: 30px;
+        // height: 30px;
+        font-size: 1.6rem;
+    }
+    .meun_one>div:first-child>div:not(:first-child){
+        justify-content: center;
     }
     .meun_three{
         width: 20%;
@@ -437,9 +446,16 @@ page-mechanical {
     .meun_three .title_model>div{
         width: 100%!important;
         margin: 0px 12px 10px 0px;
+        font-size: 1.6rem;
      }
      .stairlistcss{
          //background: red!important;
-         background: url(../../assets//imgs/xingzhuang.png) no-repeat 3% 50%/20% #eee !important;
+         background: url(../../assets//imgs/xingzhuang.png) no-repeat 3% 50%/20% white !important;
      }
+     .removeionc{
+         background:#eee!important;
+     }
+     .pgcolor{
+        background: #186d93;
+    }
 }

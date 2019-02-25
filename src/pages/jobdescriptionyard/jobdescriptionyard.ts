@@ -7,13 +7,17 @@ import { ServiceProvider } from '../../service/http';
 import { pageBean } from '../../entity/pageBean';
 import { Exception } from '../../service/exception';
 import { ERROR } from '../../entity/error';
+import { registerBack } from "../../service/registerBack";
+import { validate } from "../../service/validate";
+import { returnReslut } from '../../entity/returnReslut';
 
 @Component({
   selector: 'page-jobdescriptionyard',
   templateUrl: 'jobdescriptionyard.html'
 })
 
-export class JobdescriptionyardPage {
+export class JobdescriptionyardPage extends registerBack{
+  validate = validate;
   PAGE:string="jobdescriptionyard.ts";//当前页面
   item :Object =null;//前一个页面数据
   jobNumber:String;//当前作业工号
@@ -48,6 +52,7 @@ export class JobdescriptionyardPage {
               public service : ServiceProvider,
               public toastController : ToastController,
               public exception :Exception) {
+                super("/jobdescriptionyard");
      this.navflag = false;
      this.item = this.navParams.get("item");
      this.securityBook = this.navParams.get("item").text;
@@ -60,25 +65,25 @@ export class JobdescriptionyardPage {
               if( this.securityBook==""){
                 //请求库场员页面数据
                 console.log("ok");
-                  this.http().then((data)=>{
-                    if(data["msg"]!="没有数据！"){
-                        this.jobNumber = lSe.getItem("user").username
-                        this.shipName = data["data"]["kRationale"].ship_name;
-                        this.goodsName =  data["data"]["kRationale"].cargo_name;
-                        this.number1 = data["data"]["kRationale"].cargo_sn;
-                        this.number = data["data"]["kRationale"].cargo_num;
-                        this.number3 = data["data"]["kRationale"].mac_num;
-                        this.rat_id = data["data"]["kRationale"].id;
-                        this.number2 = data["data"]["kRationale"].separate_sn;
-                        //处理卷号String 最后一个
-                        let reel_number = this.number1;
-                        reel_number.replace(/[,，]$/,"").split(",");
-                        this.TicketNumberdata = reel_number.replace(/[,，]$/,"").split(",")
-                    }else{
-                        alert(data["msg"]);
-                    }
-                  },(data)=>{
-                  });
+                  // this.http().then((data)=>{
+                  //   if(data["msg"]!="没有数据！"){
+                  //       this.jobNumber = lSe.getItem("user").username
+                  //       this.shipName = data["data"]["kRationale"].ship_name;
+                  //       this.goodsName =  data["data"]["kRationale"].cargo_name;
+                  //       this.number1 = data["data"]["kRationale"].cargo_sn;
+                  //       this.number = data["data"]["kRationale"].cargo_num;
+                  //       this.number3 = data["data"]["kRationale"].mac_num;
+                  //       this.rat_id = data["data"]["kRationale"].id;
+                  //       this.number2 = data["data"]["kRationale"].separate_sn;
+                  //       //处理卷号String 最后一个
+                  //       let reel_number = this.number1;
+                  //       reel_number.replace(/[,，]$/,"").split(",");
+                  //       this.TicketNumberdata = reel_number.replace(/[,，]$/,"").split(",")
+                  //   }else{
+                  //       this.presentToast(data["msg"]);
+                  //   }
+                  // },(data)=>{
+                  // });
               }
         }catch(e){
           //返回 App json处理时发生出错时 处理逻辑；
@@ -143,6 +148,7 @@ export class JobdescriptionyardPage {
   }
   TicketNumber(){
     //获取数组卷号数组
+    if(this.TicketNumberdata==undefined)return;
     let _array = this.TicketNumberdata;
     let _array1 = this.number2!=""&&this.number2!=null?this.number2.split(','):new Array(this.TicketNumber.length);
     let _array2 = new Array();
@@ -155,12 +161,15 @@ export class JobdescriptionyardPage {
         flag:false
       }
     }
-    console.log(_array2);
-    //跳转分票页面
+    if(_array2.length>0){
+       //跳转分票页面
     this.navCtrl.push(TicketNumberPage, {
       callback: this.myCallbackFunction,
       item: _array2
     });
+    }else{
+      this.presentToast("请拉取有效的件号数据！");
+    }
   }
   // 用于pop 回调的 block
   myCallbackFunction(params:Array<any>){
@@ -182,6 +191,7 @@ export class JobdescriptionyardPage {
        if(lSe.getItem("ticketNumber").length>0){
           var str = this.number2 = '';
           for(var i=0;i<lSe.getItem("ticketNumber").length;i++){
+            if(lSe.getItem("ticketNumber")[i].name2==undefined)break;
             if(lSe.getItem("ticketNumber").length-1==i){
               str=str+lSe.getItem("ticketNumber")[i].name2
             }else{
@@ -195,6 +205,7 @@ export class JobdescriptionyardPage {
     if(this.navflag){
       this.httpC();
     }
+    super.BackButtonCustomHandler();
   }
   ionViewDidLeave(){
     console.log("离开");
@@ -207,15 +218,22 @@ export class JobdescriptionyardPage {
      console.log("数据回退");
   }
   start(){//发车
-     console.log("发车");
+    let _valdate:returnReslut = 
+          validate.forVlidate(
+          [
+            {name:"分票号",node:this.number2,type:"String",condition:true},
+            {name:"件数",node:this.number,type:"Number",condition:true,min:1},
+          ])
      //判断数据是否填充
      let separate_sn = this.number2;
-     if(separate_sn!=""&&separate_sn!=null){
+     if(_valdate.flag){
        //提交数据
         this.http2({loginid:this.item["loginid"],separate_sn:separate_sn,rat_id:this.rat_id}).then(data=>{
-          console.log(data);
           if(data["msg"]=="更新成功！"){
                this.presentToast("发车成功！");
+               this.number2 = "";
+               this.number = 0;
+               this.TicketNumberdata = [];
           }else{
                this.presentToast("发车失败！");
           }
@@ -223,7 +241,7 @@ export class JobdescriptionyardPage {
           console.log(data);
         });
      }else{
-        alert("分票号不能为空，无法提交数据！");
+        this.presentToast(_valdate.Msg+"输入有误！");
      }
   }
   receivedata(){
@@ -244,7 +262,7 @@ export class JobdescriptionyardPage {
           reel_number.replace(/[,，]$/,"").split(",");
           this.TicketNumberdata = reel_number.replace(/[,，]$/,"").split(",")
         }else{
-          alert(data["msg"]);
+          this.presentToast(data["msg"]);
         }
       }catch(e){
         //返回 App json处理时发生出错时 处理逻辑；
@@ -260,10 +278,10 @@ export class JobdescriptionyardPage {
   }
   roleback(){
     //数据回滚
-     this.service.rollbacktally({loginid:this.item["loginid"],book_id:this.item["m_id"]}).then(data=>{
+     this.service.rollbacktally({loginid:this.item["loginid"],book_id:this.item["m_id"],ticket_id:this.item["m_id"]}).then(data=>{
           console.log(data["data"]["bean"]);
         try{//结构json数据 异常处理
-          if(data["data"]["msg"]!="没有数据！"){
+          if(data["msg"]!="没有数据！"){
             this.jobNumber = lSe.getItem("user").username;
             this.shipName = data["data"]["bean"].ship_name;
             this.goodsName =  data["data"]["bean"].cargo_name;
@@ -277,7 +295,8 @@ export class JobdescriptionyardPage {
             reel_number.replace(/[,，]$/,"").split(",");
             this.TicketNumberdata = reel_number.replace(/[,，]$/,"").split(",")
           }else{
-            alert(data["msg"]);
+           
+            this.presentToast(data["msg"]);
           }
         }catch(e){
           //返回 App json处理时发生出错时 处理逻辑；
@@ -307,7 +326,7 @@ export class JobdescriptionyardPage {
   //下面是拨离出来的http的请求；低耦合 为了实现连续的逻辑调用 不直接放在业务逻辑中;
   async http(){//页面数据请求
     return  await new Promise((resolve, reject) => {
-       this.service.warehouse({loginid:this.item["loginid"],book_id:this.item["m_id"]}).then(
+       this.service.warehouse({loginid:this.item["loginid"],book_id:this.item["m_id"],ticket_id:this.item["m_id"]}).then(
          (obj:pageBean) =>{
            resolve(obj);
          }
@@ -326,5 +345,10 @@ export class JobdescriptionyardPage {
           console.log(obj);
         })
     })
+  }
+
+ 
+  ionViewWillLeave(){
+    super.ionViewWillLeave && super.ionViewWillLeave();
   }
 }

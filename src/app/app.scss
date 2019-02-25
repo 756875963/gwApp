@@ -14,4 +14,95 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+::-webkit-scrollbar { display: none !important; }
 $toggle-ios-handle-background-color:"red";
+// .ion-ios-homeImg:before{
+//     content: '';
+//     width: 30px;
+//     height: 30px;
+//     display: block;
+//     background: no-repeat url('../assets/imgs/active.png');
+//   }
+  .ion-ios-homeImg-outline{
+    content: '';
+    width: 30px;
+    height: 30px;
+    display: block;
+    //background: no-repeat url('../assets/imgs/active.png');
+  }
+  .ion-md-homeImg:before{
+    content: '';
+    width: 30px;
+    height: 30px;
+    display: block;
+    background: no-repeat url('../assets/imgs/tab1.png');
+    background-position: 50% 50%;
+    background-size: 100%;
+   
+  }
+  .tabs-md .tab-button[aria-selected=true]{
+        color: #2cb3eb;
+    .ion-md-homeImg:before{
+        background: no-repeat url('../assets/imgs/tab1-1.png');
+        background-size: 100%;
+    }
+  }
+
+
+  .ion-md-homeImg1:before{
+    content: '';
+    width: 30px;
+    height: 30px;
+    display: block;
+    background: no-repeat url('../assets/imgs/tab2.png');
+    background-position: 50% 50%;
+    background-size: 100%;
+   
+  }
+  .tabs-md .tab-button[aria-selected=true]{
+        color: #2cb3eb;
+    .ion-md-homeImg1:before{
+        background: no-repeat url('../assets/imgs/tab2-2.png');
+        background-size: 100%;
+    }
+  }
+
+
+  .ion-md-homeImg2:before{
+    content: '';
+    width: 30px;
+    height: 30px;
+    display: block;
+    background: no-repeat url('../assets/imgs/tab3.png');
+    background-position: 50% 50%;
+    background-size: 100%;
+   
+  }
+  .tabs-md .tab-button[aria-selected=true]{
+        color: #2cb3eb;
+    .ion-md-homeImg2:before{
+        background: no-repeat url('../assets/imgs/tab3-3.png');
+        background-size: 100%;
+    }
+  }
+  .ion-md-homeImg3:before{
+    content: '';
+    width: 30px;
+    height: 30px;
+    display: block;
+    background: no-repeat url('../assets/imgs/tab4.png');
+    background-position: 50% 50%;
+    background-size: 100%;
+   
+  }
+  .toolbar-title-ios{
+    color: white;
+  }
+  .tabs-md .tab-button[aria-selected=true]{
+        color: #2cb3eb;
+    .ion-md-homeImg3:before{
+        background: no-repeat url('../assets/imgs/tab4-4.png');
+        background-size: 100%;
+    }
+  }

@@ -9,7 +9,11 @@
 
 <ion-content padding>
     <div class="title_model">
-        <div>
+        <div (click)="acceptData()">
+            <img src="../../assets/imgs/zhu-122.png">
+            刷新数据
+        </div>
+        <div (click)="rollblack()">
            <img src="../../assets/imgs/zhu-122.png">
              数据回退
         </div>
@@ -24,8 +28,8 @@
                 <div  class="dispatched_li dispatched_after">
                     <label>船名：</label>
                     <div >
-                        <ion-select [(ngModel)]="toppings1"  okText="确定" cancelText="取消"  (ionChange)="getOrderDetailById()"  >
-                            <ion-option *ngFor="let licensePlatei of licensePlate1" [value]="licensePlatei.id" >
+                        <ion-select [(ngModel)]="toppings1"  interface="popover" okText="确定" cancelText="取消"  (ionChange)="getOrderDetailById()"  >
+                            <ion-option *ngFor="let licensePlatei of licensePlate1" [value]="licensePlatei.barge_order_id" >
                                 {{licensePlatei.barge_cn}}
                             </ion-option>
                         </ion-select>
@@ -48,7 +52,7 @@
                 <div  class="dispatched_li dispatched_after">
                     <label>合同号：</label>
                     <div >
-                        <ion-select [(ngModel)]="toppings3"  okText="确定" cancelText="取消"  (ionChange)="getOrderDetailById1()">
+                        <ion-select [(ngModel)]="toppings3"  interface="popover" okText="确定" cancelText="取消"  (ionChange)="getOrderDetailById1()">
                             <ion-option *ngFor="let licensePlatei of licensePlate3" [value]="licensePlatei.contract_no">
                                 {{licensePlatei.contract_no}}
                             </ion-option>
@@ -66,7 +70,7 @@
                 <div  class="dispatched_li dispatched_after">
                     <label>车号：</label>
                     <div>
-                        <ion-select [(ngModel)]="toppings2"  okText="确定" cancelText="取消">
+                        <ion-select [(ngModel)]="toppings2"  interface="popover" okText="确定" cancelText="取消">
                             <ion-option *ngFor="let licensePlatei of licensePlate2" [value]="licensePlatei.mac_id">
                               {{licensePlatei.mac_id_text}}
                             </ion-option>
@@ -100,10 +104,7 @@
        <div [hidden]= "!submitFlag"><img src="../../assets/imgs/loading-1.gif"/>保存中</div>
        <div [hidden]= "submitFlag">(10车次)回退</div>
       </div> -->
-      <div  class="color" (click)="submit()">
-          <div [hidden]= "!submitFlag"><img src="../../assets/imgs/loading-1.gif"/>保存中</div>
-          <div [hidden]= "submitFlag">提交数据</div>
-      </div>
+     
       <div class="fixed—top" [ngClass]="{'fixed_close':!fixed}">
            <div>
              <h1>安全作业管理规定</h1>
@@ -115,4 +116,60 @@
               <button ion-button color="secondary" (click)="sure()">确定阅读</button>
            </div>
       </div>
+
+
 </ion-content>
+<div  class="color" (click)="submit()" [ngClass]="{'fixed_close':fixed}">
+    <div [hidden]= "!submitFlag">保存中</div>
+    <div [hidden]= "submitFlag">提交数据</div>
+</div>
+<!-- 回退弹框 -->
+<div class="rollblack_module" [ngClass]="{'fixed_close':fixed1,'change':landscape}">
+
+    <span (click)="cancel()"> 请选择回退数据 </span>
+    <div class="div">
+        <div  class="dispatched_li dispatched_after">
+            <label>船名：</label>
+            <div >
+                <!-- okText="确定" cancelText="取消" (ionChange)=-->
+                <ion-select [(ngModel)]="rollbacklicensePlateActive1"   interface="popover" placeholder="请选择" (ngModelChange)="getOrderDetailByIdTwo()"  >
+                    <ion-option *ngFor="let licensePlatei of rollbacklicensePlate1" [value]="licensePlatei.barge_order_id" >
+                        {{licensePlatei.barge_cn}}
+                    </ion-option>
+                </ion-select>
+            </div>
+        </div>
+        <div  class="dispatched_li dispatched_after">
+            <label>合同号：</label>
+            <div >
+                <ion-select [(ngModel)]="rollbacklicensePlateActive2"  interface="popover"  placeholder="请选择" (ionChange)="getOrderDetailByIdTwo1()">
+                    <ion-option *ngFor="let licensePlatei of rollbacklicensePlate2" [value]="licensePlatei.contract_no">
+                        {{licensePlatei.contract_no}}
+                    </ion-option>
+                </ion-select>
+            </div>
+        </div>
+    </div>
+    <div>
+        <ion-content>
+            <div *ngFor="let item of rolldata" (click)="rollblackclick(item)">
+                <div>驳名：{{item.ship_name}}</div>
+                <div>货名：{{item.cargo_name}}</div>
+                <div>合同号：{{item.contract_no}}</div>
+                <div>件数：{{item.cargo_num}}</div>
+                <div>车号：{{item.mac_num}}</div>
+                <div>时间：{{item.create_time|date: 'HH:mm:ss'}}</div>
+            </div>
+            
+            <div *ngIf="htmlListLenghtFlag" class="nodata-css">
+                <img src="../../assets/imgs/empty.png"/>
+                <span>暂无回退记录</span>
+            </div>
+            <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+                <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="加载更多...">
+                </ion-infinite-scroll-content>
+            </ion-infinite-scroll>
+        </ion-content>
+    </div>
+</div>
+ 

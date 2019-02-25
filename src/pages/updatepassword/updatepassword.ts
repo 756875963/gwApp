@@ -1,24 +1,30 @@
 import { Component } from '@angular/core';
-import { NavController ,ToastController} from 'ionic-angular';
+import { NavController ,NavParams ,Navbar ,Events ,LoadingController ,ToastController ,Platform} from 'ionic-angular';
 import { lSe } from '../../public/localstorage';
 import { ServiceProvider } from '../../service/http';
 import { Exception } from '../../service/exception';
 import { ERROR } from '../../entity/error';
 import { LoginPage } from '../login/login';
+import { registerBack } from "../../service/registerBack";
 @Component({
   selector: 'page-updatepassword',
   templateUrl: 'updatepassword.html'
 })
-export class UpdatepasswordPage {
+export class UpdatepasswordPage extends registerBack {
   PAGE:"updatepassword.ts";
   passwordShow:Boolean=false;//密码显示标记
   oldpassword:String;//旧密码
   newpassword:String;//新密码
   confirmpassword:String;//确认密码
   constructor(public navCtrl: NavController,
-              public toastController:ToastController,
-              public service :ServiceProvider,
-              public exception:Exception) {
+    public navParams: NavParams,
+    public events: Events,
+    public service: ServiceProvider,
+    public toastController: ToastController,
+    public loadingController: LoadingController,
+    public exception: Exception,
+    public platform: Platform){
+                super("/updatepassword");
       
   }
   submit(){
@@ -28,7 +34,6 @@ export class UpdatepasswordPage {
     // * @param comfirm_pass  确认新密码
     let _that = this;
     try{
-      if(lSe.getItem('memory').password==this.oldpassword){
         if(this.newpassword==this.confirmpassword){
              this.service.change({
               loginid:lSe.getItem("userData").record.loginid,
@@ -66,9 +71,7 @@ export class UpdatepasswordPage {
         }else{
           this.presentToast("新密码和确认密码不一致！");
         }
-    }else{
-          this.presentToast("旧密码输入有误！");
-    }
+    
     }catch(e){
         //返回 App json处理时发生出错时 处理逻辑；
         this.presentToast("app处理数据错误，已提交后台！");
@@ -91,5 +94,13 @@ export class UpdatepasswordPage {
       console.log('Dismissed toast');
     });
     toast.present();
+  }
+  ionViewDidEnter(){
+    super.BackButtonCustomHandler(); 
+  }
+
+  ionViewWillLeave() {
+    super.ionViewWillLeave && super.ionViewWillLeave();
+  
   }
 }

@@ -7,22 +7,22 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding class="pgcolor">
     <div class="title_model">
        <div (click)="goto_payment()">
-         <img src="../../assets/imgs/zhu-122.png">
+         <img src="../../assets/imgs/zidingyi1.png">
             缴费查询
        </div>
        <div (click)="add_Piling()">
-          <img src="../../assets/imgs/zhu-122.png">
+          <img src="../../assets/imgs/zidingyi2.png">
              翻桩录入
        </div>
        <div (click)="query_Piling()">
-          <img src="../../assets/imgs/zhu-122.png">
+          <img src="../../assets/imgs/zidingyi3.png">
             翻桩查看
        </div>
        <div (click)="data_Rollback()">
-          <img src="../../assets/imgs/zhu-122.png">
+          <img src="../../assets/imgs/zidingyi4.png">
             数据回退
        </div>
        <!-- <div (click)="goto_vehiclelist()">
@@ -46,10 +46,14 @@
                     </ion-select>
                   </ion-item> -->
                   
-                  <div  class="dispatched_li">
+                    
+                  
+                  
+                  
+                  <div  class="dispatched_li dispatched_after">
                     <label>出库单号</label>
                     <div>
-                        <ion-select [(ngModel)]="toppingsnumber"  okText="确定" cancelText="取消">
+                        <ion-select [(ngModel)]="toppingsnumber"  [disabled]="backflag" (ngModelChange)="switchToppingsnumber()"  okText="确定" cancelText="取消"  >
                             <ion-option *ngFor="let item of oddnumbers" [value]="item.yard_no">
                               {{item.yard_no}}
                             </ion-option>
@@ -63,17 +67,7 @@
                   <div  class="dispatched_li">
                     <label>货名</label>
                     <div class="prohibit_input"><input type="text" readonly="true" [(ngModel)]="goodsName"></div>
-                  </div>
-                  <div  class="dispatched_li dispatched_after">
-                    <label>装载机</label>
-                    <div class="prohibit_input">
-                        <ion-select [(ngModel)]="licensePlate1Active"  okText="确定" cancelText="取消">
-                            <ion-option *ngFor="let licensePlatei of licensePlate1" [value]="licensePlatei.mac_id">
-                              {{licensePlatei.mac_id_text}}
-                            </ion-option>
-                        </ion-select>
-                    </div>
-                  </div>
+                  </div>                
                   <div  class="dispatched_li">
                     <label>缴费</label>
                     <div class="prohibit_input"><input type="text"  readonly="true" [(ngModel)]="ispay"></div>
@@ -86,6 +80,16 @@
                     <label>剩余</label>
                     <div class="prohibit_input"><input type="text"  readonly="true" [(ngModel)]="Surplus"></div>
                   </div>
+                  <div  class="dispatched_li dispatched_after">
+                      <label>车号</label>
+                      <div >
+                        <ion-select [(ngModel)]="toppings"  [disabled]="backflag"  (ngModelChange)="switchType()" okText="确定" cancelText="取消">
+                            <ion-option *ngFor="let licensePlatei of licensePlate" [value]="licensePlatei.cid">
+                              {{licensePlatei.carno}}
+                            </ion-option>
+                          </ion-select>
+                      </div>
+                    </div>
                   <div  class="dispatched_li">
                     <label>编/卷号</label>
                     <div><input type="text" readonly="true" [(ngModel)]="number1" (click)="vehicleStoragePage()"></div>
@@ -93,14 +97,14 @@
                   <div  class="dispatched_li">
                     <label>件数</label>
                     <div class="prohibit_input"><input type="number" readonly="true" [(ngModel)]="number"></div>
-                  </div>
+                  </div>              
                   <div  class="dispatched_li dispatched_after">
-                    <label>车号</label>
-                    <div >
-                      <ion-select [(ngModel)]="toppings"  okText="确定" cancelText="取消">
-                          <ion-option *ngFor="let licensePlatei of licensePlate" [value]="licensePlatei.cid">
-                            {{licensePlatei.carno}}
-                          </ion-option>
+                    <label>装载机</label>
+                    <div class="prohibit_input">
+                        <ion-select [(ngModel)]="licensePlate1Active"  okText="确定" cancelText="取消">
+                            <ion-option *ngFor="let licensePlatei of licensePlate1" [value]="licensePlatei.mac_id">
+                              {{licensePlatei.mac_id_text}}
+                            </ion-option>
                         </ion-select>
                     </div>
                   </div>
@@ -152,10 +156,7 @@
           <div [hidden]= "!submitFlag"><img src="../../assets/imgs/loading-1.gif"/>保存中</div>
           <div [hidden]= "submitFlag">回退</div>
       </div> -->
-      <div  class="color" (click)="saveSure()">
-          <div [hidden]= "!submitFlag"><img src="../../assets/imgs/loading-1.gif"/>保存中</div>
-          <div [hidden]= "submitFlag">提交数据</div>
-      </div>
+      
       <div class="fixed—top" [ngClass]="{'fixed_close':!fixed}">
            <div>
              <h1>安全作业管理规定</h1>
@@ -254,3 +255,7 @@
             </div>
      </div>
 </ion-content>
+<div  [hidden]= "submitFlag"class="color" (click)="saveSure()" [hidden]="fixed">
+  <!-- <div [hidden]= "!submitFlag"><img src="../../assets/imgs/loading-1.gif"/>保存中</div> -->
+  <div >提交数据</div>
+</div>

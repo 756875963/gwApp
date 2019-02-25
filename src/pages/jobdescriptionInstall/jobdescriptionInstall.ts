@@ -10,11 +10,13 @@ import { ServiceProvider } from '../../service/http';
 import { pageBean } from '../../entity/pageBean';
 import { Exception } from '../../service/exception';
 import { ERROR } from '../../entity/error';
+import { registerBack } from "../../service/registerBack";
+
 @Component({
   selector: 'page-jobdescriptionInstall',
   templateUrl: 'jobdescriptionInstall.html'
 })
-export class JobdescriptionInstallPage {
+export class JobdescriptionInstallPage extends registerBack {
   userName:string;//title 操作员
   PAGE:string="jobdescriptionOut.ts";//当前页面
   bookid:string;//任务书id
@@ -63,6 +65,7 @@ export class JobdescriptionInstallPage {
               public events:Events,
               public exception:Exception
              ){
+               super("/jobdescriptionInstall");
       try{//结构json数据 异常处理
           this.navflag = false;
           this.item = this.navParams.get("item");
@@ -154,6 +157,7 @@ export class JobdescriptionInstallPage {
     });
   }
   ionViewDidEnter(){
+    super.BackButtonCustomHandler();
     // if(lSe.getItem("ticketNumber")){
     //    if(lSe.getItem("ticketNumber").length>0){
     //       var str = this.number2 = '';
@@ -204,7 +208,7 @@ export class JobdescriptionInstallPage {
                  wood_id:""//回退数据的数据id
       }).then(data=>{
           try{//结构json数据 异常处理
-            console.log(data);
+               console.log(data);
               if(true){//判断数据是否提交更新成功
                     lSe.setItem("vehicleStorage",null);//本地存储设置空；
                     this.http3({book_id:this.item["m_id"],
@@ -631,4 +635,7 @@ export class JobdescriptionInstallPage {
     })
   }
  
+  ionViewWillLeave(){
+    super.ionViewWillLeave && super.ionViewWillLeave();
+  }
 }

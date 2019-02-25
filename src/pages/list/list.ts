@@ -6,13 +6,14 @@ import { lSe } from '../../public/localstorage';
 import { pageBean } from '../../entity/pageBean';
 import { Task } from '../../entity/task';
 import { ServiceProvider } from '../../service/http';
+import { registerBack } from "../../service/registerBack";
 
 @Component({
   selector: 'page-list',
   templateUrl: 'list.html'
 })
 
-export class ListPage {
+export class ListPage extends registerBack{
   @ViewChild(Navbar) navBar: Navbar;
   @ViewChild(Content) content : Content;
   fixed :String = "-1";//按钮状态
@@ -45,6 +46,7 @@ export class ListPage {
                public alertC :AlertController,
                public events :Events,
                public loadingController :LoadingController){
+                 super("/list");
                  let loading = this.presentLoadingDefault();
                     this.http({ page:1,rows:10}).then((data)=>{
                       this.datalist = data["data"].booklist;
@@ -96,7 +98,7 @@ export class ListPage {
   
   //界面加载完成 
   ionViewDidEnter(){ 
-   
+    super.BackButtonCustomHandler();
   }
    // 用于pop 回调的 block
    myCallbackFunction  =(params) => {
@@ -110,7 +112,7 @@ export class ListPage {
       if(typeof(params)!='undefined'){
           resolve('ok');
       }else{
-          reject(Error('error'))
+          reject(Error('error'));
       }    
       });
   }
@@ -159,6 +161,7 @@ export class ListPage {
   //离开页面初始化参数
   ionViewWillLeave(){
     this.httpFlag = true;
+    super.ionViewWillLeave && super.ionViewWillLeave();
   }
   //提示数据
   showAlert(){ 
@@ -222,4 +225,7 @@ export class ListPage {
        );
      })
  }
+ 
+  
+
 }

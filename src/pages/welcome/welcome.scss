@@ -1,0 +1,31 @@
+page-welcome {
+   .welcome .welc1{
+       width: 90%;
+       box-shadow: 0 0 19px 5px #19171440;
+       border-radius: 20px;
+       margin-left: 5%;
+   }
+   .welcome h1{
+       color: white;
+   }
+
+   .welcome .swiper-slide{
+    background: linear-gradient(to bottom, rgba(255,0,0,0), #ffb100); /* 标准的语法（必须放在最后） */
+   }
+   .welcome{
+        .experience{
+          border:1px solid white ;
+          padding: 5px 10px;
+          max-width: 150px;
+        }
+        .slide-zoom{
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            flex-direction: column;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
+        }
+   }
+}

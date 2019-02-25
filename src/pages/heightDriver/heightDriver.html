@@ -7,7 +7,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding class="display_flex">
+<ion-content padding class="display_flex bg-content">
     <!-- <div class="title_model">
         <div>
            <img src="../../assets/imgs/zhu-122.png">
@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 <div  class="dispatched_li">
-                        <label>姓名</label>
+                        <label>司机姓名</label>
                         <div ><input type="text" readonly="true" [(ngModel)]="toppings3" class="prohibit_inputq"></div>
                     </div>
                 <!-- <div  class="dispatched_li">
@@ -96,11 +96,11 @@
       </div>
       <div class="meun_three">
             <div class="title_model">
-                    <div>
+                    <div (click)="submit()">
                        <img src="../../assets/imgs/zhu-122.png">
                             提交数据
                     </div>
-                    <div>
+                    <div (click)="accept()">
                         <img src="../../assets/imgs/zhu-122.png">
                             接受数据
                     </div>
@@ -108,7 +108,7 @@
                         <img src="../../assets/imgs/zhu-122.png">
                             堆放明细
                         </div>
-                    <div>
+                    <div (click)="rollback()">
                         <img src="../../assets/imgs/zhu-122.png">
                             数据回退
                     </div>

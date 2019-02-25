@@ -1,0 +1,157 @@
+<!-- <ion-content> -->
+  <!-- <div [innerHTML]="assembleHTML(detail)"></div> -->
+   <!-- <div class="index_main" [ngClass]="{'change2':landscape,'change1':landscape}">
+     <div class="title">
+         <div>
+            <img [hidden]="!sex" src="../../assets/imgs/4308984.png"/>
+            <img [hidden]="sex" src="../../assets/imgs/10816367.png"/>
+         </div>
+         <div>
+            <span>姓名：{{user.name}}</span>
+            <span>编号：{{user.userId}}</span>
+         </div>
+         <div >
+            <img [hidden]="!sex" src="../../assets/imgs/yun-2.png" class="weather" [hidden]="landscape"/>
+            <span>{{weather.city}}-{{weather.weather}}</span>
+            <span>{{weather.temp1}}-{{weather.temp2}}</span>
+         </div>
+     </div>
+     <div class="content1" [hidden]="landscape">
+           <div>
+             <div  [ngClass]="css">
+                <div class="colorZ color1"  (click)="hrefClick(href.ConsumerListPage,'船舶预报')" >
+                  <div> </div>
+                  <div>船舶预报</div>
+                </div>
+             </div>
+             <div>
+                <div class="colorZ color2"  (click)="hrefClick(href.JobListPage,'开始作业')" >
+                  <div> </div>
+                  <div>排号查询</div>
+                </div>
+              </div>
+           </div>
+           <div >
+              <div>
+                  <div class="colorZ color3"  (click)="hrefClick(href.StatisticslistPage,'工班统计')" >
+                      <div> </div>
+                      <div>收货地址</div>
+                  </div>
+              </div>
+              <div>
+                  <div class="colorZ color4"  (click)="hrefClick(href.StatisticslistPage1,'整船统计')" >
+                      <div> </div>
+                      <div>我的船舶</div>
+                  </div>
+                </div>
+            </div>
+            <div >
+                <div>
+                    <div class="colorZ color5"  (click)="hrefClick(href.UpdatepasswordPage,'修改密码')" >
+                        <div> </div>
+                        <div>密码修改</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="colorZ color6"  (click)="hrefClick(href.ListPage,'退出登录')" >
+                        <div> </div>
+                        <div>退出登录</div>
+                    </div>
+                  </div>
+              </div>     
+            </div>
+      
+
+      <div class="content1 content2" [hidden]="!landscape">
+        <div  class="landscape">
+          <div  class="landscape_li" [ngClass]="css">
+             <div class="colorZ color1"  (click)="hrefClick(href.ConsumerListPage,'船舶预报')" >
+               <div> </div>
+               <div>船舶预报</div>
+             </div>
+          </div>
+          <div class="landscape_li">
+             <div class="colorZ color2"  (click)="hrefClick(href.JobListPage,'开始作业')" >
+               <div> </div>
+               <div>排号查询</div>
+             </div>
+           </div>
+           <div class="landscape_li">
+            <div class="colorZ color3"  (click)="hrefClick(href.StatisticslistPage,'工班统计')" >
+                <div> </div>
+                <div>收货地址</div>
+            </div>
+        </div>
+        </div>
+        
+         <div class="landscape" >
+            <div class="landscape_li">
+                <div class="colorZ color4"  (click)="hrefClick(href.StatisticslistPage1,'整船统计')" >
+                    <div> </div>
+                    <div>我的船舶</div>
+                </div>
+              </div>
+             <div class="landscape_li">
+                 <div class="colorZ color5"  (click)="hrefClick(href.UpdatepasswordPage,'修改密码')" >
+                     <div> </div>
+                     <div>密码修改</div>
+                 </div>
+             </div>
+             <div class="landscape_li" >
+                 <div class="colorZ color6"  (click)="hrefClick(href.ListPage,'退出登录')" >
+                     <div></div>
+                     <div>退出登录</div>
+                 </div>
+               </div>
+           </div>     
+         </div>
+   </div>
+</ion-content> -->
+
+<!-- <ion-header>
+    <div class="two_title">
+        <img src="../../assets/imgs/icon1.png">
+        <div>张家港港口有限公司</div>   
+    </div>
+</ion-header>
+     
+<ion-content >
+    <img src="../../assets/imgs/headimg1.png" />
+    <div class="wenzihund">
+       <img src="../../assets/imgs/laba.png"><marquee>船舶靠岸减速，注意安全。</marquee>
+    </div>
+    
+    <h5>最近应用</h5>
+    <div class="menu">
+      <div (click)="hrefClick(href.ConsumerListPage,'船舶预报')">
+          <img src="../../assets/imgs/two1.png">
+          船舶预报
+      </div>
+      <div>
+          <img src="../../assets/imgs/two2.png">
+         排号查询
+      </div>
+      <div>
+          <img src="../../assets/imgs/two3.png">
+         收货地址
+      </div>
+      <div>
+          <img src="../../assets/imgs/two4.png">
+          我的船舶
+      </div>
+      <div>
+          <img src="../../assets/imgs/two5.png">
+          修改密码
+      </div>
+      <div (click)="hrefClick(href.ListPage,'退出登录')">
+          <img src="../../assets/imgs/two6.png"  >
+          退出登陆
+      </div>
+    </div>
+</ion-content> -->
+<ion-tabs>
+    <ion-tab [root]="chatRoot1" tabTitle="预报" tabIcon="homeImg" (ionSelect)="function($event)"></ion-tab>
+    <ion-tab [root]="chatRoot2" tabTitle="通讯录" tabIcon="homeImg1"></ion-tab>
+    <ion-tab [root]="chatRoot3" tabTitle="排队" tabIcon="homeImg2"></ion-tab>
+    <ion-tab [root]="chatRoot4" tabTitle="我的" tabIcon="homeImg3"></ion-tab>
+</ion-tabs>

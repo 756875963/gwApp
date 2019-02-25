@@ -7,7 +7,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content id="topest">
+<ion-content id="topest" class="pgcolor">
   <ion-list>
     <!-- <div [hidden]="{'datalist.length'>0?'true':'false'}">{{datalist.length}}</div> -->
     <button class="button_inline" *ngFor="let item of datalist" >
@@ -25,6 +25,8 @@
           <div class="min-width50 font-color333"><span>船名:{{item.ship_n_text}}</span><font></font></div>
           <div class="min-width50 font-color333"><span>货名:{{item.cargo_n_text}}</span><font></font></div>
           <div class="min-width50 font-color333"><span>装卸:{{item.load_unload_text}}</span><font></font></div>
+          <div class="min-width50 font-color333"><span>作业过程:{{item.work_pro_text}}</span><font></font></div>
+          <div class="min-width50 font-color333"><span>作业方法:{{item.operate_method_text}}</span><font></font></div>
         </div>
         <div class="node_a_132 flex flex_level_center" style="overflow:hidden;">
           <!-- <button ion-button color="secondary" style="padding:2px 10px" (click)="operation($event, item)">操作</button> -->

@@ -265,7 +265,7 @@ page-refutation {
         color: white;
     }
     .title_model>div>img{
-        width: 25%;
+        width: auto;
     }
     .scroll-content {
         padding: 0px !important;
@@ -310,7 +310,7 @@ page-refutation {
     .select-md {
         border-bottom: none;
         min-width: 130px;
-        padding: 0px 8px 0px 0px;
+        padding: 0px 0px 0px 0px;
     }
     .prohibit_inputq{
         color:#999;
@@ -340,4 +340,117 @@ page-refutation {
         border-right: 10px solid transparent;
         z-index: 10;
     }
+
+    //回退弹框css
+    .rollblack_module.change{
+        // background: red;
+    }
+    .rollblack_module{
+      .nodata-css{
+            width: 96%;
+            background: #f2fbff;
+            padding: 15px 0px!important;
+            margin: 15px 2%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            color: #4d93c5;
+            flex-wrap: wrap;
+            flex-direction: column;
+            }
+            .nodata-css::before{
+              background: none!important;
+            }
+     .nodata-css>img{
+                margin: 5px 0px;
+                width: 50px;
+                height: 50px;
+            }
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      z-index: 10;
+      background: #186d93;
+      .dispatched_li{
+        width: 100%; 
+      } 
+      ion-content{
+          background: white!important;
+      }
+      .select-md .select-icon .select-icon-inner{
+          color:rgba(0,0,0,0);
+      }
+      .button_bottom{
+          bottom: 0px!important;
+      }
+      >span{
+        background-color: #2cb3eb;
+        text-align: center;
+        display: flex;
+        font-size: 2.0rem;
+        color: white;
+        align-content: center;
+        justify-content: center;
+        padding: 10px 0px;
+        background-image: url(../../assets/imgs/back.png);
+        background-repeat: no-repeat;
+        background-position: 10px 50%;
+        background-size: 2.0rem;
+      }
+      >div:nth-of-type(1){
+          padding: 0px 2%;
+          height: 16%;
+          align-items: flex-start;
+      }
+      >div:nth-of-type(2){
+          background: white;
+          margin: 0px 2%;
+          width: 96%;
+          height: calc(84% - 62px);
+          overflow-y: scroll;
+          .scroll-content{
+            >div{
+                padding: 5px 5px 5px 30px;
+                font-size: 1.5rem;
+                position: relative;
+                //height: 33px;
+                display: flex;
+                align-content: center;
+                align-items: center;
+                color: #444;
+                border-bottom: 1px solid #eee;
+                flex-wrap: wrap;
+                >div{
+                width: 50%;
+                }
+          }
+          >div::before{
+              content: " ";
+              display: flex;
+              width: 30px;
+              height: 33px;
+            //   background: red;
+              position: absolute;
+              left: 0px;
+              background: url(../../assets/imgs/laba.png);
+              background-repeat: no-repeat;
+              background-size: 100%;
+          }
+          }
+          
+      }
+    }
+    .rollblack_module.change {
+        .dispatched_li{
+           width: 49%; 
+        } 
+        .dispatched_li:nth-child(1){
+            margin-right: 2%;
+        }
+        >div:nth-of-type(1){
+           display: flex;
+           flex-wrap: nowrap!important;
+        }    
+     } 
 }

@@ -10,11 +10,15 @@ import { ServiceProvider } from '../../service/http';
 import { pageBean } from '../../entity/pageBean';
 import { Exception } from '../../service/exception';
 import { ERROR } from '../../entity/error';
+import { registerBack } from "../../service/registerBack";
+import { TranslatePage } from '../translate/translate';//翻桩录入页面
+import { returnReslut } from '../../entity/returnReslut';
+import { validate } from '../../service/validate';
 @Component({
   selector: 'page-jobdescriptionOut',
   templateUrl: 'jobdescriptionOut.html'
 })
-export class JobdescriptionOutPage {
+export class JobdescriptionOutPage extends registerBack{
   userName:string;//title 操作员
   PAGE:string="jobdescriptionOut.ts";//当前页面
   bookid:string;//任务书id
@@ -38,12 +42,13 @@ export class JobdescriptionOutPage {
   shipName:String = "铁打号";
   goodsName:String = "木材";
   number:number = 0;
-  number1:String;//卷号
+  number1:String="";//卷号
   number2:String = "A01,A01,A01,B04,B05,B06,B07"
   fixed:Boolean = true;
   fixed2:Boolean = true;
   toppings:String = "苏E 123458";//车辆选择；
-  toppingsnumber:String;//当前出库单号的编号yard_no
+  toppingsOld:String="";//之前选择的车辆
+  toppingsnumber:String;//当前出库单号的编号yard_no 
   licensePlate:Array<any>;
   oddnumbers:Array<any>;
   securityBook:String;
@@ -54,6 +59,9 @@ export class JobdescriptionOutPage {
   Surplus:Number;//剩余数量
   licensePlate1:Array<any>;//装载机数组
   licensePlate1Active:String;//装载机选中状态
+  submitFlag:Boolean=false;
+  rational_id:string="";//理货表ID
+  backflag:Boolean=false;//是否为回退
   constructor(public navCtrl:NavController,
               public alertC:AlertController,
               public loadingController:LoadingController,
@@ -63,6 +71,7 @@ export class JobdescriptionOutPage {
               public events:Events,
               public exception:Exception
              ){
+               super("/jobdescriptionOut");
       try{//结构json数据 异常处理
           this.navflag = false;
           this.item = this.navParams.get("item");
@@ -73,19 +82,20 @@ export class JobdescriptionOutPage {
           this.bookid = this.item["m_id"];//赋值bookid
           if(this.securityBook==""){
               console.log("请求数据");
-              this.http2({book_id:this.item["m_id"],loginid:this.item["loginid"]}).then(data=>{
+              this.http2({ticket_id:this.item["m_id"],loginid:this.item["loginid"]}).then(data=>{
                     if(data["data"].msg !="没有数据！"){
                       console.log(data["data"].deliveryList);
                       this.oddnumbers = data["data"].deliveryList;
                       this.toppingsnumber =  data["data"].deliveryList[0].yard_no;
                       console.log(this.toppingsnumber);
-                      this.http3({book_id:this.item["m_id"],
+                      this.http3({book_id:this.item["book_id"],
                                 loginid:this.item["loginid"],
                                 yard_no:data["data"].deliveryList[0].yard_no}).then(data=>{
                                   console.log(data);
                                   //车辆赋值
                                 this.licensePlate = data["data"].carlist;
                                 this.toppings = data["data"].carlist[0].cid;
+                                this.toppingsOld= this.toppings;//初始化，old与之前相同
                                 this.measure_average =  data["data"].delivery.measure_average;//平均方单位；
                                 this.shipName =  data["data"].delivery.ship_name;
                                 this.goodsName = data["data"].delivery.goods_name;
@@ -94,6 +104,7 @@ export class JobdescriptionOutPage {
                                 this.Surplus =  data["data"].delivery.units - data["data"].delivery.finish_units//剩余数量
                                 this.licensePlate1 = data["data"].maclist;//装载机数组赋值；
                                 this.licensePlate1Active = data["data"].maclist[0].mac_id;
+                                this.submitFlag=this.Surplus==0?true:false;
                                 console.log(this.licensePlate);
                       }).catch(data=>{
 
@@ -114,6 +125,9 @@ export class JobdescriptionOutPage {
       this.exception.errorhttp(obj);
       }
   }
+  switchType(e,y){
+    this.toClear();
+  }
   openPage(){
     console.log("11");
     this.navCtrl.push(ListPage, { item12: "丁伟" });
@@ -131,13 +145,14 @@ export class JobdescriptionOutPage {
                 this.oddnumbers = data["data"].deliveryList;
                 this.toppingsnumber =  data["data"].deliveryList[0].yard_no;
                 console.log(this.toppingsnumber);
-                this.http3({book_id:this.item["m_id"],
+                this.http3({book_id:this.item["book_id"],
                           loginid:this.item["loginid"],
                           yard_no:data["data"].deliveryList[0].yard_no}).then(data=>{
                             console.log(data);
                             //车辆赋值
                           this.licensePlate = data["data"].carlist;
                           this.toppings = data["data"].carlist[0].cid;
+                          this.toppingsOld= this.toppings;//初始化，old与之前相同
                           this.measure_average =  data["data"].delivery.measure_average;//平均方单位；
                           this.shipName =  data["data"].delivery.ship_name;
                           this.goodsName = data["data"].delivery.goods_name;
@@ -146,6 +161,7 @@ export class JobdescriptionOutPage {
                           this.Surplus =  data["data"].delivery.units - data["data"].delivery.finish_units//剩余数量
                           this.licensePlate1 = data["data"].maclist;//装载机数组赋值；
                           this.licensePlate1Active = data["data"].maclist[0].mac_id;
+                          this.submitFlag=this.Surplus==0?true:false;
                           console.log(this.licensePlate);
                 }).catch(data=>{
 
@@ -212,13 +228,14 @@ export class JobdescriptionOutPage {
     if(this.navflag){
       this.httpC();
     }
-    if(lSe.getItem("vehicledata")!=null&&lSe.getItem("vehicledata")["read"]){
-      //判断是否记载本地存储的卷号
-       lSe.setItem("vehicledata",{read:false});
-       console.log(lSe.getItem("vehicleStorage"));
-       this.sorting_data(lSe.getItem("vehicleStorage"));
-    }
+    // if(lSe.getItem("vehicledata")!=null&&lSe.getItem("vehicledata")["read"]){
+    //   //判断是否记载本地存储的卷号
+    //    lSe.setItem("vehicledata",{read:false});
+    //    console.log(lSe.getItem("vehicleStorage"));
+    //    this.sorting_data(lSe.getItem("vehicleStorage"));
+    // }
     console.log(lSe.getItem("vehicledata"));
+    super.BackButtonCustomHandler();
   }
   ionViewDidLeave(){
     console.log("离开");
@@ -232,29 +249,41 @@ export class JobdescriptionOutPage {
   }
   start(){//发车
      console.log("发车");
+     let _valdate:returnReslut = 
+          validate.forVlidate(
+          [
+            {name:"编卷号",node:this.number1,type:"String",condition:true}
+          ])
+      if(_valdate.flag){
      //翻转信息capsize ，车辆木头推放集合 vehicleStorage，当前出库单号toppingsnumber
      this.http4({capsize:this.capsize,//翻转信息capsize
-                 vehicleStorage:lSe.getItem("vehicleStorage"),//车辆木头推放集合
+                 //vehicleStorage:lSe.getItem("vehicleStorage"),//车辆木头推放集合
                  yard_no:this.toppingsnumber,//当前出库单号
                  cargonum:this.number,// 发车件数
                  foot_sn:this.number1,//桩脚号str
                  mac_id:this.licensePlate1Active,//机械号id
-                 book_id:this.bookid,//任务书id
+                 ticket_id:this.bookid,//任务书id
                  loginid:lSe.getItem("userData").record.loginid,//登陆loginid
-                 car_no:this.toppings,//车牌号吗
-                 wood_id:""//回退数据的数据id
+                 car_no:this.toppings,//车牌号
+                 shipName:this.shipName,//船名
+                 goodsName:this.goodsName,//货名
+                 Surplus:this.Surplus,//剩余
+                 opennumber:this.opennumber,//开单
+                 rat_id:this.rational_id//回退数据的数据id
+                 //wood_id:""//回退数据的数据id
       }).then(data=>{
           try{//结构json数据 异常处理
             console.log(data);
               if(true){//判断数据是否提交更新成功
-                    lSe.setItem("vehicleStorage",null);//本地存储设置空；
-                    this.http3({book_id:this.item["m_id"],
+                    //lSe.setItem("vehicleStorage",null);//本地存储设置空；
+                    this.http3({book_id:this.item["book_id"],
                           loginid:this.item["loginid"],
                           yard_no:this.toppingsnumber}).then(data=>{
                             console.log(data);
                             //车辆赋值
                           this.licensePlate = data["data"].carlist;
                           this.toppings = data["data"].carlist[0].cid;
+                          this.toppingsOld= this.toppings;//初始化，old与之前相同
                           this.measure_average =  data["data"].delivery.measure_average;//平均方单位；
                           this.shipName =  data["data"].delivery.ship_name;
                           this.goodsName = data["data"].delivery.goods_name;
@@ -263,6 +292,9 @@ export class JobdescriptionOutPage {
                           this.Surplus =  data["data"].delivery.units - data["data"].delivery.finish_units//剩余数量
                           this.licensePlate1 = data["data"].maclist;//装载机数组赋值；
                           this.licensePlate1Active = data["data"].maclist[0].mac_id;
+                          this.number1="";
+                          this.number=0;
+                          this.submitFlag=this.Surplus==0?true:false;
                           console.log(this.licensePlate);
                     }).catch(data=>{
 
@@ -280,6 +312,9 @@ export class JobdescriptionOutPage {
      }).catch(data=>{
 
      });
+    }else{
+      this.presentToast(_valdate.Msg+"，输入有误！");
+    }
   }
 
   Outboundorder(obj){
@@ -300,9 +335,10 @@ export class JobdescriptionOutPage {
     let _that= this;
     this.events.subscribe('_TOTALCALCULATE', (params) => {//触发页面vehiceStorsge.ts
       // 接收B页面发布的数据
-      console.log('接收数据为: ' + JSON.parse(params).numL);
+      console.log('接收数据为: ' + JSON.parse(params).numL+">>"+JSON.parse(params).texts);
       try{//结构json数据 异常处理
-          ///_that.number =  JSON.parse(params).numL; 
+          _that.number =  JSON.parse(params).numL;
+          _that.number1= JSON.parse(params).texts;
       }catch(e){
          //返回 App json处理时发生出错时 处理逻辑；
          console.log(e.toString());
@@ -314,6 +350,7 @@ export class JobdescriptionOutPage {
       // 取消订阅
       this.events.unsubscribe('_TOTALCALCULATE');
     })
+
     let _number:string;
     for(let i=0;this.licensePlate.length;i++){
       if(this.licensePlate[i].cid==this.toppings){
@@ -325,25 +362,28 @@ export class JobdescriptionOutPage {
     this.navCtrl.push(vehicleStoragePage, {
       item:{toppingsnumber:this.toppingsnumber,
             measure_average:this.measure_average,
-            toppings:_number}});
+            carno:_number,
+            cid:this.toppings,
+            rational_id:this.rational_id
+          }});
   }
-  sorting_data(Array){
-    let _Array = [],_str="";
-    for(let i=0,k=0;Array.length>i;i++){
-      console.log(i);
-      for(let j=0;Array[i].length>j;j++){
-         if(j==0&&Array[i][j]["text"]=="")break;
-         if(Array[i][j]["text"]!=""){
-            _Array[k++]=Array[i][j];
-            _str+=Array[i][j]["text"]+',';
-         }
-      }
-    }
-    _str=_str.substring(0,_str.length-1);
-    this.number1 = _str;
-     console.log(_Array,_str);
-    this.number = _Array.length;
-  }
+  // sorting_data(Array){
+  //   let _Array = [],_str="";
+  //   for(let i=0,k=0;Array.length>i;i++){
+  //     console.log(i);
+  //     for(let j=0;Array[i].length>j;j++){
+  //        if(j==0&&Array[i][j]["text"]=="")break;
+  //        if(Array[i][j]["text"]!=""){
+  //           _Array[k++]=Array[i][j];
+  //           _str+=Array[i][j]["text"]+',';
+  //        }
+  //     }
+  //   }
+  //   _str=_str.substring(0,_str.length-1);
+  //   this.number1 = _str;
+  //    console.log(_Array,_str);
+  //   this.number = _Array.length;
+  // }
   goto_vehiclelist(){//车辆汇总
     this.navCtrl.push(VehicleListPage,{item:1});
 
@@ -459,8 +499,13 @@ export class JobdescriptionOutPage {
     }
     
   }
-  add_Piling(){//翻桩录入
-    this.damagedFlag = false;
+  add_Piling(){//翻桩录入页面
+     let dataObject = {
+      capsize:this.capsize,//翻桩初始化数据
+      measure_average:this.measure_average,//平均方单位；
+      _this:this
+     }
+     this.navCtrl.push(TranslatePage,{item:dataObject});
   }
   goto_payment(){//去缴费页面
     if(this.toppingsnumber!=""&&this.toppingsnumber!=null)
@@ -512,7 +557,6 @@ export class JobdescriptionOutPage {
     //cut_num:0//锯刀数
     //};//翻桩对象
     //
-    var thst = this;
     this.task = setInterval(data=>{
       let that = this;
       that.capsize ={
@@ -548,20 +592,26 @@ export class JobdescriptionOutPage {
   data_Rollback(){//数据回退
     this.http6({book_id:this.bookid,loginid:lSe.getItem("userData").record.loginid}).then(data=>{
       try{//结构json数据 异常处理
-        if(data["msg"]!="没有数据！"){
-            this.oddnumbers = [{yard_no:data["data"].bean.yard_no}];//出库单号；
-            this.toppingsnumber = data["data"].bean.yard_no;
+        if(data["msg"]!="没有数据!"){
+            let  form=JSON.parse(data["data"].bean.formdata);
+            this.rational_id=data["data"].bean.id;//发车ID
+            console.log('r'+this.rational_id);
+            this.oddnumbers = data["data"].deliverylist;
+            this.toppingsnumber = form.yard_no;
             this.licensePlate1 = data["data"].maclist;//装机机数据回退；
-            this.licensePlate1Active = data["data"].bean.machine_id;
+            this.licensePlate1Active = form.mac_id;
             this.licensePlate = data["data"].carlist;//车辆数据回填；
-            this.toppings = data["data"].bean.car_id;
-            this.shipName = data["data"].bean.ship_name;
-            this.goodsName = data["data"].bean.cargo_name;
-            this.number = data["data"].bean.cargo_num;//件数
-            this.number1 = data["data"].bean.foot_sn;//卷号回填；
-            lSe.setItem("vehicleStorage",JSON.parse(data["data"].bean.formdata).vehicleStorage);//二维数组回填本地存储中；
+            this.toppings = form.car_no;
+            this.toppingsOld= this.toppings;//初始化，old与之前相同
+            this.shipName = form.shipName;
+            this.goodsName = form.goodsName;
+            this.number = form.cargonum;//件数
+            this.number1 = form.foot_sn;//卷号回填；
+            this.Surplus=form.Surplus;//剩余
+            this.opennumber=form.opennumber;
             this.capsize = JSON.parse(data["data"].bean.formdata).capsize//翻桩信息赋值
             this.ispay = data["data"].ispay;//缴费
+            this.backflag=true;
         }else{
             this.presentToast("没有回退数据！");
         }
@@ -671,5 +721,57 @@ export class JobdescriptionOutPage {
       );
     })
   }
- 
+  async http7(obj){//是否清空原车数据
+    return  await new Promise((resolve, reject) => {
+      this.service.toClear(obj).then(
+        (obj:pageBean) =>{
+          resolve(obj);
+        }
+      ).catch(
+        obj=>{
+          console.log(obj);
+        }
+      );
+    })
+  }
+  switchToppingsnumber(e,y){
+    console.log(this.toppingsnumber);
+    this.http3({book_id:this.item["book_id"],
+    loginid:lSe.getItem("userData").record.loginid,
+    yard_no:this.toppingsnumber}).then(data=>{
+      console.log(data);
+        //车辆赋值
+      this.licensePlate = data["data"].carlist;
+      this.toppings = data["data"].carlist[0].cid;
+      this.toppingsOld= this.toppings;//初始化，old与之前相同
+      this.measure_average =  data["data"].delivery.measure_average;//平均方单位；
+      this.shipName =  data["data"].delivery.ship_name;
+      this.goodsName = data["data"].delivery.goods_name;
+      this.ispay = data["data"].ispay;//缴费
+      this.opennumber = data["data"].delivery.units//开单
+      this.Surplus =  data["data"].delivery.units - data["data"].delivery.finish_units//剩余数量
+      this.licensePlate1 = data["data"].maclist;//装载机数组赋值；
+      this.licensePlate1Active = data["data"].maclist[0].mac_id;
+      this.number1="";
+      this.number=0;
+      this.submitFlag=this.Surplus==0?true:false;
+      console.log(this.licensePlate);
+   }).catch(data=>{
+
+   })
+  }
+  toClear(){  //清空原车数据
+    this.http7({cid:this.toppingsOld,rational_id:this.rational_id,yard_no:this.toppingsnumber}).then(data=>{
+      console.log(data);
+      this.toppingsOld =this.toppings;
+      this.number1="";
+      this.number=0;
+   }).catch(data=>{
+
+   })
+  }
+
+  ionViewWillLeave(){
+    super.ionViewWillLeave && super.ionViewWillLeave();
+  }
 }

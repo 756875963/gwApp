@@ -106,9 +106,9 @@ page-jobdescription {
         bottom: 0;
         color: white;
         font-size: 18px;
-        width: 90%;
+        width: 96%;
         margin: 0 auto;
-        left: 5%;
+        left: 2%;
         border-radius: 5px;
         box-shadow: inset 0 0 25px 5px #f6a52f;
         bottom: 5px;
@@ -449,5 +449,8 @@ page-jobdescription {
         border-left: 10px solid transparent;
         border-right: 10px solid transparent;
         z-index: 10;
+    }
+    .bg-content{
+        background:#186d93;
     }
 }

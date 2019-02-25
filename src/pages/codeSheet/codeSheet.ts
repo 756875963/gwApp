@@ -13,9 +13,5 @@ export class CodeSheetPage {
      console.log(lSe.getItem("Codesheet"));
      this.array = lSe.getItem("Codesheet");//初始化码单列表
   }
-  openPage(){
-    console.log("11");
-    this.navCtrl.push(ListPage, { item12: "丁伟" });
-  }
 
 }

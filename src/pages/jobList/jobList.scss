@@ -34,6 +34,12 @@ page-jobList {
         min-width: 80px;
         text-align: right;
         font-size: 16px;
+        word-break: normal;
+        width: auto;
+        display: block;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        overflow: hidden;
     }
     .custom1 font{
         padding: 0 5px;
@@ -142,10 +148,10 @@ page-jobList {
        padding: 5px 0px;
     }
     .nodata-css{
-       width: 96%;
+       width: calc(100% - 20px);
        background: #f2fbff;
        padding: 15px 0px;
-       margin: 15px 2%;
+       margin: 10px;
        display: flex;
        align-items: center;
        justify-content: center;
@@ -159,7 +165,7 @@ page-jobList {
         width: 50px;
         height: 50px;
     }
-    .ddddddd{
-        //测试
+    .pgcolor{
+        background: #186d93;
     }
 }

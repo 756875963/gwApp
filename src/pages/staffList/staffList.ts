@@ -5,12 +5,13 @@ import { lSe } from '../../public/localstorage';
 import { ServiceProvider } from '../../service/http';
 import { pageBean } from '../../entity/pageBean';
 import { Userlist } from '../../entity/userlist';
+import { registerBack } from "../../service/registerBack";
 
 @Component({
   selector: 'page-staffList',
   templateUrl: 'staffList.html'
 })
-export class StaffListPage {
+export class StaffListPage extends registerBack{
   @ViewChild(Content) content : Content;
   activeData :Array<any> =[
   ];//选中的人员
@@ -30,7 +31,11 @@ export class StaffListPage {
     page:number,
     rows:number
   }={page:1,rows:10};
-  constructor(public navCtrl: NavController, public navParams: NavParams ,public toastCtrl:ToastController ,public service:ServiceProvider) {
+  constructor(public navCtrl: NavController,
+     public navParams: NavParams ,
+     public toastCtrl:ToastController ,
+     public service:ServiceProvider) {
+      super("/staffList");
     this.callback = this.navParams.get("callback");
   
     this.activeData = this.navParams.get("data");
@@ -181,5 +186,11 @@ export class StaffListPage {
 
       }
     );
+  }
+  ionViewDidEnter(){
+    super.BackButtonCustomHandler();
+  }
+  ionViewWillLeave(){
+    super.ionViewWillLeave && super.ionViewWillLeave();
   }
 }

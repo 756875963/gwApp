@@ -6,12 +6,13 @@ import { ERROR } from '../../entity/error';
 import { ServiceProvider } from '../../service/http';
 import { pageBean } from '../../entity/pageBean';
 import { lSe } from '../../public/localstorage';
+import { registerBack } from "../../service/registerBack";
 
 @Component({
   selector: 'page-mechanical',
   templateUrl: 'mechanical.html'
 })
-export class MechanicalPage {
+export class MechanicalPage extends registerBack {
   hreflag:boolean=true;//提交标记
   loading:any;//loadingobject
   stationNumber:string;//当前工号的编号；
@@ -28,34 +29,48 @@ export class MechanicalPage {
   toppings3:String = "";
   licensePlate3:Array<any>;//装载机数组；
   securityBook :String;
-  stairlist:Array<any>;//分票数组；
-  secondlevellist:Array<any>;//连续编号数组；
+  stairlist:Array<any>=[];//分票数组；
+  secondlevellist:Array<any>=[];//连续编号数组；
+  op_id:string ="";//id
   constructor(public navCtrl : NavController,
               public navParams : NavParams,
               public service : ServiceProvider,
               public toastController : ToastController,
               public exception :Exception,
               public loadingController:LoadingController) {
-                
+               super("/mechanical"); 
          try{//结构json数据 异常处理
-          //this.loading = this.presentLoadingDefault();
+            this.loading = this.presentLoadingDefault();
             this.navflag = false;
             this.item = this.navParams.get("item");
             this.securityBook = this.navParams.get("item").text;
+            this.goodsName = this.navParams.get("item").cargo_n_text;
+            this.shipName = this.navParams.get("item").ship_n_text;
             this.fixed = this.securityBook==""? false: true;
             this.stationNumber = lSe.getItem("userData").record.loginid;
             if(this.securityBook==""){
               console.log("请求数据");
               this.http2({book_id:this.item["m_id"],loginid:lSe.getItem("userData").record.loginid}).then(data=>{
-                    console.log(data);
-                     this.shipName = data["data"].kRationale.ship_name;
-                     this.goodsName = data["data"].kRationale.cargo_name;
-                     this.licensePlate3 = data["data"].mac_list;//装载机数组
-                     this.toppings3 = data["data"].mac_list[0].driver_n_text;
-                     let _array =  this.destruction_array(data["data"].detail_list);
-                     _array[0].flag = true;
-                     this.stairlist  = _array;
-                     this.secondlevellist = _array[0].listdata;
+                    console.log(data["data"].d_list);
+                    this.loading();
+                    this.stairlist = [{id:data["data"].d_list[0].sp_mac_num,flag:true}];//只会有会有一条数据；写死了
+                    let _data1 = data["data"].d_list[0].cargo_sn//运输车号
+                    let _array =  _data1.split(',');
+                    let _array2 = [];
+                    console.log(_array);
+                    for(let item of _array){
+                      _array2.push({id:item,flag:false});
+                    }
+                    console.log(_array2);
+                    this.secondlevellist = _array2;
+                    //  this.shipName = data["data"].kRationale.ship_name;
+                    //  this.goodsName = data["data"].kRationale.cargo_name;
+                    //  this.licensePlate3 = data["data"].mac_list;//装载机数组
+                    //  this.toppings3 = data["data"].mac_list[0].driver_n_text;
+                    //  let _array =  this.destruction_array(data["data"].detail_list);
+                    //  _array[0].flag = true;
+                    //  this.stairlist  = _array;
+                    //  this.secondlevellist = _array[0].listdata;
               }).catch(data=>{
 
               })
@@ -124,7 +139,7 @@ export class MechanicalPage {
     let _data = null;
     
     try{
-      this.loading = this.presentLoadingDefault();
+     // this.loading = this.presentLoadingDefault();
       this.service.safetyjop({loginid:this.item["loginid"],m_id:this.item["m_id"],update_read:1}).then(
         (obj:pageBean) =>{
             console.log(obj);
@@ -216,6 +231,46 @@ export class MechanicalPage {
   //    }
   // }
   submit(){//数据提交
+    let _realityLis = [];//真实数组；
+    let _virtualist = this.secondlevellist;//临时虚拟数据；
+    if(this.secondlevellist.length==0){
+      this.presentToast("无效数据，无法提交！");return;
+    }else{
+      let _flag = 0;
+      for(let item of this.secondlevellist){
+        if(item.flag){
+          _realityLis.push(item.id);
+          _flag++;
+        }
+        // if(_flag==0){
+        //   this.presentToast("无效数据，无法提交！");return;
+        // }
+    }
+    if(_realityLis.length<=0){
+      this.presentToast("无效数据，无法提交！");return;
+    }
+    let data ={
+      stairlist:this.stairlist,
+      realityList:_realityLis,
+      virtualist:_virtualist,
+      book_id:this.item["m_id"],
+      good_sname:this.goodsName,
+      ship_name:this.shipName,
+      op_id:this.op_id
+    }
+    console.log(_realityLis);
+    let load = this.presentLoadingDefault("数据提交中...");
+    this.http3(data).then(data=>{
+       console.log(data);
+       if(data["ok"]){
+          load();
+          this.presentToast("提交成功！");
+          this.accept();
+       }
+    }).catch(data=>{
+
+    })
+    }
     
     //if(this.goodsName!="无信息"){
     //      if(this.number>0){
@@ -250,6 +305,52 @@ export class MechanicalPage {
     //   this.presentToast("请选择\"合同号\"");
     //   return;
     // }
+    
+  }
+  rollback(){
+   
+    this.http4({book_id:this.item["m_id"]}).then(data=>{
+      let rat_id = data["data"].bean.rat_id;//rat_id
+      //let json = JSON.parse(data["data"].bean.form_data).
+      if(data["msg"]=="没有数据！"){
+        this.presentToast(data["msg"]);
+      }else{
+        console.log(JSON.parse(data["data"].bean.form_data));
+        this.stairlist = JSON.parse(data["data"].bean.form_data).stairlist;
+        this.secondlevellist = JSON.parse(data["data"].bean.form_data).virtualist;
+        this.shipName = JSON.parse(data["data"].bean.form_data).ship_name;
+        this.goodsName = JSON.parse(data["data"].bean.form_data).good_sname;
+        this.op_id = data["data"].bean.id;
+      }
+       
+    }).catch(data=>{
+
+    });
+  }
+  accept(){
+    this.http2({book_id:this.item["m_id"],loginid:lSe.getItem("userData").record.loginid}).then(data=>{
+          console.log(data["data"].d_list);
+          this.loading();
+          if(data["msg"]=="没有数据！"){
+              this.presentToast(data["msg"]);
+              this.stairlist = [];
+              this.secondlevellist = [];
+          }else{
+         
+          this.stairlist = [{id:data["data"].d_list[0].sp_mac_num,flag:true}];//只会有会有一条数据；写死了
+          let _data1 = data["data"].d_list[0].cargo_sn//运输车号
+          let _array =  _data1.split(',');
+          let _array2 = [];
+          console.log(_array);
+          for(let item of _array){
+            _array2.push({id:item,flag:false});
+          }
+          console.log(_array2);
+          this.secondlevellist = _array2;
+        }
+    }).catch(data=>{
+
+    })
   }
   //下面是拨离出来的http的请求；低耦合 为了实现连续的逻辑调用 不直接放在业务逻辑中；
   async http(obj){
@@ -265,9 +366,9 @@ export class MechanicalPage {
        );
      })
   }
-  async http2(obj){//获取水平司机页面数据
+  async http2(obj){//获取装载机页面数据
     return  await new Promise((resolve, reject) => {
-       this.service.getspdataById(obj).then(
+       this.service.getZzdata(obj).then(
          (obj:pageBean) =>{
            resolve(obj);
          }
@@ -279,9 +380,9 @@ export class MechanicalPage {
      })
   }
   
-  async http3(obj){//根据船名查询数据
+  async http3(obj){//装载机提交数据
     return  await new Promise((resolve, reject) => {
-       this.service.getOrderDetailById(obj).then(
+       this.service.sendZsend(obj).then(
          (obj:pageBean) =>{
            resolve(obj);
          }
@@ -291,5 +392,25 @@ export class MechanicalPage {
          }
        );
      })
+  }
+  //getzzlast
+  async http4(obj){//装载机数据回滚
+    return  await new Promise((resolve, reject) => {
+       this.service.getzzlast(obj).then(
+         (obj:pageBean) =>{
+           resolve(obj);
+         }
+       ).catch(
+         obj=>{
+           console.log(obj);
+         }
+       );
+     })
+  }
+  ionViewDidEnter(){
+    super.BackButtonCustomHandler();
+  }
+  ionViewWillLeave(){
+    super.ionViewWillLeave && super.ionViewWillLeave();
   }
 }

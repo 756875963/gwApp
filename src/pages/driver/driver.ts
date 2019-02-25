@@ -8,12 +8,14 @@ import { pageBean } from '../../entity/pageBean';
 import { Exception } from '../../service/exception';
 import { ERROR } from '../../entity/error';
 import { lSe } from '../../public/localstorage';
+import { registerBack } from "../../service/registerBack";
+
 @Component({
   selector: 'page-driver',
   templateUrl: 'driver.html'
 })
 
-export class DriverPage {
+export class DriverPage extends registerBack{
   PAGE:string="driver.ts";//当前页面
   _machine_id :String;
   _ext_id :String;
@@ -37,6 +39,7 @@ export class DriverPage {
               public loadingController: LoadingController,
               public toastController: ToastController,
               public exception :Exception){
+                super("/driver");
                 this.item = this.navParams.get("item");
                 console.log(this.item);
                 this.securityBook = this.navParams.get("item").text;
@@ -250,5 +253,10 @@ export class DriverPage {
        );
      })
   }
-  
+  ionViewDidEnter(){
+    super.BackButtonCustomHandler();
+  }
+  ionViewWillLeave(){
+    super.ionViewWillLeave && super.ionViewWillLeave();
+  }
 }

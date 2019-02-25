@@ -1,0 +1,27 @@
+<ion-header>
+    <div (click)="goback()" class="prediction-header"><img src="../../assets/imgs/back1.png"></div>
+    <ion-title>{{title}}</ion-title>
+</ion-header>
+<ion-content>
+    <ion-list>
+        <ion-item>
+          <ion-label color="primary">姓名</ion-label>
+          <ion-input placeholder="请输入姓名"  [(ngModel)]="prediction.person"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label color="primary">联系电话</ion-label>
+          <ion-input placeholder="请输入联系电话"  [(ngModel)]="prediction.phone"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label color="primary">公司名称</ion-label>
+          <ion-input placeholder="请输入公司名称"  [(ngModel)]="prediction.name"></ion-input>
+        </ion-item>
+        <div class="button-div" [hidden]="shipperId==''" (click)="hrefShipper()">
+          <span color="primary">收货人</span>
+          <div>编辑管理</div>
+        </div>    
+    </ion-list>
+</ion-content>
+<div class="submit_ioc" (click)="submit()" >
+    <span><img src="../../assets/imgs/submit.png">{{shipperId==""?'新增':'编辑'}}保存</span>
+</div>

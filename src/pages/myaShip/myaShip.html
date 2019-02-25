@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-navbar>
+    <div (click)="goback()" class="prediction-header">
+      <img src="../../assets/imgs/back1.png">
+    </div> 
+    <ion-title>我的船舶</ion-title>
+    <div class="consumer_header" (click)="href()"><img src="../../assets/imgs/add.png"></div>
+  </ion-navbar>
+  <!-- <div class="headSearch" (click)="searchClick()">
+      <span><img src="../../assets/imgs/search.png">搜索</span>
+      
+  </div> -->
+</ion-header>
+
+<ion-content id="topest">
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="下拉分组"></ion-refresher-content>
+
+    </ion-refresher>
+  <ion-list>
+     
+      <div class="consumer_main"  *ngFor="let item of datalist;let i = index" [attr.data-index]="i">
+         <div class="consumer_title">
+            <span>船名:{{item.barge_cn}}</span>
+            <img src="../../assets/imgs/back.png"/>
+          </div>
+         <div class="consumer_test">
+           <span>呼号:{{item.call_no}}</span>
+           <span>联系人:{{item.call_person}}</span>
+           <span>联系电话:{{item.call_num}}</span>
+           <span>船长:{{item.ship_length}}</span>
+           <span>货物重量:{{item.cargo_wei}}吨</span> 
+           <!-- predictionId [ngClass]="{'change2':predictionId==item.barge_id,'timetitle':predictionId!=item.barge_id}"-->
+           <div *ngFor="let item_1 of item.rep_ti ;let i = index" [attr.data-index]="i" [ngClass]="{'timetitle1':rep_ti==item_1,'timetitle':rep_ti!=item_1}" >
+             时间段{{i+1}}:<span [innerHTML]="item_1|timePassage:24"></span>
+            </div>
+           <!-- <div class="timetitle">时间段2:<span>2019-12-12 00:00:00 - 2019-12-12 00:00:00</span></div>
+           <div class="timetitle">时间段3:<span>2019-12-12 00:00:00 - 2019-12-12 00:00:00</span></div>
+           <div class="timetitle">时间段4:<span>2019-12-12 00:00:00 - 2019-12-12 00:00:00</span></div> -->
+           <!-- <div [innerHTML]="item_1|timePassage:48"></div> -->
+          </div>
+         <div class="consumer_button" *ngIf="predictionId!=''" >
+            <div class="release" (click)="operation(1,item,i)" [hidden]="item.flag!='0'">加入预报</div>
+            <div class="error" (click)="operation(0,item,i)" [hidden]="item.flag=='0'">移出预报</div>
+            <div class="update" (click)="operation(2,item,i)" [hidden]="item.flag=='0'">编辑重量</div>
+          </div>
+      </div>
+      <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+          <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="加载更多...">
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+    <div *ngIf="htmlListLenghtFlag" class="nodata-css">
+      <img src="../../assets/imgs/empty.png"/>
+      <span>暂无船舶记录</span>
+    </div> 
+  </ion-list>
+  
+ 
+</ion-content>
+<!-- <div class="add_ioc" (click)="href()">
+   <span><img src="../../assets/imgs/add.png">新增预报</span>
+</div> -->
